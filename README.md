@@ -26,7 +26,7 @@ Make sure [docker desktop](https://www.docker.com/products/docker-desktop "Docke
             'username' => '',
             'password' => '',
             'options'  => [
-                'database' => '',
+                'database' => 'admin',
             ]
         ],
 
