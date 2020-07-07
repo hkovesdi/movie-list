@@ -11,6 +11,9 @@ Make sure [docker desktop](https://www.docker.com/products/docker-desktop "Docke
    ``` WORKSPACE_INSTALL_MONGO=true ```  
    ``` PHP_FPM_INSTALL_MONGO=true ```  
 3. If you are using <b>windows</b> you need to change the value of ```DATA_PATH_HOST``` variable to ```/Users/yourWindowsUserName/.laradock/data``` otherwise the mongo container will not start
+
+4. If you want to use XDEBUG then set the ```PHP_FPM_INSTALL_XDEBUG``` variable to ```true```
+
 ### Configuring laravel
 1. Navigate to the project's root directory and create the ```.env``` file: ``` cp .env.example .env ```
 
