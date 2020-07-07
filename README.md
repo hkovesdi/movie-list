@@ -39,6 +39,8 @@ Make sure [docker desktop](https://www.docker.com/products/docker-desktop "Docke
    ``` DB_HOST=mongo ```  
    ``` DB_PORT=27017 ```  
    ``` DB_DATABASE=database ```  
+   ``` DB_USERNAME= ```  
+   ``` DB_PASSWORD= ```  
 
 4. Navigate to the ```laradock``` folder and start your docker containers: ``` docker-compose up -d --build workspace nginx mongo ```  
    <sub>Note: The building process might take a while</sub>
