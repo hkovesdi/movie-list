@@ -34,8 +34,10 @@ Make sure [docker desktop](https://www.docker.com/products/docker-desktop "Docke
 
 6. Install the npm packages:
    ``` npm install ```  
-7. Generate your application key: ```php artisan key:generate ```
+7. Compile the assets: ``` npm run dev ```
 
-8. Run the migrations: ``` php artisan migrate ```
+8. Generate your application key: ```php artisan key:generate ```
 
-9. Visit localhost to see the app
+9. Run the migrations: ``` php artisan migrate ```
+
+10. Visit localhost
