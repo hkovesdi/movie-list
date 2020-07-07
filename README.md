@@ -23,8 +23,8 @@ Make sure [docker desktop](https://www.docker.com/products/docker-desktop "Docke
             'host'     => env('DB_HOST', 'localhost'),
             'port'     => env('DB_PORT', 27017),
             'database' => env('DB_DATABASE', 'database'),
-            'username' => '',
-            'password' => '',
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
             'options'  => [
                 'database' => 'admin',
             ]
