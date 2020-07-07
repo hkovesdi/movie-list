@@ -35,7 +35,7 @@ Make sure [docker desktop](https://www.docker.com/products/docker-desktop "Docke
     ],
     ```
 3. Open your Laravel’s ```.env``` file and update the following variables:  
-   ``` DB_CONNECTION=mongo ```  
+   ``` DB_CONNECTION=mongodb ```  
    ``` DB_HOST=mongo ```  
    ``` DB_PORT=27017 ```  
    ``` DB_DATABASE=database ```  
