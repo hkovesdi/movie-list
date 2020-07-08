@@ -7,6 +7,7 @@
 require('./bootstrap');
 import store from './store/index'
 import router from './router'
+import vuetify from '../plugins/vuetify'
 
 window.Vue = require('vue');
 
@@ -32,6 +33,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
  */
 
 const app = new Vue({
+    vuetify,
     el: '#app',
     store: store,
     router
