@@ -11,6 +11,7 @@ const mix = require('laravel-mix')
  |
  */
 require('laravel-mix-eslint')
+require('laravel-mix-polyfill')
 
 mix
   .js('resources/js/app.js', 'public/js')
@@ -20,6 +21,11 @@ mix
     emitWarning: process.env.NODE_ENV === 'development'
   })
   .sass('resources/sass/app.scss', 'public/css')
+  .polyfill({
+    enabled: true,
+    useBuiltIns: 'usage',
+    targets: '> 0.25%, not dead'
+  })
   .webpackConfig({
     devServer: {
       host: '0.0.0.0',
@@ -30,3 +36,8 @@ mix
       ignored: /node_modules/
     }
   })
+  .extract()
+
+if (mix.inProduction()) {
+  mix.version() //TODO: .minify() maybe?
+}
