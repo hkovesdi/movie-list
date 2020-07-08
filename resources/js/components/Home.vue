@@ -1,6 +1,6 @@
 <template>
-<v-app>
-      <v-card
+  <v-app>
+    <v-card
       class="mx-auto"
       max-width="344"
     >
@@ -24,10 +24,10 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-</v-app>
+  </v-app>
 </template>
 <script>
-export default {
-
-}
+let asd = "asd";
+console.log("asd");
+export default {};
 </script>
