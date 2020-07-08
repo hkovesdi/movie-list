@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -10,23 +10,18 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-require('laravel-mix-eslint-config');
+require("laravel-mix-eslint");
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js("resources/js/app.js", "public/js")
     .eslint({
-        enforce: 'pre',
-        test: ['js', 'vue'],
-        exclude: ['node_modules'],
-        loader: 'eslint-loader',
-        options: {
-            fix: true,
-            cache: false
-        }
+        fix: true,
+        cache: false,
+        emitWarning: process.env.NODE_ENV === "development"
     })
-    .sass('resources/sass/app.scss', 'public/css')
+    .sass("resources/sass/app.scss", "public/css")
     .webpackConfig({
         devServer: {
-            host: '0.0.0.0',
+            host: "0.0.0.0",
             port: 8080
         },
         watchOptions: {
