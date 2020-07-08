@@ -6,7 +6,7 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        I'm an example component. {{test}}
                     </div>
                 </div>
             </div>
@@ -18,6 +18,11 @@
     export default {
         mounted() {
             console.log('Component mounted.')
+        },
+        computed: {
+            test () {
+                return this.$store.state.test
+            }
         }
     }
 </script>

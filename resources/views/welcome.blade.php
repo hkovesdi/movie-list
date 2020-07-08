@@ -79,7 +79,7 @@
             @endif
 
             <div class="content" id="app">
-                <example-component></example-component>
+                <app></app>
             </div>
             <script src="{{ mix('js/app.js') }}"></script>
             <link href="{{ mix('css/app.css') }}" rel="stylesheet">
