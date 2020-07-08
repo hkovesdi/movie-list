@@ -3,8 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="{{ asset('js/app.js') }}" async defer></script>
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <title>Laravel</title>
 
         <!-- Fonts -->
@@ -83,6 +81,8 @@
             <div class="content" id="app">
                 <example-component></example-component>
             </div>
+            <script src="{{ mix('js/app.js') }}"></script>
+            <link href="{{ mix('css/app.css') }}" rel="stylesheet">
         </div>
     </body>
 </html>
