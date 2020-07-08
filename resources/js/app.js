@@ -4,15 +4,14 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('./bootstrap')
 import store from './store/index'
 import router from './router'
 import vuetify from '../plugins/vuetify'
 
-window.Vue = require('vue');
+window.Vue = require('vue')
 
-Vue.config.devtools =true;
-
+Vue.config.devtools = true
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,8 +22,11 @@ Vue.config.devtools =true;
  */
 
 const files = require.context('./', true, /\.vue$/i)
-files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+files
+  .keys()
+  .map((key) =>
+    Vue.component(key.split('/').pop().split('.')[0], files(key).default)
+  )
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,8 +35,8 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
  */
 
 new Vue({
-    vuetify,
-    el: '#app',
-    store: store,
-    router
-});
+  vuetify,
+  el: '#app',
+  store: store,
+  router
+})

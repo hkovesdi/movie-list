@@ -1,29 +1,29 @@
 const state = () => ({
-    test: "test"
+  test: 'test'
 })
 
 const getters = {
-    getTest: (state) => {
-        return state.test
-    },
+  getTest: (state) => {
+    return state.test
+  }
 }
 
 const actions = {
-  changeTest ({commit}, value) {
-      commit('setTest', value)
+  changeTest({ commit }, value) {
+    commit('setTest', value)
   }
 }
 
 const mutations = {
-    setTest (state, val) {
-        state.Test = val
-    }
+  setTest(state, val) {
+    state.Test = val
+  }
 }
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
 }

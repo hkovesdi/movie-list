@@ -6,6 +6,6 @@ import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 
-const options = {};
+const options = {}
 
 export default new Vuetify(options)
