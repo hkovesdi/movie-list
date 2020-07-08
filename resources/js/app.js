@@ -5,15 +5,12 @@
  */
 
 require('./bootstrap');
-import Vuex from 'vuex';
-import {store} from './store/index'
+import store from './store/index'
 
 window.Vue = require('vue');
 
-Vue.use(Vuex);
 Vue.config.devtools =true;
 
-const vuexStore = new Vuex.Store(store);
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,5 +33,5 @@ Vue.component('app', require('./components/App.vue').default);
 
 const app = new Vue({
     el: '#app',
-    store: vuexStore,
+    store: store,
 });
