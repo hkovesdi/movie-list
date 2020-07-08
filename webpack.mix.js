@@ -15,7 +15,7 @@ require('laravel-mix-eslint')
 mix
   .js('resources/js/app.js', 'public/js')
   .eslint({
-    fix: true,
+    fix: false,
     cache: false,
     emitWarning: process.env.NODE_ENV === 'development'
   })
