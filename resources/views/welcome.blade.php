@@ -6,9 +6,7 @@
         <meta name="csrf" content="{{ csrf_token() }}">
         <title>Movie list</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -26,7 +24,7 @@
                 </div>
             @endif
 
-            <div class="content" id="app">
+            <div id="app">
                 <app></app>
             </div>
             <script src="{{ mix('js/manifest.js') }}"></script>
