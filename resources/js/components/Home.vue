@@ -24,7 +24,7 @@
 
     <v-list-item>
       <v-list-item-icon>
-        <v-icon>mdi-send</v-icon>
+        <v-icon>fal fa-alien</v-icon>
       </v-list-item-icon>
       <v-list-item-subtitle>23 km/h</v-list-item-subtitle>
     </v-list-item>
