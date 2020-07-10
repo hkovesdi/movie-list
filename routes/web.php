@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['prefix' => 'api'], function () {
+    Route::post('/login', 'LoginController@login')->name('login');
+});
+
+
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any','.*');
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
