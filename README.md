@@ -13,13 +13,14 @@ Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop 'Docke
 2. Update your env file with the following:
 
    ```
-   WORKSPACE_INSTALL_MONGO=true
-   PHP_FPM_INSTALL_MONGO=true
+    MYSQL_DATABASE= the desired name of your database
+    MYSQL_USER= the user you want to connect with (can be root)
+    MYSQL_PASSWORD= password for the user
+    MYSQL_PORT=3306
+    MYSQL_ROOT_PASSWORD= if you are using the root user same as MYSQL_PASSWORD
    ```
-
-3. If you are using <b>Windows</b> you need to change the value of `DATA_PATH_HOST` variable to `/Users/yourWindowsUserName/.laradock/data` otherwise the mongo container will not start
-
-4. If you want to use XDEBUG then set the `PHP_FPM_INSTALL_XDEBUG` variable to `true`
+    
+3. If you want to use XDEBUG then set the `PHP_FPM_INSTALL_XDEBUG` variable to `true`
 
 ### Configuring Laravel
 
@@ -28,12 +29,12 @@ Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop 'Docke
 2. Open your Laravel’s `.env` file and update the following variables:
 
    ```
-   DB_CONNECTION=mongodb
-   DB_HOST=mongo
-   DB_PORT=27017
-   DB_DATABASE=database
-   DB_USERNAME=
-   DB_PASSWORD=
+   DB_CONNECTION=mysql
+   DB_HOST=mysql
+   DB_PORT=3306
+   DB_DATABASE= laradock MYSQL_DATABASE variable's value
+   DB_USERNAME= laradock MYSQL_USER variable's value
+   DB_PASSWORD= laradock MYSQL_PASSWORD variable's value
    ```
 
 3. Create your `.npmrc` with `cp .npmrc-example .npmrc` and add your FontAwesome Pro auth token to it.
