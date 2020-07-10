@@ -149,7 +149,7 @@ class CreateMovies extends Command
      */
     public function handle()
     {
-        $movies = json_decode(Storage::get('movies.json'), true);
+        $movies = array_chunk(json_decode(Storage::get('movies.json'), true), 1000)[0];
         $movieCount = count($movies);
 
         
