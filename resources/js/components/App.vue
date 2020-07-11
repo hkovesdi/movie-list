@@ -18,6 +18,14 @@ export default {
   components: {
     AppBar,
     NavDrawer
+  },
+  mounted() {
+    let resizeHandler = () => {
+      this.$store.commit('window/setWidth', window.innerWidth)
+      this.$store.commit('window/setHeight', window.innerHeight)
+    }
+    window.onresize = resizeHandler
+    window.onload = resizeHandler
   }
 }
 </script>

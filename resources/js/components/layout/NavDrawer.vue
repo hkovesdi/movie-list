@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer ref="nav" expand-on-hover clipped permanent app>
+  <v-navigation-drawer ref="nav" v-model="enabled" :expand-on-hover="widthAboveBreakpoint('xs')" :permanent="widthAboveBreakpoint('xs')" clipped app>
     <v-list subheader>
       <v-list-group v-if="loggedIn">
         <template v-slot:activator>
@@ -50,6 +50,23 @@ export default {
     ]
   }),
   computed: {
+    enabled: {
+      get() {
+        return this.$store.getters['navigation/getDrawer']
+      },
+      set(val) {
+        this.$store.commit('navigation/setDrawer', val)
+      }
+    },
+    windowWidth() {
+      return this.$store.getters['window/getWidth']
+    },
+    breakpoints() {
+      return this.$vuetify.breakpoint.thresholds
+    },
+    widthAboveBreakpoint() {
+      return (point) => this.windowWidth >= this.breakpoints[point]
+    },
     loggedIn() {
       return this.$store.getters['user/get'].id !== null
     },
