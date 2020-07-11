@@ -17,3 +17,9 @@ public/mix-manifest.json
 public/css/app.css
 public/fonts/
 .npmrc
+_ide_helper_models.php
+_ide_helper.php
+_lighthouse_ide_helper.php
+.phpstorm.meta.php
+programmatic-types.graphql
+schema-directives.graphql

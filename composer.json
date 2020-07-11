@@ -18,8 +18,10 @@
         "nuwave/lighthouse": "^4.15"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.7",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
+        "haydenpierce/class-finder": "^0.4.2",
         "krlove/eloquent-model-generator": "^1.3",
         "mll-lab/laravel-graphql-playground": "^2.2",
         "mockery/mockery": "^1.3.1",
