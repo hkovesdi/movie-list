@@ -1,0 +1,102 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`."
+scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
+
+type Query {
+    users: [User!]! @paginate(defaultCount: 10)
+    user(id: ID @eq): User @find
+
+    movies: [Movie!]! @paginate(defaultCount: 10)
+    movie(id: ID @eq): Movie @find
+
+    actors: [Actor] @paginate(defaultCount: 10)
+    actor(id: ID @eq): Actor @find
+
+    genres: [Genre] @paginate(defaultCount: 10)
+    genre(id: ID @eq): Genre @find
+
+    directors: [Director] @paginate(defaultCount: 10)
+    director(id: ID @eq): Director @find
+
+    countries: [Country] @paginate(defaultCount: 10)
+    country(id: ID @eq): Country @find
+
+    languages: [Language] @paginate(defaultCount: 10)
+    language(id: ID @eq): Language @find
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Movie {
+    id: ID!
+    title: String!
+    rating: String
+    year: Int!
+    users_rating: Float!
+    metascore: Int
+    img_url: String!
+    high_res_poster_url: String!
+    tagline: String! #make this nullable in the future
+    description: String
+    runtime: Int!
+    imdb_url: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    actors: [Actor] @belongsToMany
+    countries: [Country] @belongsToMany
+    directors: [Director] @belongsToMany
+    genres: [Genre] @belongsToMany
+    languages: [Language] @belongsToMany
+}
+
+type Actor {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    movies: [Movie] @belongsToMany
+}
+
+type Country {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    movies: [Movie] @belongsToMany
+}
+
+type Director {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    movies: [Movie] @belongsToMany
+}
+
+type Genre {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    movies: [Movie] @belongsToMany
+}
+
+type Language {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    movies: [Movie] @belongsToMany
+}
+

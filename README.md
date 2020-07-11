@@ -41,7 +41,7 @@ Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop 'Docke
 
 ### Building Laradock
 
-1. Navigate to the `laradock` folder and start your docker containers with `docker-compose up -d --build workspace nginx mongo` _Note: The building process might take a while_
+1. Navigate to the `laradock` folder and start your docker containers with `docker-compose up -d --build workspace nginx mysql` _Note: The building process might take a while_
 
 2. Bash into the `workspace` container with `docker-compose exec workspace bash`
 
@@ -60,7 +60,7 @@ Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop 'Docke
 #### Full list of build commands
 
 ```
-docker-compose up -d --build workspace nginx mongo
+docker-compose up -d --build workspace nginx mysql
 docker-compose exec workspace bash
 composer install
 npm install
