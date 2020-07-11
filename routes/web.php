@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'api'], function () {
     Route::post('/login', 'LoginController@login')->name('login');
+    Route::get('/movies', function() {
+        return response()->json([
+            'movies' => \App\Movie::with(['genres','actors','directors','languages','countries'])->take(50)->get()
+        ]);
+    });
 });
 
 
