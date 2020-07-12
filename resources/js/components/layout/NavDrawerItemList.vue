@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-list-item v-for="item in items" :key="item.text" :to="item.to" link exact @click="item.disp === undefined ? '' : $store.dispatch(item.disp)">
+    <v-list-item
+      v-for="item in items"
+      :key="item.text"
+      :to="item.to"
+      link
+      exact
+      @click="item.dispatch !== undefined ? $store.dispatch(item.dispatch) : ''"
+    >
       <v-list-item-icon>
         <v-icon :style="item.icon.custom_css" :size="item.icon.size">{{ item.icon.code }}</v-icon>
       </v-list-item-icon>
