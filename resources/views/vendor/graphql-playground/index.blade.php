@@ -30,6 +30,7 @@
                 'request.credentials': 'same-origin',
             },
             headers: {
+                'Access-Control-Allow-Credentials': true,
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             }
         })
