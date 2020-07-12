@@ -20,7 +20,7 @@
 
     <v-list-item>
       <v-list-item-icon>
-        <v-icon>fal fa-alien</v-icon>
+        <v-icon @click="login()">fal fa-alien</v-icon>
       </v-list-item-icon>
       <v-list-item-subtitle>23 km/h</v-list-item-subtitle>
     </v-list-item>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 export default {
   data() {
     return {
@@ -76,6 +77,21 @@ export default {
         { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' }
       ]
     }
+  },
+  methods: {
+    login() {
+      console.log(this.$apollo)
+    }
+  },
+  apollo: {
+    movie: gql`
+      query {
+        movie(id: 1) {
+          id
+          title
+        }
+      }
+    `
   }
 }
 </script>
