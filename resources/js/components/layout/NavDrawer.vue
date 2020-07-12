@@ -29,11 +29,13 @@
 </template>
 
 <script>
+import widthBreakpoint from '../mixins/widthbreakpoint.js'
 import NavDrawerItemList from './NavDrawerItemList.vue'
 export default {
   components: {
     NavDrawerItemList
   },
+  mixins: [widthBreakpoint],
   data: () => ({
     defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
     notLoggedInItems: [
@@ -61,18 +63,6 @@ export default {
       set(val) {
         this.$store.commit('navigation/setDrawer', val)
       }
-    },
-    windowWidth() {
-      return this.$store.getters['window/getWidth']
-    },
-    breakpoints() {
-      return this.$vuetify.breakpoint.thresholds
-    },
-    windowWidthAboveBreakpoint() {
-      // If this value is low, then some elements that should be hidden flash for a moment on first pageload.
-      const defaultWidth = 9999999
-
-      return (point) => (this.windowWidth || defaultWidth) >= this.breakpoints[point]
     },
     loggedIn() {
       return this.$store.getters['user/get'].id !== null
