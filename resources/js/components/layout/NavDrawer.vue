@@ -1,11 +1,17 @@
 <template>
-  <v-navigation-drawer ref="nav" v-model="enabled" :expand-on-hover="widthAboveBreakpoint('xs')" :permanent="widthAboveBreakpoint('xs')" clipped app>
+  <v-navigation-drawer
+    v-model="drawerModel"
+    :expand-on-hover="windowWidthAboveBreakpoint('xs')"
+    :permanent="windowWidthAboveBreakpoint('xs')"
+    clipped
+    app
+  >
     <v-list subheader>
-      <v-list-group v-if="loggedIn">
+      <v-list-group v-if="loggedIn" append-icon="far fa-chevron-up">
         <template v-slot:activator>
-          <v-list-item id="nav-user-list-item">
+          <v-list-item id="nav-user-list-item" two-line>
             <v-list-item-avatar>
-              <v-img :src="!user.avatar ? defaultAvatar : user.avatar"></v-img>
+              <v-img :src="user.avatar || defaultAvatar"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
@@ -16,20 +22,20 @@
         <NavDrawerItemList :items="userItems" />
       </v-list-group>
       <NavDrawerItemList v-else :items="notLoggedInItems" />
-
       <v-divider></v-divider>
-
       <NavDrawerItemList :items="navItems" />
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import widthBreakpoint from '../mixins/widthbreakpoint.js'
 import NavDrawerItemList from './NavDrawerItemList.vue'
 export default {
   components: {
     NavDrawerItemList
   },
+  mixins: [widthBreakpoint],
   data: () => ({
     defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
     notLoggedInItems: [
@@ -50,22 +56,13 @@ export default {
     ]
   }),
   computed: {
-    enabled: {
+    drawerModel: {
       get() {
         return this.$store.getters['navigation/getDrawer']
       },
       set(val) {
         this.$store.commit('navigation/setDrawer', val)
       }
-    },
-    windowWidth() {
-      return this.$store.getters['window/getWidth']
-    },
-    breakpoints() {
-      return this.$vuetify.breakpoint.thresholds
-    },
-    widthAboveBreakpoint() {
-      return (point) => this.windowWidth >= this.breakpoints[point]
     },
     loggedIn() {
       return this.$store.getters['user/get'].id !== null
@@ -78,7 +75,7 @@ export default {
         { text: 'Profile', to: `/user/${this.user.name}`, icon: { code: 'fas fa-user-circle', size: '23' } },
         { text: 'My List', to: `/user/${this.user.name}/list`, icon: { code: 'fas fa-list', size: '19' } },
         { text: 'Friends', to: '/friends', icon: { code: 'fas fa-users', size: '18' } },
-        { text: 'Sign Out', disp: 'user/logout', icon: { code: 'fas fa-sign-out', size: '21' } }
+        { text: 'Sign Out', dispatch: 'user/logout', icon: { code: 'fas fa-sign-out', size: '21' } }
       ]
     }
   }
