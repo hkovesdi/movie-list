@@ -61,6 +61,7 @@ import gql from 'graphql-tag'
 export default {
   data() {
     return {
+      movieId: 2,
       labels: ['SU', 'MO', 'TU', 'WED', 'TH', 'FR', 'SA'],
       time: 0,
       forecast: [
@@ -84,14 +85,21 @@ export default {
     }
   },
   apollo: {
-    movie: gql`
-      query {
-        movie(id: 1) {
-          id
-          title
+    movie: {
+      query: gql`
+        query movie($movieId: ID!){
+          movie(id: $movieId) {
+            id
+            title
+          }
+        }
+      `,
+      variables() {
+        return {
+            movieId: this.movieId
         }
       }
-    `
+    }
   }
 }
 </script>
