@@ -51,7 +51,7 @@
         "js-cookie": "^2.2.1",
         "vue-apollo": "^3.0.3",
         "vuetify": "^2.3.4",
-        "vuetify-loader": "^1.5.0",
+        "vuetify-loader": "^1.6.0",
         "vuex": "^3.5.1"
     }
 }
