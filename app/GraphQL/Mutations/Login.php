@@ -1,7 +1,6 @@
 <?php
 
 namespace App\GraphQL\Mutations;
-use Illuminate\Support\Facades\Cookie;
 
 use Arr;
 use Illuminate\Support\Facades\Auth;

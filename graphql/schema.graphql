@@ -7,17 +7,20 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`."
 scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
 
+
+
+
 type Mutation {
-  login(username: String!, password: String!): LoginPayload!
+  login(username: String!, password: String!): LoginResponse!
+  register(input: RegisterInput! @spread): User! @create 
+  logout: GenericResponse! @guard
 }
 
-type Query @middleware(checks: ["auth:sanctum"]) {
-  me: User @auth
-}
 
-extend type Query {
+type Query {
   users: [User!]! @paginate(defaultCount: 10)
   user(id: ID @eq): User @find
+  me: User @auth @guard
 
   movies: [Movie!]! @paginate(defaultCount: 10)
   movie(id: ID @eq): Movie @find
@@ -38,9 +41,20 @@ extend type Query {
   language(id: ID @eq): Language @find
 }
 
-type LoginPayload {
+input RegisterInput {
+  username: String! @rules(apply: ["required", "unique:users,username"])
+  email: String! @rules(apply: ["required", "email", "unique:users,email"])
+  confirm_password: String! @rules(apply: ["required", "same:input.password"]) @hash
+  password: String! @rules(apply: ["required"]) @hash
+}
+
+type LoginResponse {
   message: String!
   user: User
+}
+
+type GenericResponse {
+  message: String!
 }
 
 type User {
