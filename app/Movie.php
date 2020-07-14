@@ -92,4 +92,12 @@ class Movie extends Model
     {
         return $this->belongsToMany('App\Language', 'movies_languages');
     }
+
+        /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userMovies()
+    {
+        return $this->hasMany('App\UserMovie');
+    }
 }
