@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $user_id
  * @property integer $movie_id
  * @property integer $status_id
- * @property float $rating
+ * @property int $rating
  * @property string $date_watched
  * @property int $times_rewatched
  * @property string $comment

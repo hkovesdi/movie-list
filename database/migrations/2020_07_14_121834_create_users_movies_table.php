@@ -17,7 +17,7 @@ class CreateUsersMoviesTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained()->onDelete('cascade');
             $table->foreignId("movie_id")->constrained()->onDelete('cascade');
-            $table->float("rating", 3, 2)->nullable();
+            $table->integer("rating")->nullable();
             $table->foreignId("status_id")->constrained()->onDelete('cascade');
             $table->date("date_watched")->nullable();
             $table->integer("times_rewatched")->default(0);
