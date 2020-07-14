@@ -87,7 +87,7 @@ export default {
   apollo: {
     movie: {
       query: gql`
-        query movie($movieId: ID!){
+        query movie($movieId: ID!) {
           movie(id: $movieId) {
             id
             title
@@ -96,7 +96,7 @@ export default {
       `,
       variables() {
         return {
-            movieId: this.movieId
+          movieId: this.movieId
         }
       }
     }
