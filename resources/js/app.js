@@ -7,8 +7,8 @@
 require('./bootstrap')
 import store from './store/index'
 import router from './router'
-import vuetify from '../plugins/vuetify'
-import apolloProvider from '../plugins/vue-apollo'
+import vuetify from './plugins/vuetify'
+import apolloProvider from './plugins/vue-apollo'
 
 window.Vue = require('vue')
 
