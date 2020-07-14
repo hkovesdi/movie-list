@@ -5,11 +5,7 @@ const state = () => ({
   avatar: null
 })
 
-const getters = {
-  get(state) {
-    return state
-  }
-}
+const getters = {}
 
 const mutations = {
   setId(state, newId) {

@@ -2,11 +2,7 @@ const state = () => ({
   drawer: false
 })
 
-const getters = {
-  getDrawer(state) {
-    return state.drawer
-  }
-}
+const getters = {}
 
 const mutations = {
   setDrawer(state, val) {

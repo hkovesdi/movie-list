@@ -58,17 +58,17 @@ export default {
   computed: {
     drawerModel: {
       get() {
-        return this.$store.getters['navigation/getDrawer']
+        return this.$store.state.navigation.drawer
       },
       set(val) {
         this.$store.commit('navigation/setDrawer', val)
       }
     },
-    loggedIn() {
-      return this.$store.getters['user/get'].id !== null
-    },
     user() {
-      return this.$store.getters['user/get']
+      return this.$store.state.user
+    },
+    loggedIn() {
+      return this.user.id !== null
     },
     userItems() {
       return [
