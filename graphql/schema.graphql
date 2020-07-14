@@ -11,6 +11,7 @@ type Mutation {
   login(username: String!, password: String!): LoginResponse!
   register(input: RegisterInput! @spread): User! @create
   logout: GenericResponse! @guard
+  addToMyList(input: MyMovieListInput @spread): UserMovie! @guard
 }
 
 type Query {
@@ -35,6 +36,9 @@ type Query {
 
   languages: [Language] @paginate(defaultCount: 10)
   language(id: ID @eq): Language @find
+
+  userMovies: [UserMovie] @paginate(defaultCount: 10)
+  userMovie(id: ID @eq): UserMovie @find
 }
 
 input RegisterInput {
@@ -42,6 +46,15 @@ input RegisterInput {
   email: String! @rules(apply: ["required", "email", "unique:users,email"])
   confirm_password: String! @rules(apply: ["required", "same:input.password"]) @hash
   password: String! @rules(apply: ["required"]) @hash
+}
+
+input MyMovieListInput {
+  movie_id: ID! @rules(apply: ["integer", "exists:movies,id"])
+  status_id: ID! @rules(apply: ["integer", "exists:statuses,id"])
+  rating: Int @rules(apply: ["sometimes","integer","between:1,10"])
+  date_watched: Date @rules(apply: ["sometimes", "date", "before_or_equal:today"])
+  times_rewatched: Int @rules(apply: ["sometimes", "integer"])
+  comment: String @rules(apply: ["sometimes", "string", "max:200"])
 }
 
 type LoginResponse {
@@ -59,6 +72,24 @@ type User {
   email: String!
   created_at: DateTime!
   updated_at: DateTime!
+  userMovies: [UserMovie] @hasMany
+}
+
+type UserMovie {
+  id: ID!
+  rating: Float
+  date_watched: Date
+  times_rewatched: Int!
+  comment: String
+  user: User @belongsTo
+  movie: Movie @belongsTo
+  status: Status @belongsTo
+}
+
+type Status {
+  id: ID!
+  name: String!
+  userMovies: [UserMovie] @hasMany
 }
 
 type Movie {
@@ -81,6 +112,7 @@ type Movie {
   directors: [Director] @belongsToMany
   genres: [Genre] @belongsToMany
   languages: [Language] @belongsToMany
+  userMovies: [UserMovie] @hasMany
 }
 
 type Actor {
