@@ -18,7 +18,7 @@ class CreateUsersMoviesTable extends Migration
             $table->foreignId("user_id")->constrained()->onDelete('cascade');
             $table->foreignId("movie_id")->constrained()->onDelete('cascade');
             $table->float("rating", 3, 2)->nullable();
-            $table->enum('status', ['Plan to watch', 'Watching', 'On hold', 'Completed', 'Dropped']);
+            $table->foreignId("status_id")->constrained()->onDelete('cascade');
             $table->date("date_watched")->nullable();
             $table->integer("times_rewatched")->default(0);
             $table->string("comment", 200)->nullable();
@@ -34,9 +34,11 @@ class CreateUsersMoviesTable extends Migration
     public function down()
     {   
         Schema::table('users_movies', function (Blueprint $table) {
-            $table->dropForeign(['user_id', 'movie_id']);
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['movie_id']);
+            $table->dropForeign(['status_id']);
         });
-        
+
         Schema::dropIfExists('users_movies');
     }
 }
