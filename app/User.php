@@ -42,6 +42,6 @@ class User extends Authenticatable
      */
     public function userMovies()
     {
-        return $this->hasMany('App\UserMovie', 'users_movies');
+        return $this->hasMany('App\UserMovie');
     }
 }
