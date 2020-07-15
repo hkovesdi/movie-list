@@ -5,7 +5,7 @@ Vue.use(Vuetify)
 
 const options = {
   icons: {
-    iconfont: 'fa'
+    iconfont: 'mdi'
   }
 }
 

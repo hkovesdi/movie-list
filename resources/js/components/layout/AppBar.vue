@@ -13,7 +13,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn class="mr-3" icon v-bind="attrs" v-on="on" @click="fullWidthSearch = !fullWidthSearch">
-                  <v-icon>fas fa-arrow-left</v-icon>
+                  <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
               </template>
               <span>Back</span>
@@ -32,7 +32,7 @@
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on" @click="fullWidthSearch = !fullWidthSearch">
-                <v-icon size="22">fas fa-search</v-icon>
+                <v-icon size="22">mdi-magnify</v-icon>
               </v-btn>
             </template>
             <span>Search</span>
@@ -70,7 +70,7 @@ export default {
       }
     },
     openDrawer() {
-      this.$store.commit('navigation/setDrawer', true)
+      this.$store.commit('navigation/setDrawerEnabled', true)
     }
   }
 }

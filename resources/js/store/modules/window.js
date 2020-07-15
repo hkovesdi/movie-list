@@ -3,14 +3,7 @@ const state = () => ({
   height: 0
 })
 
-const getters = {
-  getWidth: (state) => {
-    return state.width
-  },
-  getHeight: (state) => {
-    return state.height
-  }
-}
+const getters = {}
 
 const actions = {}
 

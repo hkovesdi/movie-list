@@ -1,3 +1,7 @@
+import gql from 'graphql-tag'
+import apolloObject from '../../plugins/vue-apollo'
+const graphqlClient = apolloObject.defaultClient
+
 const state = () => ({
   id: null,
   name: null,
@@ -5,11 +9,7 @@ const state = () => ({
   avatar: null
 })
 
-const getters = {
-  get(state) {
-    return state
-  }
-}
+const getters = {}
 
 const mutations = {
   setId(state, newId) {
@@ -27,19 +27,64 @@ const mutations = {
 }
 
 const actions = {
-  login({ commit }, { email }) {
-    // Login with API then update state
-    let apiResponse = {
-      id: 0,
-      name: 'Renkee',
-      avatar: 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4'
+  async tryFetchOnFirstLoad({ commit }) {
+    const response = await graphqlClient.query({
+      query: gql`
+        query tryFetchUser {
+          me {
+            id
+            username
+            email
+          }
+        }
+      `
+    })
+    console.log(response)
+    if (response.data.me) {
+      const { id, username, email } = response.data.me
+      commit('setId', id)
+      commit('setName', username)
+      commit('setEmail', email)
+      commit('setAvatar', 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4')
     }
-    commit('setId', apiResponse.id)
-    commit('setName', apiResponse.name)
-    commit('setEmail', email)
-    commit('setAvatar', apiResponse.avatar)
   },
-  logout({ commit }) {
+  async login({ commit }, { username, password }) {
+    const response = await graphqlClient.mutate({
+      mutation: gql`
+        mutation loginMut($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
+            message
+            user {
+              id
+              email
+            }
+          }
+        }
+      `,
+      variables: {
+        username,
+        password
+      }
+    })
+    if (response.data.login.message === 'Sucessfully logged in!') {
+      const { id, email } = response.data.login.user
+      commit('setId', id)
+      commit('setName', username)
+      commit('setEmail', email)
+      commit('setAvatar', 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4')
+    }
+  },
+  async logout({ commit }) {
+    await graphqlClient.mutate({
+      mutation: gql`
+        mutation logoutMut {
+          logout {
+            message
+          }
+        }
+      `
+    })
+
     commit('setId', null)
     commit('setName', null)
     commit('setEmail', null)
