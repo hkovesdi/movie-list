@@ -19,8 +19,14 @@ export default {
     AppBar,
     NavDrawer
   },
-  async created() {
-    await this.$store.dispatch('user/tryFetchOnFirstLoad')
+  props: {
+    user: {
+      type: String,
+      required: true
+    }
+  },
+  created() {
+    this.$store.dispatch('user/setOnFirstLoad', JSON.parse(this.user))
   },
   mounted() {
     let resizeHandler = () => {

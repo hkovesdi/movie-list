@@ -27,28 +27,18 @@ const mutations = {
 }
 
 const actions = {
-  async tryFetchOnFirstLoad({ commit }) {
-    const response = await graphqlClient.query({
-      query: gql`
-        query tryFetchUser {
-          me {
-            id
-            username
-            email
-          }
-        }
-      `
-    })
-    console.log(response)
-    if (response.data.me) {
-      const { id, username, email } = response.data.me
-      commit('setId', id)
-      commit('setName', username)
-      commit('setEmail', email)
-      commit('setAvatar', 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4')
+  setAll({ commit }, { id, username, email, avatar }) {
+    commit('setId', id)
+    commit('setName', username)
+    commit('setEmail', email)
+    commit('setAvatar', avatar || 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4')
+  },
+  async setOnFirstLoad({ dispatch }, user) {
+    if (user !== null && user !== undefined && user !== '') {
+      dispatch('setAll', user)
     }
   },
-  async login({ commit }, { username, password }) {
+  async login({ dispatch }, { username, password }) {
     const response = await graphqlClient.mutate({
       mutation: gql`
         mutation loginMut($username: String!, $password: String!) {
@@ -66,15 +56,13 @@ const actions = {
         password
       }
     })
+
     if (response.data.login.message === 'Sucessfully logged in!') {
       const { id, email } = response.data.login.user
-      commit('setId', id)
-      commit('setName', username)
-      commit('setEmail', email)
-      commit('setAvatar', 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4')
+      dispatch('setAll', { id, username, email })
     }
   },
-  async logout({ commit }) {
+  async logout({ dispatch }) {
     await graphqlClient.mutate({
       mutation: gql`
         mutation logoutMut {
@@ -85,10 +73,7 @@ const actions = {
       `
     })
 
-    commit('setId', null)
-    commit('setName', null)
-    commit('setEmail', null)
-    commit('setAvatar', null)
+    dispatch('setAll', { id: null, username: null, email: null, avatar: null })
   }
 }
 
