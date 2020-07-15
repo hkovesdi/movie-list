@@ -37,8 +37,6 @@ Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop 'Docke
    DB_PASSWORD= laradock MYSQL_PASSWORD variable's value
    ```
 
-3. Create your `.npmrc` with `cp .npmrc-example .npmrc` and add your FontAwesome Pro auth token to it.
-
 ### Building Laradock
 
 1. Navigate to the `laradock` folder and start your docker containers with `docker-compose up -d --build workspace nginx mysql` _Note: The building process might take a while_
