@@ -39,5 +39,5 @@ mix
   .extract()
 
 if (mix.inProduction()) {
-  mix.version() //TODO: .minify() maybe?
+  mix.version()
 }
