@@ -10,8 +10,13 @@ scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Da
 type Mutation {
   login(username: String!, password: String!): LoginResponse!
   register(input: RegisterInput! @spread): User! @create
-  logout: GenericResponse! @guard
-  addToMyList(input: MyMovieListInput @spread): UserMovie! @guard
+
+}
+
+extend type Mutation @guard{
+  logout: GenericResponse!
+  addToMyMovieList(input: AddToMyMovieListInput @spread): UserMovie! @addToMyMovieListValidation
+  updateMyMovieList(movie_id: ID! input: UpdateMyMovieListInput @spread): UserMovie! @updateMyMovieListValidation
 }
 
 type Query {
@@ -48,13 +53,21 @@ input RegisterInput {
   password: String! @rules(apply: ["required"]) @hash
 }
 
-input MyMovieListInput {
-  movie_id: ID! @rules(apply: ["integer", "exists:movies,id"])
-  status_id: ID! @rules(apply: ["integer", "exists:statuses,id"])
-  rating: Int @rules(apply: ["sometimes","integer","between:1,10"])
-  date_watched: Date @rules(apply: ["sometimes", "date", "before_or_equal:today"])
-  times_rewatched: Int @rules(apply: ["sometimes", "integer"])
-  comment: String @rules(apply: ["sometimes", "string", "max:200"])
+input AddToMyMovieListInput {
+  movie_id: ID!
+  status_id: ID!
+  rating: Int
+  date_watched: Date
+  times_rewatched: Int
+  comment: String
+}
+
+input UpdateMyMovieListInput {
+  status_id: ID
+  rating: Int
+  date_watched: Date
+  times_rewatched: Int
+  comment: String
 }
 
 type LoginResponse {
