@@ -21,13 +21,6 @@ class AddToMyMovieList
             'comment'
         ]);
         
-        if(auth()->user()->userMovies()->where('movie_id', $data['movie_id'])->exists()) {
-            throw new \App\Exceptions\GQLException(
-                "Movie is already in the list",
-                "The movie with id: ".$data['movie_id']." is already present in the user's list"
-            );
-        }
-
         $data['user_id'] = auth()->user()->id;
         
         return \App\UserMovie::create($data);
