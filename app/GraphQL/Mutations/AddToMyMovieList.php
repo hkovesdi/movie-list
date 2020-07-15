@@ -4,7 +4,7 @@ namespace App\GraphQL\Mutations;
 
 use Arr;
 
-class AddToMyList
+class AddToMyMovieList
 {
     /**
      * @param  null  $_
