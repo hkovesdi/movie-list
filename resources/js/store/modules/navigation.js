@@ -1,12 +1,18 @@
 const state = () => ({
-  drawer: false
+  drawer: {
+    enabled: false,
+    expanded: true
+  }
 })
 
 const getters = {}
 
 const mutations = {
-  setDrawer(state, val) {
-    state.drawer = val
+  setDrawerEnabled(state, val) {
+    state.drawer.enabled = val
+  },
+  setDrawerExpanded(state, val) {
+    state.drawer.expanded = val
   }
 }
 
