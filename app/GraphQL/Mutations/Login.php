@@ -16,7 +16,7 @@ class Login
         $credentials = Arr::only($args, ['username', 'password']);
         $loginPayload = array("message" => null, "user" => null);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard("web")->attempt($credentials)) {
             $loginPayload['message'] = 'Sucessfully logged in!';
             $loginPayload['user'] = Auth::user()->toArray();
         }
