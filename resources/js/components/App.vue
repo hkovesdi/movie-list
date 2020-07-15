@@ -19,6 +19,9 @@ export default {
     AppBar,
     NavDrawer
   },
+  async created() {
+    await this.$store.dispatch('user/tryFetchOnFirstLoad')
+  },
   mounted() {
     let resizeHandler = () => {
       this.$store.commit('window/setWidth', window.innerWidth)

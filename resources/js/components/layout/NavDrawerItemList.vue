@@ -9,7 +9,7 @@
       @click="item.dispatch !== undefined ? $store.dispatch(item.dispatch) : ''"
     >
       <v-list-item-icon>
-        <v-icon :style="item.icon.custom_css" :size="item.icon.size">{{ item.icon.code }}</v-icon>
+        <v-icon>{{ item.icon.code }}</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>
@@ -30,9 +30,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.v-list-item__icon .v-icon {
-  margin: 0 auto;
-}
-</style>

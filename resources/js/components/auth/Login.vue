@@ -1,12 +1,20 @@
 <template>
-  <div><v-btn @click="login('rene@renkee.eu', 'asd123')">Login</v-btn></div>
+  <div>
+    <v-text-field v-model="username" type="text" label="Username"></v-text-field>
+    <v-text-field v-model="password" type="password" label="Password"></v-text-field>
+    <v-btn @click="login()">Login</v-btn>
+  </div>
 </template>
 
 <script>
 export default {
+  data: () => ({
+    username: '',
+    password: ''
+  }),
   methods: {
-    login(email, password) {
-      this.$store.dispatch('user/login', { email, password })
+    login() {
+      this.$store.dispatch('user/login', { username: this.username, password: this.password })
     }
   }
 }

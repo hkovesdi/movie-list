@@ -1,23 +1,24 @@
 <template>
   <v-navigation-drawer
     v-model="drawerModel"
-    :expand-on-hover="windowWidthAboveBreakpoint('xs')"
+    width="275"
+    :mini-variant="windowWidthAboveBreakpoint('xs') && !drawerExpanded"
     :permanent="windowWidthAboveBreakpoint('xs')"
     clipped
     app
   >
     <v-list subheader>
-      <v-list-group v-if="loggedIn" append-icon="far fa-chevron-up">
+      <v-list-group v-if="loggedIn" value="true">
+        <template v-slot:prependIcon>
+          <v-avatar class="user-icon" :size="drawerExpanded ? '48' : '24'">
+            <v-img :src="user.avatar || defaultAvatar" />
+          </v-avatar>
+        </template>
         <template v-slot:activator>
-          <v-list-item id="nav-user-list-item" two-line>
-            <v-list-item-avatar>
-              <v-img :src="user.avatar || defaultAvatar"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
-              <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
+            <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+          </v-list-item-content>
         </template>
         <NavDrawerItemList :items="userItems" />
       </v-list-group>
@@ -25,6 +26,20 @@
       <v-divider></v-divider>
       <NavDrawerItemList :items="navItems" />
     </v-list>
+    <template v-slot:append>
+      <v-list>
+        <v-list-item v-if="windowWidthAboveBreakpoint('xs')" dense link @click="toggleDrawerExpansion()">
+          <v-list-item-icon>
+            <v-icon :class="drawerExpanded ? 'collapse--active' : ''" class="collapse">mdi-arrow-expand-right</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              Collapse
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -43,25 +58,26 @@ export default {
         text: 'Register',
         to: '/register',
         icon: {
-          code: 'fas fa-user-plus',
-          size: '18',
-          custom_css: 'left: 3px;'
+          code: 'mdi-account-plus'
         }
       },
-      { text: 'Log in', to: '/login', icon: { code: 'fas fa-sign-in-alt', size: '21' } }
+      { text: 'Log in', to: '/login', icon: { code: 'mdi-login' } }
     ],
     navItems: [
-      { text: 'Home', to: '/', icon: { code: 'fas fa-home', size: '19' } },
-      { text: 'Top Movies', to: '/top', icon: { code: 'fas fa-award', size: '21' } }
+      { text: 'Home', to: '/', icon: { code: 'mdi-home' } },
+      { text: 'Top Movies', to: '/top', icon: { code: 'mdi-star' } }
     ]
   }),
   computed: {
+    drawerExpanded() {
+      return this.$store.state.navigation.drawer.expanded
+    },
     drawerModel: {
       get() {
-        return this.$store.state.navigation.drawer
+        return this.$store.state.navigation.drawer.enabled
       },
       set(val) {
-        this.$store.commit('navigation/setDrawer', val)
+        this.$store.commit('navigation/setDrawerEnabled', val)
       }
     },
     user() {
@@ -72,25 +88,32 @@ export default {
     },
     userItems() {
       return [
-        { text: 'Profile', to: `/user/${this.user.name}`, icon: { code: 'fas fa-user-circle', size: '23' } },
-        { text: 'My List', to: `/user/${this.user.name}/list`, icon: { code: 'fas fa-list', size: '19' } },
-        { text: 'Friends', to: '/friends', icon: { code: 'fas fa-users', size: '18' } },
-        { text: 'Sign Out', dispatch: 'user/logout', icon: { code: 'fas fa-sign-out', size: '21' } }
+        { text: 'Profile', to: `/user/${this.user.name}`, icon: { code: 'mdi-view-dashboard' } },
+        { text: 'My List', to: `/user/${this.user.name}/list`, icon: { code: 'mdi-view-list' } },
+        { text: 'Friends', to: '/friends', icon: { code: 'mdi-account-multiple' } },
+        { text: 'Sign Out', dispatch: 'user/logout', icon: { code: 'mdi-logout' } }
       ]
+    }
+  },
+  methods: {
+    toggleDrawerExpansion() {
+      this.$store.commit('navigation/setDrawerExpanded', !this.drawerExpanded)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#nav-user-list-item {
-  $shift_amount: 8px;
-  $base_padding: 16px;
-
-  height: 66px;
-  .v-avatar {
-    margin-left: (-$shift_amount) - $base_padding;
-    margin-right: $base_padding + $shift_amount;
-  }
+.collapse--active {
+  transform: rotate(-180deg);
+}
+.collapse {
+  transition: transform 0.3s;
+}
+.user-icon {
+  transition: all 0.2s;
+}
+.v-list-item__icon.v-list-group__header__prepend-icon {
+  margin-right: 0 !important;
 }
 </style>
