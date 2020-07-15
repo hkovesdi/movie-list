@@ -16,14 +16,15 @@
                     <a href="{{ route('login') }}">Login</a>
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('register') }}">Regist
+                            er</a>
                     @endif
                 @endauth
             </div>
         @endif-->
 
         <div id="app">
-            <app></app>
+            <app user="{{json_encode($user)}}"></app>
         </div>
         <script src="{{ mix('js/manifest.js') }}"></script>
         <script src="{{ mix('js/vendor.js') }}"></script>
