@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf" content="{{ csrf_token() }}">
         <title>Movie list</title>
+        @if ($user)
         <script>window.user = @json($user)</script>
+        @endif
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
