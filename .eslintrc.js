@@ -1,10 +1,8 @@
 module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:vue/recommended',
-    'plugin:prettier/recommended',
-    'prettier/vue'
-  ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  extends: ['eslint:recommended', 'plugin:vue/recommended', 'plugin:prettier/recommended', 'prettier/vue'],
   plugins: ['prettier'],
   rules: {
     // override/add rules settings here, such as:

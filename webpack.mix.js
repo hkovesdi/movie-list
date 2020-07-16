@@ -18,6 +18,7 @@ mix
   .eslint({
     fix: false,
     cache: false,
+    configFile: path.join(__dirname, '.eslintrc.js'),
     emitWarning: process.env.NODE_ENV === 'development'
   })
   .sass('resources/sass/app.scss', 'public/css')

@@ -12,6 +12,7 @@
     "devDependencies": {
         "@vue/eslint-config-standard": "^5.1.2",
         "axios": "^0.19",
+        "babel-eslint": "^10.1.0",
         "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
         "deepmerge": "^4.2.2",
