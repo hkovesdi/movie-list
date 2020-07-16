@@ -32,7 +32,7 @@
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on" @click="fullWidthSearch = !fullWidthSearch">
-                <v-icon size="22">mdi-magnify</v-icon>
+                <v-icon>mdi-magnify</v-icon>
               </v-btn>
             </template>
             <span>Search</span>
