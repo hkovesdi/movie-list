@@ -31,10 +31,13 @@ files.keys().map((key) => Vue.component(key.split('/').pop().split('.')[0], file
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// If the user's already logged in, then load it into VueX before anything can execute
+store.dispatch('user/setOnFirstLoad', window.user)
+
 new Vue({
   vuetify,
   el: '#app',
-  store: store,
+  store,
   router,
   apolloProvider
 })

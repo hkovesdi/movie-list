@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf" content="{{ csrf_token() }}">
         <title>Movie list</title>
+        <script>window.user = @json($user)</script>
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
@@ -23,7 +24,7 @@
         @endif-->
 
         <div id="app">
-            <app user="{{json_encode($user)}}"></app>
+            <app></app>
         </div>
         <script src="{{ mix('js/manifest.js') }}"></script>
         <script src="{{ mix('js/vendor.js') }}"></script>

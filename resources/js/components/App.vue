@@ -19,15 +19,6 @@ export default {
     AppBar,
     NavDrawer
   },
-  props: {
-    user: {
-      type: String,
-      required: true
-    }
-  },
-  created() {
-    this.$store.dispatch('user/setOnFirstLoad', JSON.parse(this.user))
-  },
   mounted() {
     let resizeHandler = () => {
       this.$store.commit('window/setWidth', window.innerWidth)

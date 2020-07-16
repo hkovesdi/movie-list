@@ -9,7 +9,12 @@ const state = () => ({
   avatar: null
 })
 
-const getters = {}
+const getters = {
+  isAuthenticated(state) {
+    if (state.id !== null && state.name !== null && state.email !== null) return true
+    return false
+  }
+}
 
 const mutations = {
   setId(state, newId) {
