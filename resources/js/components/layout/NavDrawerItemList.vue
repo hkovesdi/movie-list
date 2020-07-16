@@ -1,13 +1,6 @@
 <template>
   <div>
-    <v-list-item
-      v-for="item in items"
-      :key="item.text"
-      :to="item.to"
-      link
-      exact
-      @click="item.dispatch !== undefined ? $store.dispatch(item.dispatch) : ''"
-    >
+    <v-list-item v-for="item in items" :key="item.text" :to="item.to" :class="matchWithOrWithoutQuery(item.to)" link exact>
       <v-list-item-icon>
         <v-icon>{{ item.icon.code }}</v-icon>
       </v-list-item-icon>
@@ -26,6 +19,11 @@ export default {
     items: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    matchWithOrWithoutQuery(path) {
+      return this.$route.path === path ? 'v-list-item--active' : ''
     }
   }
 }
