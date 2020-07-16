@@ -68,6 +68,8 @@ const actions = {
     }
   },
   async logout({ dispatch }) {
+    dispatch('setAll', { id: null, username: null, email: null, avatar: null })
+
     await graphqlClient.mutate({
       mutation: gql`
         mutation logoutMut {
@@ -77,8 +79,6 @@ const actions = {
         }
       `
     })
-
-    dispatch('setAll', { id: null, username: null, email: null, avatar: null })
   }
 }
 
