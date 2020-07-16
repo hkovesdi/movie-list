@@ -84,14 +84,14 @@ export default {
       return this.$store.state.user
     },
     loggedIn() {
-      return this.user.id !== null
+      return this.$store.getters['user/isAuthenticated']
     },
     userItems() {
       return [
         { text: 'Profile', to: `/user/${this.user.name}`, icon: { code: 'mdi-view-dashboard' } },
         { text: 'My List', to: `/user/${this.user.name}/list`, icon: { code: 'mdi-view-list' } },
         { text: 'Friends', to: '/friends', icon: { code: 'mdi-account-multiple' } },
-        { text: 'Sign Out', to: '/', dispatch: 'user/logout', icon: { code: 'mdi-logout' } }
+        { text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }
       ]
     }
   },
