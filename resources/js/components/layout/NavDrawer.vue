@@ -91,7 +91,7 @@ export default {
         { text: 'Profile', to: `/user/${this.user.name}`, icon: { code: 'mdi-view-dashboard' } },
         { text: 'My List', to: `/user/${this.user.name}/list`, icon: { code: 'mdi-view-list' } },
         { text: 'Friends', to: '/friends', icon: { code: 'mdi-account-multiple' } },
-        { text: 'Sign Out', dispatch: 'user/logout', icon: { code: 'mdi-logout' } }
+        { text: 'Sign Out', to: '/', dispatch: 'user/logout', icon: { code: 'mdi-logout' } }
       ]
     }
   },

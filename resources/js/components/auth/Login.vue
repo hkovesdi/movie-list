@@ -13,8 +13,9 @@ export default {
     password: ''
   }),
   methods: {
-    login() {
-      this.$store.dispatch('user/login', { username: this.username, password: this.password })
+    async login() {
+      await this.$store.dispatch('user/login', { username: this.username, password: this.password })
+      this.$router.push(this.$route.query.redirectFrom || '/')
     }
   }
 }
