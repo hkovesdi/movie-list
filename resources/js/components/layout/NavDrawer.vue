@@ -69,8 +69,13 @@ export default {
     ]
   }),
   computed: {
-    drawerExpanded() {
-      return this.$store.state.navigation.drawer.expanded
+    drawerExpanded: {
+      get() {
+        return this.$store.state.navigation.drawer.expanded
+      },
+      set(val) {
+        this.$store.commit('navigation/setDrawerExpanded', val)
+      }
     },
     drawerModel: {
       get() {
@@ -95,9 +100,14 @@ export default {
       ]
     }
   },
+  created() {
+    // Load in drawer expansion preference from localstorage
+    this.drawerExpanded = localStorage.getItem('drawerExpanded') === 'false'
+  },
   methods: {
     toggleDrawerExpansion() {
-      this.$store.commit('navigation/setDrawerExpanded', !this.drawerExpanded)
+      this.drawerExpanded = !this.drawerExpanded
+      localStorage.setItem('drawerExpanded', !this.drawerExpanded)
     }
   }
 }
