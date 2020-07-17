@@ -36,7 +36,7 @@ const actions = {
     commit('setId', id)
     commit('setName', username)
     commit('setEmail', email)
-    commit('setAvatar', avatar || 'https://avatars0.githubusercontent.com/u/9366854?s=460&u=1db396607010e12ed52eae2ad75384fad9ae8391&v=4')
+    commit('setAvatar', avatar || 'https://hjklhjklhjkjlhjkljkljklllkjljkljkhllljkljkljhklkjlkjjlkljk.s3.amazonaws.com/logo.png')
   },
   async setOnFirstLoad({ dispatch }, user) {
     if (user !== null && user !== undefined && user !== '') {
