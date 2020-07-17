@@ -1,29 +1,36 @@
 <template>
   <v-navigation-drawer
     v-model="drawerModel"
-    width="275"
     :mini-variant="windowWidthAboveBreakpoint('xs') && !drawerExpanded"
     :permanent="windowWidthAboveBreakpoint('xs')"
     clipped
     app
   >
-    <v-list subheader>
-      <v-list-group v-if="loggedIn" value="true">
+    <v-list subheader class="pb-0">
+      <v-list-group v-if="loggedIn" id="user-section">
         <template v-slot:prependIcon>
-          <v-avatar class="user-icon" :size="drawerExpanded ? '48' : '24'">
+          <v-avatar :class="drawerExpanded ? 'mt-2' : ''" class="user-icon" :size="drawerExpanded ? '116' : '36'">
             <v-img :src="user.avatar || defaultAvatar" />
           </v-avatar>
         </template>
-        <template v-slot:activator>
+        <template v-if="drawerExpanded" v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
-            <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+            <v-list-item-title class="title text--primary text-h5 font-weight-bold">{{ user.name }}</v-list-item-title>
+            <v-list-item-subtitle class="subtitle pt-1">16 movies to watch</v-list-item-subtitle>
           </v-list-item-content>
         </template>
-        <NavDrawerItemList :items="userItems" />
+        <template v-if="drawerExpanded" v-slot:appendIcon>
+          <v-icon class="text--primary">mdi-chevron-down</v-icon>
+        </template>
+        <NavDrawerItemList :items="userMenuItems" />
       </v-list-group>
-      <NavDrawerItemList v-else :items="notLoggedInItems" />
-      <v-divider></v-divider>
+      <v-divider />
+    </v-list>
+    <v-list subheader>
+      <NavDrawerItemList v-if="!loggedIn" :items="notLoggedInItems" />
+      <v-divider v-if="!loggedIn" />
+      <NavDrawerItemList v-if="loggedIn" :items="userItems" />
+      <v-divider v-if="loggedIn" />
       <NavDrawerItemList :items="navItems" />
     </v-list>
     <template v-slot:append>
@@ -66,7 +73,8 @@ export default {
     navItems: [
       { text: 'Home', to: '/', icon: { code: 'mdi-home' } },
       { text: 'Top Movies', to: '/top', icon: { code: 'mdi-star' } }
-    ]
+    ],
+    userMenuItems: [{ text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }]
   }),
   computed: {
     drawerExpanded: {
@@ -95,8 +103,7 @@ export default {
       return [
         { text: 'Profile', to: `/user/${this.user.name}`, icon: { code: 'mdi-view-dashboard' } },
         { text: 'My List', to: `/user/${this.user.name}/list`, icon: { code: 'mdi-view-list' } },
-        { text: 'Friends', to: '/friends', icon: { code: 'mdi-account-multiple' } },
-        { text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }
+        { text: 'Friends', to: '/friends', icon: { code: 'mdi-account-multiple' } }
       ]
     }
   },
@@ -121,9 +128,38 @@ export default {
   transition: transform 0.3s;
 }
 .user-icon {
-  transition: all 0.2s;
+  transition: all 0.225s;
 }
 .v-list-item__icon.v-list-group__header__prepend-icon {
   margin-right: 0 !important;
+}
+</style>
+
+<style lang="scss">
+#user-section {
+  .v-list-group__header {
+    flex-direction: column;
+    min-height: 0px;
+
+    .v-list-group__header__prepend-icon {
+      align-self: center;
+      margin-right: 0px;
+
+      .user-icon {
+        border-radius: 500px;
+        -webkit-border-radius: 500px;
+        -moz-border-radius: 500px;
+      }
+    }
+    .v-list-item__content {
+      flex-direction: column;
+      padding-top: 0px;
+    }
+    .v-list-group__header__append-icon {
+      justify-content: center;
+      padding-top: 4px;
+      padding-bottom: 8px;
+    }
+  }
 }
 </style>
