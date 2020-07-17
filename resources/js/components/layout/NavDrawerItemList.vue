@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-list-item v-for="item in items" :key="item.text" :to="item.to" :class="matchWithOrWithoutQuery(item.to)" link exact>
+    <v-list-item v-for="item in items" :key="item.text" :to="item.to" :class="matchWithOrWithoutQuery(item.to)" link exact color="primary">
       <v-list-item-icon>
         <v-icon>{{ item.icon.code }}</v-icon>
       </v-list-item-icon>
