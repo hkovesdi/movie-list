@@ -17,15 +17,12 @@ const authenticatedIs = (state, redirectRoute, toQuery) => (to, _from, next) => 
   }
 }
 const notAuthRedirectToLogin = authenticatedIs(false, '/login', true)
-const authRedirectToHome = authenticatedIs(true, '/', false)
 
 export default new VueRouter({
   routes: [
     { path: '/user/:name/list', component: () => import('./components/user/name/List') },
     { path: '/user/:name', component: () => import('./components/user/name/Index') },
     { path: '/top', component: () => import('./components/TopMovies') },
-    { path: '/register', component: () => import('./components/auth/Register'), beforeEnter: authRedirectToHome },
-    { path: '/login', component: () => import('./components/auth/Login'), beforeEnter: authRedirectToHome },
     { path: '/friends', component: () => import('./components/Friends'), beforeEnter: notAuthRedirectToLogin },
     {
       path: '/signout',

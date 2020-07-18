@@ -18,32 +18,28 @@
 
       <NavDrawerItemList :items="userMenuItems" />
     </v-list-group>
-    <NavDrawerItemList v-if="!loggedIn" :items="notLoggedInItems" />
+    <!-- Login / Register -->
+    <RegisterModalLink />
+    <LoginModalLink />
     <v-divider v-if="loggedIn" />
     <NavDrawerItemList v-if="loggedIn" :items="userItems" />
   </v-list>
 </template>
 
 <script>
-import widthBreakpoint from '../mixins/widthbreakpoint.js'
 import NavDrawerItemList from './NavDrawerItemList.vue'
+import RegisterModalLink from './modals/RegisterModalLink.vue'
+import LoginModalLink from './modals/LoginModalLink.vue'
 export default {
   components: {
-    NavDrawerItemList
+    NavDrawerItemList,
+    RegisterModalLink,
+    LoginModalLink
   },
-  mixins: [widthBreakpoint],
   data: () => ({
+    registerModal: false,
+    loginModal: false,
     defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
-    notLoggedInItems: [
-      {
-        text: 'Register',
-        to: '/register',
-        icon: {
-          code: 'mdi-account-plus'
-        }
-      },
-      { text: 'Log in', to: '/login', icon: { code: 'mdi-login' } }
-    ],
     userMenuItems: [{ text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }]
   }),
   computed: {
@@ -74,6 +70,7 @@ export default {
 
 <style lang="scss">
 #user-section {
+  background-color: #fafafa;
   .v-list-group__header {
     flex-direction: column;
     min-height: 0px;

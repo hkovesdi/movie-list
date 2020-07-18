@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <NavDrawer />
     <AppBar />
+    <NavDrawer />
 
     <v-main>
-      <v-container>
+      <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-main>
