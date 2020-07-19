@@ -22,7 +22,7 @@ extend type Mutation @guard{
 
 type Query {
   users: [User!]! @paginate(defaultCount: 10)
-  user(id: ID @eq): User @find
+  user(searchString: String! searchField: UserSearchField!): User
   me: User @auth @guard
 
   movies: [Movie!]! @paginate(defaultCount: 10)
@@ -69,6 +69,12 @@ input UpdateMyMovieListInput {
   date_watched: Date
   times_rewatched: Int
   comment: String
+}
+
+enum UserSearchField {
+  ID
+  USERNAME
+  EMAIL
 }
 
 type LoginResponse {
