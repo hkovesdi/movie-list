@@ -18,9 +18,29 @@
 
       <NavDrawerItemList :items="userMenuItems" />
     </v-list-group>
-    <!-- Login / Register -->
-    <RegisterModalLink />
-    <LoginModalLink />
+    <template v-if="!loggedIn">
+      <v-list-item link color="primary" @click.stop="$store.commit('modals/setRegisterEnabled', true)">
+        <v-list-item-icon>
+          <v-icon>mdi-account-plus</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            Register
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item link color="primary" @click.stop="$store.commit('modals/setLoginEnabled', true)">
+        <v-list-item-icon>
+          <v-icon>mdi-login</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            Login
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </template>
+
     <v-divider v-if="loggedIn" />
     <NavDrawerItemList v-if="loggedIn" :items="userItems" />
   </v-list>
@@ -28,17 +48,11 @@
 
 <script>
 import NavDrawerItemList from './NavDrawerItemList.vue'
-import RegisterModalLink from './modals/RegisterModalLink.vue'
-import LoginModalLink from './modals/LoginModalLink.vue'
 export default {
   components: {
-    NavDrawerItemList,
-    RegisterModalLink,
-    LoginModalLink
+    NavDrawerItemList
   },
   data: () => ({
-    registerModal: false,
-    loginModal: false,
     defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
     userMenuItems: [{ text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }]
   }),

@@ -1,0 +1,82 @@
+<template>
+  <v-dialog v-model="state" :fullscreen="!windowWidthAboveBreakpoint('xs')" persistent max-width="600" transition="dialog-bottom-transition">
+    <v-card tile>
+      <v-toolbar dark color="primary">
+        <v-btn icon @click="state = false">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>Register</v-toolbar-title>
+      </v-toolbar>
+      <v-stepper v-show="windowWidthAboveBreakpoint('sm')" v-model="currentStep" alt-labels>
+        <v-stepper-header class="elevation-0">
+          <v-stepper-step :complete="currentStep > 1" step="1">{{ steps.text1 }}</v-stepper-step>
+          <v-divider></v-divider>
+          <v-stepper-step :complete="currentStep > 2" step="2">{{ steps.text2 }}</v-stepper-step>
+          <v-divider></v-divider>
+          <v-stepper-step step="3">{{ steps.text3 }}</v-stepper-step>
+        </v-stepper-header>
+        <v-stepper-items>
+          <RegisterStep1Basic class="pt-3" />
+          <RegisterStep2Personal class="pt-3" />
+          <RegisterStep3Preview class="pt-3" />
+        </v-stepper-items>
+      </v-stepper>
+      <v-stepper
+        v-show="!windowWidthAboveBreakpoint('sm')"
+        v-model="currentStep"
+        :class="!windowWidthAboveBreakpoint('xs') ? 'elevation-0' : ''"
+        vertical
+      >
+        <v-stepper-step :complete="currentStep > 1" step="1">{{ steps.text1 }}</v-stepper-step>
+        <RegisterStep1Basic />
+
+        <v-stepper-step :complete="currentStep > 2" step="2">{{ steps.text2 }}</v-stepper-step>
+        <RegisterStep2Personal />
+
+        <v-stepper-step :complete="currentStep > 3" step="3">{{ steps.text3 }}</v-stepper-step>
+        <RegisterStep3Preview />
+      </v-stepper>
+    </v-card>
+  </v-dialog>
+</template>
+
+<script>
+import widthBreakpoint from '../../mixins/widthbreakpoint.js'
+import RegisterStep1Basic from './RegisterStep1Basic'
+import RegisterStep2Personal from './RegisterStep2Personal'
+import RegisterStep3Preview from './RegisterStep3Preview'
+export default {
+  components: {
+    RegisterStep1Basic,
+    RegisterStep2Personal,
+    RegisterStep3Preview
+  },
+  mixins: [widthBreakpoint],
+  data: () => ({
+    steps: {
+      text1: 'Basic information',
+      text2: 'Personalization',
+      text3: 'Preview'
+    }
+  }),
+  computed: {
+    state: {
+      get() {
+        return this.$store.state.modals.register.enabled
+      },
+      set(val) {
+        this.$store.commit('modals/setRegisterEnabled', val)
+      }
+    },
+    currentStep() {
+      return this.$store.state.modals.register.currentStep
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.v-dialog {
+  margin: 0 !important;
+}
+</style>

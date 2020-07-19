@@ -4,6 +4,7 @@ import window from './modules/window'
 import navigation from './modules/navigation'
 import user from './modules/user'
 import movies from './modules/movies'
+import modals from './modules/modals'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     window,
     navigation,
     user,
-    movies
+    movies,
+    modals
   }
 })

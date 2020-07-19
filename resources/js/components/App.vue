@@ -3,6 +3,10 @@
     <AppBar />
     <NavDrawer />
 
+    <!-- Modals -->
+    <Login />
+    <Register />
+
     <v-main>
       <v-container fluid>
         <router-view></router-view>
@@ -14,10 +18,14 @@
 <script>
 import AppBar from './layout/AppBar.vue'
 import NavDrawer from './layout/NavDrawer.vue'
+import Login from './layout/modals/Login.vue'
+import Register from './layout/modals/Register.vue'
 export default {
   components: {
     AppBar,
-    NavDrawer
+    NavDrawer,
+    Login,
+    Register
   },
   mounted() {
     let resizeHandler = () => {
