@@ -44,4 +44,25 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\UserMovie');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function incomingFriendRequests() {
+        return $this->hasMany('App\FriendRequest', 'receiver_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function outgoingFriendRequests() {
+        return $this->hasMany('App\FriendRequest', 'sender_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function friends() {
+        return $this->incomingFriendRequests()->where('accepted', 1)->sender()->get()->merge($this->outgoingFriendRequests()->where('accepted', 1)->receiver()->get());
+    }
 }
