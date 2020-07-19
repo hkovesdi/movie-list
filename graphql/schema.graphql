@@ -17,6 +17,7 @@ extend type Mutation @guard{
   logout: GenericResponse!
   addToMyMovieList(input: AddToMyMovieListInput @spread): UserMovie! @addToMyMovieListValidation
   updateMyMovieList(movie_id: ID! input: UpdateMyMovieListInput @spread): UserMovie! @updateMyMovieListValidation
+  deleteFromMyMovieList(movie_id: ID!): UserMovie @deleteFromMyMovieListValidation
 }
 
 type Query {
