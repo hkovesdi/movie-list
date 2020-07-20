@@ -3,6 +3,7 @@
     v-model="drawerModel"
     :mini-variant="windowWidthAboveBreakpoint('xs') && !drawerExpanded"
     :permanent="windowWidthAboveBreakpoint('xs')"
+    width="225"
     clipped
     app
   >
