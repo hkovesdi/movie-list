@@ -4,7 +4,7 @@
       <v-card-text>
         <v-text-field
           v-model="username"
-          :rules="[rules.minimumChars(3), rules.maximumChars(10), rules.noSpaces]"
+          :rules="[rules.minimumChars(3), rules.maximumChars(10), rules.noSpaces, rules.onlyURLSafe]"
           type="text"
           label="Username"
           outlined
@@ -67,6 +67,9 @@ export default {
       },
       passwordMatch(to) {
         return (v) => (!!v && v) === (to || '') || 'Passwords do not match'
+      },
+      onlyURLSafe(v) {
+        return /^[a-zA-Z0-9_-]*$/.test(v || '') || 'You cannot use special characters'
       }
     }
   }),
