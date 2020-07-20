@@ -8,9 +8,9 @@
         <v-file-input
           v-model="avatar"
           :rules="fileRules"
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpeg, image/bmp"
           prepend-icon=""
-          hint="Maximum size: 10MB"
+          hint="Maximum size: 2MB"
           persistent-hint
           label="Avatar"
           outlined
@@ -35,7 +35,7 @@ export default {
   data: () => ({
     defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
     bioMaximumChars: 50,
-    fileRules: [(value) => !value || value.size < 10000000 || 'Avatar size should be less than 10 MB!']
+    fileRules: [(value) => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!']
   }),
   computed: {
     bioRule() {
