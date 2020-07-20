@@ -55,7 +55,7 @@ type Query {
 
 input RegisterInput {
   username: String! @rules(apply: ["required", "min:3", "max:14", "unique:users,username"])
-  email: String! @rules(apply: ["required", "email", "unique:users,email"])
+  email: Email! @rules(apply: ["required", "email", "unique:users,email"])
   confirm_password: String! @rules(apply: ["required", "same:input.password"]) @hash
   password: String! @rules(apply: ["required", "min:10", "not_regex:/\\s/"], messages: {not_regex: "The password must not contain any spaces!"}) @hash
 }
