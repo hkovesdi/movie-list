@@ -8,8 +8,9 @@
           type="text"
           label="Username"
           outlined
+          autofocus
         ></v-text-field>
-        <v-text-field v-model="email" :rules="[rules.validEmail]" type="email" label="Email" outlined autofocus></v-text-field>
+        <v-text-field v-model="email" :rules="[rules.validEmail]" type="email" label="Email" outlined></v-text-field>
         <v-text-field
           v-model="password"
           :rules="[rules.minimumChars(10), rules.maximumChars(30), rules.noSpaces]"

@@ -12,13 +12,10 @@
           <v-stepper-step :complete="currentStep > 1" step="1">{{ steps.text1 }}</v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step :complete="currentStep > 2" step="2">{{ steps.text2 }}</v-stepper-step>
-          <v-divider></v-divider>
-          <v-stepper-step step="3">{{ steps.text3 }}</v-stepper-step>
         </v-stepper-header>
         <v-stepper-items>
           <RegisterStep1Basic class="pt-3" />
           <RegisterStep2Personal class="pt-3" />
-          <RegisterStep3Preview class="pt-3" />
         </v-stepper-items>
       </v-stepper>
       <v-stepper
@@ -32,9 +29,6 @@
 
         <v-stepper-step :complete="currentStep > 2" step="2">{{ steps.text2 }}</v-stepper-step>
         <RegisterStep2Personal />
-
-        <v-stepper-step :complete="currentStep > 3" step="3">{{ steps.text3 }}</v-stepper-step>
-        <RegisterStep3Preview />
       </v-stepper>
     </v-card>
   </v-dialog>
@@ -44,12 +38,10 @@
 import widthBreakpoint from '../../mixins/widthbreakpoint.js'
 import RegisterStep1Basic from './RegisterStep1Basic'
 import RegisterStep2Personal from './RegisterStep2Personal'
-import RegisterStep3Preview from './RegisterStep3Preview'
 export default {
   components: {
     RegisterStep1Basic,
-    RegisterStep2Personal,
-    RegisterStep3Preview
+    RegisterStep2Personal
   },
   mixins: [widthBreakpoint],
   data: () => ({
