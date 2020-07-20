@@ -2,7 +2,8 @@ const state = () => ({
   drawer: {
     enabled: false,
     expanded: true
-  }
+  },
+  userMenuItems: [{ text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }]
 })
 
 const getters = {}

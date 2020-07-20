@@ -37,6 +37,30 @@
             </template>
             <span>Search</span>
           </v-tooltip>
+          <v-menu offset-y bottom transition="slide-y-transition">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="primary" icon dark v-bind="attrs" v-on="on">
+                <v-avatar size="32">
+                  <img :src="user.avatar || defaultAvatar" />
+                </v-avatar>
+              </v-btn>
+            </template>
+            <v-list v-if="loggedIn">
+              <v-list-item v-for="userMenuItem in $store.state.navigation.userMenuItems" :key="userMenuItem.text" :to="userMenuItem.to" link exact>
+                <v-list-item-icon>
+                  <v-icon>{{ userMenuItem.icon.code }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ userMenuItem.text }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+            <v-list v-else>
+              <LoginLogoutItems />
+            </v-list>
+          </v-menu>
         </v-col>
       </v-row>
     </v-container>
@@ -45,12 +69,23 @@
 
 <script>
 import widthBreakpoint from '../mixins/widthbreakpoint.js'
+import LoginLogoutItems from './LoginLogoutItems.vue'
 export default {
+  components: {
+    LoginLogoutItems
+  },
   mixins: [widthBreakpoint],
   data: () => ({
+    defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
     fullWidthSearch: false
   }),
   computed: {
+    user() {
+      return this.$store.state.user
+    },
+    loggedIn() {
+      return this.$store.getters['user/isAuthenticated']
+    },
     leftCol() {
       return this.calculateCols('3', '10', '0')
     },

@@ -1,44 +1,24 @@
 <template>
   <v-list subheader class="pb-0">
-    <v-list-group v-if="loggedIn" id="user-section">
+    <v-list-group v-if="loggedIn && windowWidthAboveBreakpoint('xs')" id="user-section">
       <template v-slot:prependIcon>
         <v-avatar :class="drawerExpanded ? 'mt-2' : ''" class="user-icon" :size="drawerExpanded ? '116' : '36'">
           <v-img :src="user.avatar || defaultAvatar" />
         </v-avatar>
       </template>
       <template v-if="drawerExpanded" v-slot:activator>
-        <v-list-item-content>
-          <v-list-item-title class="title text--primary text-h5 font-weight-bold">{{ user.name }}</v-list-item-title>
-          <v-list-item-subtitle class="subtitle pt-1">16 movies to watch</v-list-item-subtitle>
+        <v-list-item-content class="pb-2">
+          <v-list-item-title class="title text--primary text-h5">{{ user.name }}</v-list-item-title>
         </v-list-item-content>
       </template>
       <template v-if="drawerExpanded" v-slot:appendIcon>
         <v-icon class="text--primary">mdi-chevron-down</v-icon>
       </template>
 
-      <NavDrawerItemList :items="userMenuItems" />
+      <NavDrawerItemList :items="$store.state.navigation.userMenuItems" />
     </v-list-group>
-    <template v-if="!loggedIn">
-      <v-list-item link color="primary" @click.stop="$store.commit('modals/setRegisterEnabled', true)">
-        <v-list-item-icon>
-          <v-icon>mdi-account-plus</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Register
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item link color="primary" @click.stop="$store.commit('modals/setLoginEnabled', true)">
-        <v-list-item-icon>
-          <v-icon>mdi-login</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Login
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+    <template v-if="!loggedIn && windowWidthAboveBreakpoint('xs')">
+      <LoginLogoutItems />
     </template>
 
     <v-divider v-if="loggedIn" />
@@ -47,14 +27,17 @@
 </template>
 
 <script>
+import widthBreakpoint from '../mixins/widthbreakpoint.js'
 import NavDrawerItemList from './NavDrawerItemList.vue'
+import LoginLogoutItems from './LoginLogoutItems.vue'
 export default {
   components: {
-    NavDrawerItemList
+    NavDrawerItemList,
+    LoginLogoutItems
   },
+  mixins: [widthBreakpoint],
   data: () => ({
-    defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png',
-    userMenuItems: [{ text: 'Sign Out', to: '/signout', icon: { code: 'mdi-logout' } }]
+    defaultAvatar: 'https://user-images.githubusercontent.com/30195/34457818-8f7d8c76-ed82-11e7-8474-3825118a776d.png'
   }),
   computed: {
     drawerExpanded: {
@@ -84,7 +67,6 @@ export default {
 
 <style lang="scss">
 #user-section {
-  background-color: #fafafa;
   .v-list-group__header {
     flex-direction: column;
     min-height: 0px;
@@ -92,6 +74,7 @@ export default {
     .v-list-group__header__prepend-icon {
       align-self: center;
       margin-right: 0px;
+      margin-bottom: 16px;
 
       .user-icon {
         transition: all 0.225s;
