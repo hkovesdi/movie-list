@@ -1,9 +1,9 @@
 <template>
   <v-stepper-content step="2">
-    <v-card-text>
-      <v-form>
+    <v-form>
+      <v-card-text>
         <h4 class="mb-3 font-weight-light">These fields are optional, you can fill them out later.</h4>
-        <v-text-field v-model="bio" label="Bio" :rules="bioRule" :counter="bioMaximumChars" outlined></v-text-field>
+        <v-text-field v-model="bio" label="Bio" :rules="bioRule" :counter="bioMaximumChars" outlined autofocus></v-text-field>
 
         <v-file-input
           v-model="avatar"
@@ -20,13 +20,13 @@
             <v-avatar size="24"><v-img :src="$store.getters['modals/avatarURL'] || defaultAvatar" /></v-avatar>
           </template>
         </v-file-input>
-      </v-form>
-    </v-card-text>
+      </v-card-text>
 
-    <div class="float-right">
-      <v-btn text @click="currentStep = 1">Back</v-btn>
-      <v-btn color="primary" @click="currentStep = 3">Continue</v-btn>
-    </div>
+      <div class="float-right">
+        <v-btn text @click="currentStep = 1">Back</v-btn>
+        <v-btn type="submit" color="primary" @click.prevent="currentStep = 3">Continue</v-btn>
+      </div>
+    </v-form>
   </v-stepper-content>
 </template>
 
@@ -59,7 +59,7 @@ export default {
     },
     avatar: {
       get() {
-        return this.$store.state.modals.register.step2.avatar
+        return this.$store.state.modals.register.step2.avatarFile
       },
       set(val) {
         this.$store.commit('modals/setRegisterAvatar', val)

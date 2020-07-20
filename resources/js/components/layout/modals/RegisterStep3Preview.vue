@@ -14,7 +14,7 @@
 
     <div class="float-right">
       <v-btn text @click="currentStep = 2">Back</v-btn>
-      <v-btn color="primary" @click="currentStep = 1">Register</v-btn>
+      <v-btn color="primary" @click="register">Register</v-btn>
     </div>
   </v-stepper-content>
 </template>
@@ -32,6 +32,25 @@ export default {
       set(val) {
         this.$store.commit('modals/setRegisterCurrentStep', val)
       }
+    }
+  },
+  methods: {
+    async register() {
+      if (this.loading) return
+      this.disabled = true
+      this.loading = true
+      await this.$store.dispatch('user/register', {
+        ...this.$store.state.modals.register.step1,
+        bio: this.$store.state.modals.register.step2.bio,
+        avatar: this.$store.getters['modals/avatarURL']
+      })
+      this.loading = false
+      this.$store.state.modals.register.enabled = false
+      this.resetState()
+    },
+    resetState() {
+      this.$store.dispatch('modals/resetRegisterState')
+      this.currentStep = 1
     }
   }
 }

@@ -6,6 +6,7 @@ const state = () => ({
   id: null,
   name: null,
   email: null,
+  bio: null,
   avatar: null
 })
 
@@ -26,17 +27,21 @@ const mutations = {
   setEmail(state, newEmail) {
     state.email = newEmail
   },
+  setBio(state, newBio) {
+    state.bio = newBio
+  },
   setAvatar(state, newAvatar) {
     state.avatar = newAvatar
   }
 }
 
 const actions = {
-  setAll({ commit }, { id, username, email, avatar }) {
+  setAll({ commit }, { id, username, email, avatar, bio }) {
     commit('setId', id)
     commit('setName', username)
     commit('setEmail', email)
-    commit('setAvatar', avatar || 'https://hjklhjklhjkjlhjkljkljklllkjljkljkhllljkljkljhklkjlkjjlkljk.s3.amazonaws.com/logo.png')
+    commit('setBio', bio)
+    commit('setAvatar', avatar)
   },
   async setOnFirstLoad({ dispatch }, user) {
     if (user !== null && user !== undefined && user !== '') {
@@ -44,6 +49,8 @@ const actions = {
     }
   },
   async login({ dispatch }, { username, password }) {
+    // Bypass GraphQL for now
+    /*
     const response = await graphqlClient.mutate({
       mutation: gql`
         mutation loginMut($username: String!, $password: String!) {
@@ -65,7 +72,10 @@ const actions = {
     if (response.data.login.message === 'Sucessfully logged in!') {
       const { id, email } = response.data.login.user
       dispatch('setAll', { id, username, email })
-    }
+    }*/
+  },
+  async register({ dispatch }, { username, email, password, bio, avatar }) {
+    dispatch('setAll', { id: 0, username, email, bio, avatar })
   },
   async logout({ dispatch }) {
     dispatch('setAll', { id: null, username: null, email: null, avatar: null })

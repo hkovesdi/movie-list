@@ -1,15 +1,15 @@
 <template>
   <v-stepper-content step="1">
-    <v-card-text>
-      <v-form v-model="valid">
-        <v-text-field v-model="email" :rules="[rules.validEmail]" type="email" label="Email" outlined></v-text-field>
+    <v-form v-model="valid">
+      <v-card-text>
         <v-text-field
           v-model="username"
-          :rules="[rules.minimumChars(3), rules.maximumChars(14), rules.noSpaces]"
+          :rules="[rules.minimumChars(3), rules.maximumChars(10), rules.noSpaces]"
           type="text"
           label="Username"
           outlined
         ></v-text-field>
+        <v-text-field v-model="email" :rules="[rules.validEmail]" type="email" label="Email" outlined autofocus></v-text-field>
         <v-text-field
           v-model="password"
           :rules="[rules.minimumChars(10), rules.maximumChars(30), rules.noSpaces]"
@@ -36,12 +36,12 @@
             ></v-icon>
           </template>
         </v-text-field>
-      </v-form>
-    </v-card-text>
-    <div class="float-right">
-      <v-btn text @click="state = false">Cancel</v-btn>
-      <v-btn :disabled="!valid" color="primary" @click="currentStep = 2">Continue</v-btn>
-    </div>
+      </v-card-text>
+      <div class="float-right">
+        <v-btn text @click="state = false">Cancel</v-btn>
+        <v-btn type="submit" :disabled="!valid" color="primary" @click.prevent="currentStep = 2">Continue</v-btn>
+      </div>
+    </v-form>
   </v-stepper-content>
 </template>
 

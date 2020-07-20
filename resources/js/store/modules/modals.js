@@ -10,9 +10,8 @@ const state = () => ({
     },
     step2: {
       bio: '',
-      avatar: undefined
-    },
-    step3: {}
+      avatarFile: undefined
+    }
   },
   login: {
     enabled: false
@@ -21,7 +20,7 @@ const state = () => ({
 
 const getters = {
   avatarURL(state) {
-    return window && state.register.step2.avatar ? window.URL.createObjectURL(state.register.step2.avatar) : ''
+    return window && state.register.step2.avatarFile instanceof File ? window.URL.createObjectURL(state.register.step2.avatarFile) : ''
   }
 }
 
@@ -48,14 +47,23 @@ const mutations = {
     state.register.step2.bio = val
   },
   setRegisterAvatar(state, val) {
-    state.register.step2.avatar = val
+    state.register.step2.avatarFile = val
   },
   setLoginEnabled(state, val) {
     state.login.enabled = val
   }
 }
 
-const actions = {}
+const actions = {
+  resetRegisterState({ commit }) {
+    commit('setRegisterEmail', '')
+    commit('setRegisterUsername', '')
+    commit('setRegisterPassword', '')
+    commit('setRegisterPasswordConfirm', '')
+    commit('setRegisterBio', '')
+    commit('setRegisterAvatar', undefined)
+  }
+}
 
 export default {
   namespaced: true,
