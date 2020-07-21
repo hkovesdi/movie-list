@@ -1,6 +1,7 @@
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { createUploadLink } from 'apollo-upload-client'
 import Cookies from 'js-cookie'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
@@ -8,7 +9,7 @@ import VueApollo from 'vue-apollo'
 Vue.use(VueApollo)
 
 // HTTP connection to the API
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
   // You should use an absolute URL here
   uri: `${process.env.MIX_APP_URL}/graphql`,
   headers: {
