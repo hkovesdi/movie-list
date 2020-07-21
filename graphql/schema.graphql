@@ -18,7 +18,7 @@ scalar Mixed @scalar(class: "MLL\\GraphQLScalars\\Mixed")
 
 type Mutation {
   login(username: String!, password: String!): LoginResponse!
-  register(input: RegisterInput! @spread): User! @create
+  register(input: RegisterInput! @spread): User!
 
 }
 
@@ -100,6 +100,7 @@ type User {
   id: ID!
   username: String!
   email: String!
+  avatar: String
   created_at: DateTime!
   updated_at: DateTime!
   userMovies: [UserMovie] @hasMany

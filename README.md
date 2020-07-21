@@ -51,9 +51,11 @@ Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop 'Docke
 
 6. Generate your application key with `php artisan key:generate`
 
-7. Run the migrations with `php artisan migrate`
+7. Create a symbolic link from `public/storage` to `storage/app/public` with: `php artisan storage:link`
 
-8. Well done! Visit `http://localhost`
+8. Run the migrations with `php artisan migrate`
+
+9. Well done! Visit `http://localhost`
 
 #### Full list of build commands
 
