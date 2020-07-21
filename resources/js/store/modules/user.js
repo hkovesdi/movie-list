@@ -74,8 +74,56 @@ const actions = {
       dispatch('setAll', { id, username, email })
     }*/
   },
-  async register({ dispatch }, { username, email, password, bio, avatar }) {
-    dispatch('setAll', { id: 0, username, email, bio, avatar })
+  async register({ dispatch }, { username, email, password, passwordConfirm, bio, avatar }) {
+    return graphqlClient
+      .mutate({
+        mutation: gql`
+          mutation registerMut($username: String!, $password: String!, $confirm_password: String!, $email: Email!, $bio: String, $avatar: Upload) {
+            register(
+              input: { username: $username, password: $password, confirm_password: $confirm_password, email: $email, bio: $bio, avatar: $avatar }
+            ) {
+              id
+              username
+              email
+              bio
+              avatar
+            }
+          }
+        `,
+        variables: {
+          username: username,
+          password: password,
+          confirm_password: passwordConfirm,
+          email: email,
+          bio: bio,
+          avatar: avatar
+        },
+        errorPolicy: 'all',
+        context: {
+          hasUpload: true
+        }
+      })
+      .catch((resp) => {
+        console.log('Internal server error')
+        console.log(resp)
+      })
+      .then((resp) => {
+        if (resp.errors) {
+          console.log('err')
+          console.log(resp)
+          if (resp.errors[0].extensions.category === 'validation') {
+            Object.values(resp.errors[0].extensions.validation).forEach((errors) => {
+              errors.forEach((error) => {
+                console.log(error.replace('input.', ''))
+              })
+            })
+          }
+        } else {
+          console.log('succ')
+          console.log(resp)
+          dispatch('setAll', resp.data.register)
+        }
+      })
   },
   async logout({ dispatch }) {
     dispatch('setAll', { id: null, username: null, email: null, avatar: null })

@@ -24,7 +24,7 @@
 
       <div class="float-right">
         <v-btn text @click="currentStep = 1">Back</v-btn>
-        <v-btn type="submit" color="primary" @click.prevent="register">Create account</v-btn>
+        <v-btn type="submit" color="primary" @click="register">Create account</v-btn>
       </div>
     </v-form>
   </v-stepper-content>
@@ -71,10 +71,10 @@ export default {
       if (this.loading) return
       this.disabled = true
       this.loading = true
-      await this.$store.dispatch('user/register', {
+      this.$store.dispatch('user/register', {
         ...this.$store.state.modals.register.step1,
-        bio: this.$store.state.modals.register.step2.bio,
-        avatar: this.$store.getters['modals/avatarURL']
+        bio: this.bio,
+        avatar: this.avatar
       })
       this.loading = false
       this.$store.state.modals.register.enabled = false
