@@ -59,6 +59,7 @@ type Query {
 input RegisterInput {
   username: String! @rules(apply: ["required", "min:3", "max:10", "unique:users,username"])
   email: Email! @rules(apply: ["required", "email", "unique:users,email"])
+  bio: String @rules(apply: ["sometimes", "string", "max:50"])
   avatar: Upload @rules(apply: ["sometimes", "mimes:jpg,svg,jpeg,bmp,png", "max:2000"])
   confirm_password: String! @rules(apply: ["required", "same:input.password"]) @hash
   password: String! @rules(apply: ["required", "min:10", "not_regex:/\\s/"], messages: {not_regex: "The password must not contain any spaces!"}) @hash
@@ -100,6 +101,7 @@ type User {
   id: ID!
   username: String!
   email: String!
+  bio: String
   avatar: String
   created_at: DateTime!
   updated_at: DateTime!

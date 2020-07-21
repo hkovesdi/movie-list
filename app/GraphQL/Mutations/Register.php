@@ -17,9 +17,11 @@ class Register
             'username',
             'email',
             'password',
+            'bio'
         ]);
-
-        $data['avatar'] = Storage::url($args['avatar']->storePublicly('public/avatars'));
+        
+        if(Arr::exists($args, 'avatar'))
+            $data['avatar'] = Storage::url($args['avatar']->storePublicly('public/avatars'));
 
         return \App\User::create($data);
     }
