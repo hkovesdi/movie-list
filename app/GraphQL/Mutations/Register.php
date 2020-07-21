@@ -3,7 +3,9 @@
 namespace App\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Storage;
+Use Illuminate\Support\Facades\Auth;
 use Arr;
+use Illuminate\Support\Facades\Hash;
 
 class Register
 {
@@ -19,10 +21,18 @@ class Register
             'password',
             'bio'
         ]);
+
+        $credentials = Arr::only($args, ['username', 'password']);
+
+        $data['password'] = Hash::make($data['password']);
         
         if(Arr::exists($args, 'avatar'))
             $data['avatar'] = Storage::url($args['avatar']->storePublicly('public/avatars'));
 
-        return \App\User::create($data);
+        $user = \App\User::create($data);
+        
+        Auth::guard("web")->attempt($credentials));
+
+        return $user;
     }
 }
