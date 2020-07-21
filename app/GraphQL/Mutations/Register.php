@@ -31,7 +31,7 @@ class Register
 
         $user = \App\User::create($data);
         
-        Auth::guard("web")->attempt($credentials));
+        Auth::guard("web")->attempt($credentials);
 
         return $user;
     }
