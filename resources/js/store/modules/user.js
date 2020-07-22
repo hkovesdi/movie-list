@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import apolloObject from '../../plugins/vue-apollo'
+import { handleGQLResponse } from '../../helpers'
 const graphqlClient = apolloObject.defaultClient
 
 const state = () => ({
@@ -49,30 +50,35 @@ const actions = {
     }
   },
   async login({ dispatch }, { username, password }) {
-    // Bypass GraphQL for now
-    /*
-    const response = await graphqlClient.mutate({
-      mutation: gql`
-        mutation loginMut($username: String!, $password: String!) {
-          login(username: $username, password: $password) {
-            message
-            user {
+    return graphqlClient
+      .mutate({
+        mutation: gql`
+          mutation loginMut($username: String!, $password: String!) {
+            login(username: $username, password: $password) {
               id
+              username
               email
+              bio
+              avatar
             }
           }
-        }
-      `,
-      variables: {
-        username,
-        password
-      }
-    })
-
-    if (response.data.login.message === 'Sucessfully logged in!') {
-      const { id, email } = response.data.login.user
-      dispatch('setAll', { id, username, email })
-    }*/
+        `,
+        variables: {
+          username: username,
+          password: password
+        },
+        errorPolicy: 'all'
+      })
+      .catch((resp) => {
+        console.log('internal server error')
+        console.log(resp)
+      })
+      .then((resp) => {
+        handleGQLResponse(resp, () => {
+          if (resp.data.login) dispatch('setAll', resp.data.login)
+          else console.log('Invalid username or password')
+        })
+      })
   },
   async register({ dispatch }, { username, email, password, passwordConfirm, bio, avatar }) {
     return graphqlClient
@@ -108,21 +114,9 @@ const actions = {
         console.log(resp)
       })
       .then((resp) => {
-        if (resp.errors) {
-          console.log('err')
-          console.log(resp)
-          if (resp.errors[0].extensions.category === 'validation') {
-            Object.values(resp.errors[0].extensions.validation).forEach((errors) => {
-              errors.forEach((error) => {
-                console.log(error.replace('input.', ''))
-              })
-            })
-          }
-        } else {
-          console.log('succ')
-          console.log(resp)
+        handleGQLResponse(resp, () => {
           dispatch('setAll', resp.data.register)
-        }
+        })
       })
   },
   async logout({ dispatch }) {
