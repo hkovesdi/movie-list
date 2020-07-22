@@ -1,6 +1,6 @@
 <template>
   <v-stepper-content step="2">
-    <v-form>
+    <v-form @submit.prevent>
       <v-card-text>
         <h4 class="mb-3 font-weight-light">These fields are optional, you can fill them out later.</h4>
         <v-text-field v-model="bio" label="Bio" :rules="bioRule" :counter="bioMaximumChars" outlined autofocus></v-text-field>
@@ -73,7 +73,7 @@ export default {
       this.loading = true
       this.$store.dispatch('user/register', {
         ...this.$store.state.modals.register.step1,
-        bio: this.bio,
+        bio: this.bio || null,
         avatar: this.avatar
       })
       this.loading = false
