@@ -14,16 +14,9 @@ class Login
     public function __invoke($_, array $args)
     {
         $credentials = Arr::only($args, ['username', 'password']);
-        $loginPayload = array("message" => null, "user" => null);
 
-        if (Auth::guard("web")->attempt($credentials)) {
-            $loginPayload['message'] = 'Sucessfully logged in!';
-            $loginPayload['user'] = Auth::user()->toArray();
-        }
-        else {
-            $loginPayload['message'] = "Invalid username or password";
-        }
+        Auth::guard("web")->attempt($credentials);
         
-        return $loginPayload;
+        return Auth::user();
     }
 }
