@@ -34,7 +34,7 @@ type Query {
   user(searchString: Mixed! searchField: UserSearchField!): User
   me: User @auth @guard
 
-  movies: [Movie!]! @paginate(defaultCount: 10)
+  movies(title: String!): [Movie!]! @paginate(defaultCount: 10, builder: "App\\GraphQL\\Builders@movies")
   movie(id: ID @eq): Movie @find
 
   actors: [Actor] @paginate(defaultCount: 10)
