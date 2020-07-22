@@ -7,26 +7,16 @@
       <MovieShowcase />
     </div>
     <div>
-      <h1>
-        Highest rated
+      <h1 class="font-weight-black">
+        Highest Rated
       </h1>
-      <ul>
-        <li>Movie 1</li>
-        <li>Movie 2</li>
-        <li>Movie 3</li>
-        <li>Movie 4</li>
-      </ul>
+      <MovieShowcase />
     </div>
     <div>
-      <h1>
-        Really important category
+      <h1 class="font-weight-black">
+        Important category
       </h1>
-      <ul>
-        <li>Movie 1</li>
-        <li>Movie 2</li>
-        <li>Movie 3</li>
-        <li>Movie 4</li>
-      </ul>
+      <MovieShowcase />
     </div>
   </div>
 </template>
