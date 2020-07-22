@@ -17,11 +17,15 @@
       <v-alert v-for="errorMessage in $store.state.modals.register.errors" :key="errorMessage" type="error" tile class="ma-0">
         {{ errorMessage }}
       </v-alert>
-      <v-stepper v-show="windowWidthAboveBreakpoint('sm')" v-model="currentStep" alt-labels>
+      <v-stepper v-show="windowWidthAboveBreakpoint('sm')" v-model="currentStep">
         <v-stepper-header class="elevation-0">
-          <v-stepper-step :complete="currentStep > 1" step="1">{{ steps.text1 }}</v-stepper-step>
+          <v-stepper-step :complete="currentStep > 1" step="1"
+            >{{ steps.text1.title }}<small>{{ steps.text1.small }}</small></v-stepper-step
+          >
           <v-divider></v-divider>
-          <v-stepper-step :complete="currentStep > 2" step="2">{{ steps.text2 }}</v-stepper-step>
+          <v-stepper-step :complete="currentStep > 2" step="2"
+            >{{ steps.text2.title }}<small>{{ steps.text2.small }}</small></v-stepper-step
+          >
         </v-stepper-header>
         <v-stepper-items>
           <RegisterStep1Basic class="pt-3" />
@@ -34,10 +38,14 @@
         :class="!windowWidthAboveBreakpoint('xs') ? 'elevation-0' : ''"
         vertical
       >
-        <v-stepper-step :complete="currentStep > 1" step="1">{{ steps.text1 }}</v-stepper-step>
+        <v-stepper-step :complete="currentStep > 1" step="1"
+          >{{ steps.text1.title }}<small>{{ steps.text1.small }}</small></v-stepper-step
+        >
         <RegisterStep1Basic />
 
-        <v-stepper-step :complete="currentStep > 2" step="2">{{ steps.text2 }}</v-stepper-step>
+        <v-stepper-step :complete="currentStep > 2" step="2"
+          >{{ steps.text2.title }}<small>{{ steps.text2.small }}</small></v-stepper-step
+        >
         <RegisterStep2Personal />
       </v-stepper>
     </v-card>
@@ -56,9 +64,8 @@ export default {
   mixins: [widthBreakpoint],
   data: () => ({
     steps: {
-      text1: 'Basic information',
-      text2: 'Personalization',
-      text3: 'Preview'
+      text1: { title: 'Basic information', small: 'Required' },
+      text2: { title: 'Personalization', small: 'Optional' }
     }
   }),
   computed: {
