@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import apolloObject from '../../plugins/vue-apollo'
-import { handleGQLResponse } from '../../helpers'
+import { handleGQLErrors } from '../../helpers'
 const graphqlClient = apolloObject.defaultClient
 
 const state = () => ({
@@ -50,7 +50,7 @@ const actions = {
     }
   },
   async login({ dispatch }, { username, password }) {
-    return graphqlClient
+    let response = await graphqlClient
       .mutate({
         mutation: gql`
           mutation loginMut($username: String!, $password: String!) {
@@ -69,19 +69,20 @@ const actions = {
         },
         errorPolicy: 'all'
       })
-      .catch((resp) => {
-        console.log('internal server error')
-        console.log(resp)
+      .catch(() => {
+        throw new Error('Internal server error')
       })
-      .then((resp) => {
-        handleGQLResponse(resp, () => {
-          if (resp.data.login) dispatch('setAll', resp.data.login)
-          else console.log('Invalid username or password')
-        })
-      })
+
+    if (response.errors) {
+      throw handleGQLErrors(response)
+    } else if (!response.data.login) {
+      throw ['Invalid username or password']
+    } else {
+      dispatch('setAll', response.data.login)
+    }
   },
   async register({ dispatch }, { username, email, password, passwordConfirm, bio, avatar }) {
-    return graphqlClient
+    let response = await graphqlClient
       .mutate({
         mutation: gql`
           mutation registerMut($username: String!, $password: String!, $confirm_password: String!, $email: Email!, $bio: String, $avatar: Upload) {
@@ -109,18 +110,18 @@ const actions = {
           hasUpload: true
         }
       })
-      .catch((resp) => {
-        console.log('Internal server error')
-        console.log(resp)
+      .catch(() => {
+        throw new Error('Internal server error')
       })
-      .then((resp) => {
-        handleGQLResponse(resp, () => {
-          dispatch('setAll', resp.data.register)
-        })
-      })
+
+    if (response.errors) {
+      throw handleGQLErrors(response)
+    } else {
+      dispatch('setAll', response.data.register)
+    }
   },
   async logout({ dispatch }) {
-    dispatch('setAll', { id: null, username: null, email: null, avatar: null })
+    dispatch('setAll', { id: null, username: null, email: null, bio: null, avatar: null })
 
     await graphqlClient.mutate({
       mutation: gql`

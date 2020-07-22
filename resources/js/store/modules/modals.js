@@ -2,6 +2,7 @@ const state = () => ({
   register: {
     enabled: false,
     currentStep: 1,
+    errors: [],
     step1: {
       email: '',
       username: '',
@@ -14,7 +15,8 @@ const state = () => ({
     }
   },
   login: {
-    enabled: false
+    enabled: false,
+    errors: []
   }
 })
 
@@ -30,6 +32,9 @@ const mutations = {
   },
   setRegisterCurrentStep(state, val) {
     state.register.currentStep = val
+  },
+  setRegisterErrors(state, val) {
+    state.register.errors = val
   },
   setRegisterEmail(state, val) {
     state.register.step1.email = val
@@ -51,6 +56,9 @@ const mutations = {
   },
   setLoginEnabled(state, val) {
     state.login.enabled = val
+  },
+  setLoginErrors(state, val) {
+    state.login.errors = val
   }
 }
 

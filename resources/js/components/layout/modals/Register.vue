@@ -1,12 +1,22 @@
 <template>
-  <v-dialog v-model="state" :fullscreen="!windowWidthAboveBreakpoint('xs')" persistent max-width="600" transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="state"
+    :fullscreen="!windowWidthAboveBreakpoint('xs')"
+    persistent
+    max-width="600"
+    :transition="windowWidthAboveBreakpoint('xs') ? 'scale-transition' : 'dialog-bottom-transition'"
+  >
     <v-card tile>
       <v-toolbar dark color="primary">
+        <v-toolbar-title class="ml-3">Register</v-toolbar-title>
+        <v-spacer />
         <v-btn icon @click="state = false">
-          <v-icon>mdi-arrow-left</v-icon>
+          <v-icon size="28">mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Register</v-toolbar-title>
       </v-toolbar>
+      <v-alert v-for="errorMessage in $store.state.modals.register.errors" :key="errorMessage" type="error" tile class="ma-0">
+        {{ errorMessage }}
+      </v-alert>
       <v-stepper v-show="windowWidthAboveBreakpoint('sm')" v-model="currentStep" alt-labels>
         <v-stepper-header class="elevation-0">
           <v-stepper-step :complete="currentStep > 1" step="1">{{ steps.text1 }}</v-stepper-step>

@@ -1,13 +1,22 @@
 <template>
-  <v-dialog v-model="state" :fullscreen="!windowWidthAboveBreakpoint('xs')" max-width="400" transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="state"
+    :fullscreen="!windowWidthAboveBreakpoint('xs')"
+    max-width="400"
+    :transition="windowWidthAboveBreakpoint('xs') ? 'scale-transition' : 'dialog-bottom-transition'"
+  >
     <v-card tile>
-      <v-toolbar class="mb-6" flat dark color="primary">
-        <v-btn icon @click="state = false">
-          <v-icon>mdi-arrow-left</v-icon>
-        </v-btn>
+      <v-toolbar flat dark color="primary">
         <v-toolbar-title>Login</v-toolbar-title>
+        <v-spacer />
+        <v-btn icon @click="state = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-toolbar>
-      <v-form ref="loginForm" v-model="valid">
+      <v-alert v-for="errorMessage in $store.state.modals.login.errors" :key="errorMessage" type="error" tile class="ma-0">
+        {{ errorMessage }}
+      </v-alert>
+      <v-form ref="loginForm" v-model="valid" class="mt-6">
         <v-card-text>
           <v-text-field v-model="username" :rules="atLeastThreeCharacters" type="text" label="Username" outlined autofocus></v-text-field>
           <v-text-field v-model="password" :rules="atLeastThreeCharacters" :type="showPassword ? 'text' : 'password'" label="Password" outlined>
@@ -19,7 +28,7 @@
         <v-card-actions class="pt-0">
           <v-spacer></v-spacer>
           <v-btn text @click="state = false">Cancel</v-btn>
-          <v-btn type="submit" color="primary" :loading="loading" :disabled="loading" @click.prevent="login">Login</v-btn>
+          <v-btn type="submit" color="primary" :loading="loading" :disabled="!valid || loading" @click.prevent="login">Login</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -58,13 +67,27 @@ export default {
       if (this.loading || !this.valid) return // Prevent spamming enter on form
 
       this.loading = true
-      await this.$store.dispatch('user/login', { username: this.username, password: this.password })
+      try {
+        await this.$store.dispatch('user/login', { username: this.username, password: this.password })
+      } catch (err) {
+        if (err instanceof Error) {
+          this.setErrors([err.message])
+        } else {
+          this.setErrors(err)
+        }
+        this.loading = false
+        return
+      }
+      this.setErrors([])
       this.loading = false
       this.state = false
 
       // On successful login reset everything
       this.resetState()
       this.$refs.loginForm.resetValidation()
+    },
+    setErrors(errors) {
+      this.$store.commit('modals/setLoginErrors', errors)
     }
   }
 }
