@@ -4,19 +4,19 @@
       <h1 class="font-weight-black">
         Most recent
       </h1>
-      <MovieShowcase />
+      <MovieShowcase :movies="returnIfExists(mostRecent)" />
     </div>
     <div>
       <h1 class="font-weight-black">
-        Highest Rated
+        Top rated
       </h1>
-      <MovieShowcase />
+      <MovieShowcase :movies="returnIfExists(topRated)" />
     </div>
     <div>
       <h1 class="font-weight-black">
-        Important category
+        Very important
       </h1>
-      <MovieShowcase />
+      <MovieShowcase :movies="returnIfExists(veryImportant)" />
     </div>
   </div>
 </template>
@@ -28,46 +28,68 @@ export default {
   components: {
     MovieShowcase
   },
-  data() {
-    return {
-      movieId: 2,
-      labels: ['SU', 'MO', 'TU', 'WED', 'TH', 'FR', 'SA'],
-      time: 0,
-      forecast: [
-        {
-          day: 'Tuesday',
-          icon: 'mdi-white-balance-sunny',
-          temp: '24\xB0/12\xB0'
-        },
-        {
-          day: 'Wednesday',
-          icon: 'mdi-white-balance-sunny',
-          temp: '22\xB0/14\xB0'
-        },
-        { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' }
-      ]
-    }
-  },
+  data: () => ({
+    movieId: 2,
+    labels: ['SU', 'MO', 'TU', 'WED', 'TH', 'FR', 'SA'],
+    time: 0,
+    forecast: [
+      {
+        day: 'Tuesday',
+        icon: 'mdi-white-balance-sunny',
+        temp: '24\xB0/12\xB0'
+      },
+      {
+        day: 'Wednesday',
+        icon: 'mdi-white-balance-sunny',
+        temp: '22\xB0/14\xB0'
+      },
+      { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' }
+    ]
+  }),
   methods: {
-    login() {
-      console.log(this.$apollo)
+    returnIfExists(request) {
+      return request && request.data && request.data.length > 0 ? request.data : []
     }
   },
   apollo: {
-    movie: {
+    mostRecent: {
       query: gql`
-        query movie($movieId: ID!) {
-          movie(id: $movieId) {
-            id
-            title
+        query mostRecent {
+          mostRecent: movies(title: "", page: 1) {
+            data {
+              title
+              img_url
+            }
           }
         }
       `,
-      variables() {
-        return {
-          movieId: this.movieId
+      update: (data) => data.mostRecent
+    },
+    topRated: {
+      query: gql`
+        query topRated {
+          topRated: movies(title: "", page: 2) {
+            data {
+              title
+              img_url
+            }
+          }
         }
-      }
+      `,
+      update: (data) => data.topRated
+    },
+    veryImportant: {
+      query: gql`
+        query veryImportant {
+          veryImportant: movies(title: "", page: 3) {
+            data {
+              title
+              img_url
+            }
+          }
+        }
+      `,
+      update: (data) => data.veryImportant
     }
   }
 }
