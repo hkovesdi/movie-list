@@ -55,7 +55,7 @@ export default {
     mostRecent: {
       query: gql`
         query mostRecent {
-          mostRecent: movies(title: "", page: 1) {
+          mostRecent: movies(page: 1) {
             data {
               title
               img_url
@@ -68,7 +68,7 @@ export default {
     topRated: {
       query: gql`
         query topRated {
-          topRated: movies(title: "", page: 2) {
+          topRated: movies(page: 2) {
             data {
               title
               img_url
@@ -81,7 +81,7 @@ export default {
     veryImportant: {
       query: gql`
         query veryImportant {
-          veryImportant: movies(title: "", page: 3) {
+          veryImportant: movies(page: 3) {
             data {
               title
               img_url
