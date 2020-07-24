@@ -51,6 +51,7 @@
         "graphql": "^15.3.0",
         "graphql-tag": "^2.10.4",
         "js-cookie": "^2.2.1",
+        "v-snackbars": "^2.1.2",
         "vue-apollo": "^3.0.3",
         "vue-dragscroll": "^2.1.0",
         "vuetify": "^2.3.4",

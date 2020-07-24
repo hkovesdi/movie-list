@@ -7,6 +7,8 @@
     <Login />
     <Register />
 
+    <v-snackbars :objects.sync="$store.state.snackbar.messages" :timeout="3000" top right></v-snackbars>
+
     <v-main>
       <v-container fluid>
         <router-view></router-view>
@@ -20,13 +22,18 @@ import AppBar from './layout/AppBar.vue'
 import NavDrawer from './layout/NavDrawer.vue'
 import Login from './layout/modals/Login.vue'
 import Register from './layout/modals/Register.vue'
+import VSnackbars from 'v-snackbars'
 export default {
   components: {
     AppBar,
     NavDrawer,
     Login,
-    Register
+    Register,
+    'v-snackbars': VSnackbars
   },
+  data: () => ({
+    messages: []
+  }),
   mounted() {
     let resizeHandler = () => {
       this.$store.commit('window/setWidth', window.innerWidth)

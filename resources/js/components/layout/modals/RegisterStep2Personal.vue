@@ -91,6 +91,10 @@ export default {
       this.loading = false
       this.$store.state.modals.register.enabled = false
       this.resetState()
+      this.$store.commit('snackbar/add', {
+        message: 'Successfully registered!',
+        color: 'green'
+      })
     },
     resetState() {
       this.$store.dispatch('modals/resetRegisterState')

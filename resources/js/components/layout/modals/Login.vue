@@ -85,6 +85,10 @@ export default {
       // On successful login reset everything
       this.resetState()
       this.$refs.loginForm.resetValidation()
+      this.$store.commit('snackbar/add', {
+        message: 'Successfully logged in!',
+        color: 'green'
+      })
     },
     setErrors(errors) {
       this.$store.commit('modals/setLoginErrors', errors)

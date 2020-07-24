@@ -120,7 +120,7 @@ const actions = {
       dispatch('setAll', response.data.register)
     }
   },
-  async logout({ dispatch }) {
+  async logout({ dispatch, commit }) {
     dispatch('setAll', { id: null, username: null, email: null, bio: null, avatar: null })
 
     await graphqlClient.mutate({
@@ -132,6 +132,14 @@ const actions = {
         }
       `
     })
+    commit(
+      'snackbar/add',
+      {
+        message: 'Successfully logged out!',
+        color: 'green'
+      },
+      { root: true }
+    )
   }
 }
 
