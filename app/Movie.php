@@ -26,7 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Language[] $languages
  */
 class Movie extends Model
-{
+{   
+    use FullTextSearch;
     /**
      * The "type" of the auto-incrementing ID.
      * 
@@ -51,6 +52,15 @@ class Movie extends Model
         'imdb_url', 
         'created_at', 
         'updated_at'
+    ];
+  
+    /**
+     * The columns of the full text index
+     */
+    protected $searchable = [
+        'title',
+        'description',
+        'tagline'
     ];
 
     /**
