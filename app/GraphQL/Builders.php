@@ -12,11 +12,22 @@ class Builders
 {
     public function movies($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Builder
     {   
-        $title = Arr::first(Arr::only($args, 'title'));
+        $searchMode = Arr::get($args, 'searchMode');
+        $searchTerm = Arr::get($args, 'searchTerm');
 
-        return DB::table('movies')
-            ->when($title, function($query) use($title) {
-                $query->where('title', 'like', '%'.$title.'%');
-            });
+        $query = DB::table('movies');
+
+        switch($searchMode) {
+            case "ALL":
+                break;
+            case "TITLE":
+                $query = \App\Movie::search($searchTerm, ['title'])->getQuery();
+                break;
+            case "DESCRIPTION":
+                $query = \App\Movie::search($searchTerm, ['description', 'tagline'])->getQuery();
+                break;
+        }
+
+        return $query;
     }
 }
