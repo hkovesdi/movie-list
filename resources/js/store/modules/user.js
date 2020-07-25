@@ -141,18 +141,19 @@ const actions = {
       { root: true }
     )
   },
-  async exists(_, username) {
+  async exists(_, { searchString, searchField }) {
     let response = await graphqlClient
       .query({
         query: gql`
-          query doesUserExist($searchString: Mixed!) {
-            user(searchString: $searchString, searchField: USERNAME) {
+          query doesUserExist($searchString: Mixed!, $searchField: UserSearchField!) {
+            user(searchString: $searchString, searchField: $searchField) {
               username
             }
           }
         `,
         variables: {
-          searchString: username
+          searchString,
+          searchField
         },
         errorPolicy: 'all'
       })

@@ -12,7 +12,15 @@
           autofocus
           @input="validateUsername(username)"
         ></v-text-field>
-        <v-text-field v-model="email" :rules="[rules.validEmail]" type="email" label="Email" outlined></v-text-field>
+        <v-text-field
+          v-model="email"
+          :error-messages="emailField.errors"
+          :loading="emailField.loading"
+          type="email"
+          label="Email"
+          outlined
+          @input="validateEmail(email)"
+        ></v-text-field>
         <v-text-field
           v-model="password"
           :rules="[rules.minimumChars(10), rules.maximumChars(30), rules.noSpaces]"
@@ -54,6 +62,11 @@ export default {
     valid: false,
     currentlyValidating: false,
     usernameField: {
+      errors: [],
+      loading: false,
+      currentDebounceCallback: null
+    },
+    emailField: {
       errors: [],
       loading: false,
       currentDebounceCallback: null
@@ -159,11 +172,37 @@ export default {
         this.usernameField.loading = true
 
         this.usernameField.currentDebounceCallback = setTimeout(async () => {
-          let alreadyExists = await this.$store.dispatch('user/exists', username)
+          let alreadyExists = await this.$store.dispatch('user/exists', { searchString: username, searchField: 'USERNAME' })
           if (typeof alreadyExists === 'string') this.usernameField.errors = alreadyExists
 
           this.currentlyValidating = false
           this.usernameField.loading = false
+        }, 500)
+      }
+    },
+    validateEmail(email) {
+      // Reset
+      clearTimeout(this.emailField.currentDebounceCallback)
+      this.emailField.errors = []
+      this.emailField.loading = false
+      this.currentlyValidating = true
+
+      // Check for valid email
+      let result = this.rules.validEmail(email)
+      if (typeof result === 'string') this.emailField.errors.push(result)
+
+      if (this.emailField.errors.length > 0) {
+        this.currentlyValidating = false
+      } else {
+        // Check if email already exists in DB
+        this.emailField.loading = true
+
+        this.emailField.currentDebounceCallback = setTimeout(async () => {
+          let alreadyExists = await this.$store.dispatch('user/exists', { searchString: email, searchField: 'EMAIL' })
+          if (typeof alreadyExists === 'string') this.emailField.errors = alreadyExists
+
+          this.currentlyValidating = false
+          this.emailField.loading = false
         }, 500)
       }
     }
