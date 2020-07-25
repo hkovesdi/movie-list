@@ -14,23 +14,10 @@ trait FullTextSearch
     {
         // removing symbols used by MySQL
         $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        
         $term = str_replace($reservedSymbols, '', $term);
  
-        $words = explode(' ', $term);
- 
-        foreach($words as $key => $word) {
-            /*
-             * applying + operator (required word) only big words
-             * because smaller ones are not indexed by mysql
-             */
-            if(strlen($word) >= 3) {
-                $words[$key] = '+' . $word . '*';
-            }
-        }
- 
-        $searchTerm = implode( ' ', $words);
- 
-        return $searchTerm;
+        return $term;
     }
  
     /**
@@ -42,10 +29,18 @@ trait FullTextSearch
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearch($query, $term, $columns)
-    {
+    {   
+        $mode = (in_array("description", $columns) || in_array("tagline", $columns)) ? "NATURAL LANGUAGE" : "BOOLEAN";
+
         $columns = implode(',', array_intersect($this->searchable, $columns));
  
-        $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)" , $this->fullTextWildcards($term));
+        $searchableTerm = $this->fullTextWildcards($term);
+ 
+        $query->fromSub(function($query) use($columns, $mode, $searchableTerm) {
+            $query->selectRaw("*, MATCH ({$columns}) AGAINST (? IN {$mode} MODE) AS relevance_score", [$searchableTerm])->from('movies');
+        }, 'moviesWithRelevanceScore')
+        ->where('relevance_score', '>', 0)
+        ->orderBy('relevance_score', 'desc');
  
         return $query;
     }
