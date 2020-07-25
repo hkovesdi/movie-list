@@ -140,6 +140,28 @@ const actions = {
       },
       { root: true }
     )
+  },
+  async exists(_, username) {
+    let response = await graphqlClient
+      .query({
+        query: gql`
+          query doesUserExist($searchString: Mixed!) {
+            user(searchString: $searchString, searchField: USERNAME) {
+              username
+            }
+          }
+        `,
+        variables: {
+          searchString: username
+        },
+        errorPolicy: 'all'
+      })
+      .catch(() => {
+        throw new Error('Internal server error')
+      })
+
+    if (response.data.user === null) return true
+    else return 'Already exists'
   }
 }
 

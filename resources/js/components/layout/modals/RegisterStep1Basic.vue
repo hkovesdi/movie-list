@@ -4,11 +4,13 @@
       <v-card-text>
         <v-text-field
           v-model="username"
-          :rules="[rules.minimumChars(3), rules.maximumChars(10), rules.noSpaces, rules.onlyURLSafe]"
+          :error-messages="usernameField.errors"
           type="text"
           label="Username"
+          :loading="usernameField.loading"
           outlined
           autofocus
+          @input="validateUsername(username)"
         ></v-text-field>
         <v-text-field v-model="email" :rules="[rules.validEmail]" type="email" label="Email" outlined></v-text-field>
         <v-text-field
@@ -40,7 +42,7 @@
       </v-card-text>
       <div class="float-right">
         <v-btn text @click="state = false">Cancel</v-btn>
-        <v-btn type="submit" :disabled="!valid" color="primary" @click.prevent="currentStep = 2">Continue</v-btn>
+        <v-btn type="submit" :disabled="!valid || currentlyValidating" color="primary" @click.prevent="currentStep = 2">Continue</v-btn>
       </div>
     </v-form>
   </v-stepper-content>
@@ -50,6 +52,13 @@
 export default {
   data: () => ({
     valid: false,
+    currentlyValidating: false,
+    usernameField: {
+      errors: [],
+      loading: false,
+      currentDebounceCallback: null
+    },
+    usernameLoading: false,
     showPassword: false,
     showPasswordConfirm: false,
     rules: {
@@ -124,6 +133,38 @@ export default {
       },
       set(val) {
         this.$store.commit('modals/setRegisterPasswordConfirm', val)
+      }
+    }
+  },
+  methods: {
+    validateUsername(username) {
+      // Reset
+      clearTimeout(this.usernameField.currentDebounceCallback)
+      this.usernameField.errors = []
+      this.usernameField.loading = false
+      this.currentlyValidating = true
+
+      // Check simple rules
+      let results = [this.rules.minimumChars(3), this.rules.maximumChars(10), this.rules.noSpaces, this.rules.onlyURLSafe].map((rule) =>
+        rule(username)
+      )
+      results.forEach((el) => {
+        if (typeof el === 'string') this.usernameField.errors.push(el)
+      })
+
+      if (this.usernameField.errors.length > 0) {
+        this.currentlyValidating = false
+      } else {
+        // Check if username already exists in DB
+        this.usernameField.loading = true
+
+        this.usernameField.currentDebounceCallback = setTimeout(async () => {
+          let alreadyExists = await this.$store.dispatch('user/exists', username)
+          if (typeof alreadyExists === 'string') this.usernameField.errors = alreadyExists
+
+          this.currentlyValidating = false
+          this.usernameField.loading = false
+        }, 500)
       }
     }
   }
