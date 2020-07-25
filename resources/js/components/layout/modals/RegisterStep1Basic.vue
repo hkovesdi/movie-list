@@ -4,22 +4,22 @@
       <v-card-text>
         <v-text-field
           v-model="username"
-          :error-messages="usernameField.errors"
+          :error-messages="$store.state.modals.register.step1.username.errors"
+          :loading="$store.state.modals.register.step1.username.loading"
           type="text"
           label="Username"
-          :loading="usernameField.loading"
           outlined
           autofocus
-          @input="validateUsername(username)"
+          @input="validateField('username', [rules.minimumChars(3), rules.maximumChars(10), rules.noSpaces, rules.onlyURLSafe])"
         ></v-text-field>
         <v-text-field
           v-model="email"
-          :error-messages="emailField.errors"
-          :loading="emailField.loading"
+          :error-messages="$store.state.modals.register.step1.email.errors"
+          :loading="$store.state.modals.register.step1.email.loading"
           type="email"
           label="Email"
           outlined
-          @input="validateEmail(email)"
+          @input="validateField('email', [rules.validEmail])"
         ></v-text-field>
         <v-text-field
           v-model="password"
@@ -61,16 +61,6 @@ export default {
   data: () => ({
     valid: false,
     currentlyValidating: false,
-    usernameField: {
-      errors: [],
-      loading: false,
-      currentDebounceCallback: null
-    },
-    emailField: {
-      errors: [],
-      loading: false,
-      currentDebounceCallback: null
-    },
     usernameLoading: false,
     showPassword: false,
     showPasswordConfirm: false,
@@ -116,20 +106,20 @@ export default {
         this.$store.commit('modals/setRegisterCurrentStep', val)
       }
     },
-    email: {
-      get() {
-        return this.$store.state.modals.register.step1.email
-      },
-      set(val) {
-        this.$store.commit('modals/setRegisterEmail', val)
-      }
-    },
     username: {
       get() {
-        return this.$store.state.modals.register.step1.username
+        return this.$store.state.modals.register.step1.username.value
       },
       set(val) {
-        this.$store.commit('modals/setRegisterUsername', val)
+        this.$store.commit('modals/setRegisterUsername', { field: 'value', val })
+      }
+    },
+    email: {
+      get() {
+        return this.$store.state.modals.register.step1.email.value
+      },
+      set(val) {
+        this.$store.commit('modals/setRegisterEmail', { field: 'value', val })
       }
     },
     password: {
@@ -150,61 +140,41 @@ export default {
     }
   },
   methods: {
-    validateUsername(username) {
-      // Reset
-      clearTimeout(this.usernameField.currentDebounceCallback)
-      this.usernameField.errors = []
-      this.usernameField.loading = false
+    validateField(field, rules) {
+      const setInRegisterField = this.setInRegister(field.charAt(0).toUpperCase() + field.slice(1))
+
+      // Reset previous state
+      clearTimeout(this.$store.state.modals.register.step1[field].currentCallback)
+      setInRegisterField({ field: 'errors', val: [] })
+      setInRegisterField({ field: 'loading', val: false })
       this.currentlyValidating = true
 
-      // Check simple rules
-      let results = [this.rules.minimumChars(3), this.rules.maximumChars(10), this.rules.noSpaces, this.rules.onlyURLSafe].map((rule) =>
-        rule(username)
-      )
-      results.forEach((el) => {
-        if (typeof el === 'string') this.usernameField.errors.push(el)
+      // Check rules
+      setInRegisterField({
+        field: 'errors',
+        val: rules.map((rule) => rule(this[field])).filter((result) => typeof result === 'string')
       })
 
-      if (this.usernameField.errors.length > 0) {
+      if (this.$store.state.modals.register.step1[field].errors.length > 0) {
         this.currentlyValidating = false
       } else {
-        // Check if username already exists in DB
-        this.usernameField.loading = true
+        // Check if field already exists in DB
+        setInRegisterField({ field: 'loading', val: true })
 
-        this.usernameField.currentDebounceCallback = setTimeout(async () => {
-          let alreadyExists = await this.$store.dispatch('user/exists', { searchString: username, searchField: 'USERNAME' })
-          if (typeof alreadyExists === 'string') this.usernameField.errors = alreadyExists
+        setInRegisterField({
+          field: 'currentCallback',
+          val: setTimeout(async () => {
+            let alreadyExists = await this.$store.dispatch('user/exists', { searchString: this[field], searchField: field.toUpperCase() })
+            if (typeof alreadyExists === 'string') setInRegisterField({ field: 'errors', val: alreadyExists })
 
-          this.currentlyValidating = false
-          this.usernameField.loading = false
-        }, 500)
+            this.currentlyValidating = false
+            setInRegisterField({ field: 'loading', val: false })
+          }, 500)
+        })
       }
     },
-    validateEmail(email) {
-      // Reset
-      clearTimeout(this.emailField.currentDebounceCallback)
-      this.emailField.errors = []
-      this.emailField.loading = false
-      this.currentlyValidating = true
-
-      // Check for valid email
-      let result = this.rules.validEmail(email)
-      if (typeof result === 'string') this.emailField.errors.push(result)
-
-      if (this.emailField.errors.length > 0) {
-        this.currentlyValidating = false
-      } else {
-        // Check if email already exists in DB
-        this.emailField.loading = true
-
-        this.emailField.currentDebounceCallback = setTimeout(async () => {
-          let alreadyExists = await this.$store.dispatch('user/exists', { searchString: email, searchField: 'EMAIL' })
-          if (typeof alreadyExists === 'string') this.emailField.errors = alreadyExists
-
-          this.currentlyValidating = false
-          this.emailField.loading = false
-        }, 500)
-      }
+    setInRegister(outerField) {
+      return (innerFieldAndValueObj) => this.$store.commit(`modals/setRegister${outerField}`, innerFieldAndValueObj)
     }
   }
 }

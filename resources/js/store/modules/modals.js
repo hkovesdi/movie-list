@@ -1,11 +1,18 @@
+let defaultDebounceFieldState = {
+  value: '',
+  errors: [],
+  loading: false,
+  currentCallback: null
+}
+
 const state = () => ({
   register: {
     enabled: false,
     currentStep: 1,
     errors: [],
     step1: {
-      email: '',
-      username: '',
+      username: Object.assign({}, defaultDebounceFieldState),
+      email: Object.assign({}, defaultDebounceFieldState),
       password: '',
       passwordConfirm: ''
     },
@@ -36,11 +43,11 @@ const mutations = {
   setRegisterErrors(state, val) {
     state.register.errors = val
   },
-  setRegisterEmail(state, val) {
-    state.register.step1.email = val
+  setRegisterUsername(state, { field, val }) {
+    state.register.step1.username[field] = val
   },
-  setRegisterUsername(state, val) {
-    state.register.step1.username = val
+  setRegisterEmail(state, { field, val }) {
+    state.register.step1.email[field] = val
   },
   setRegisterPassword(state, val) {
     state.register.step1.password = val
@@ -64,8 +71,10 @@ const mutations = {
 
 const actions = {
   resetRegisterState({ commit }) {
-    commit('setRegisterEmail', '')
-    commit('setRegisterUsername', '')
+    for (const [field, val] of Object.entries(defaultDebounceFieldState)) {
+      commit('setRegisterUsername', { field, val })
+      commit('setRegisterEmail', { field, val })
+    }
     commit('setRegisterPassword', '')
     commit('setRegisterPasswordConfirm', '')
     commit('setRegisterBio', '')
