@@ -43,7 +43,7 @@ export default {
 }
 .poster {
   transform-origin: 8px 8px;
-  transition: transform 0.3s;
+  transition: transform 0.25s cubic-bezier(0.37, 0, 1, 0.79);
 }
 .showcase-title,
 .showcase-desc,
