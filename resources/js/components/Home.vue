@@ -59,6 +59,8 @@ export default {
             data {
               title
               img_url
+              users_rating
+              description
             }
           }
         }
@@ -72,6 +74,8 @@ export default {
             data {
               title
               img_url
+              users_rating
+              description
             }
           }
         }
@@ -85,6 +89,8 @@ export default {
             data {
               title
               img_url
+              users_rating
+              description
             }
           }
         }
