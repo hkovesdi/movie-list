@@ -61,6 +61,11 @@ export default {
               img_url
               users_rating
               description
+              rating
+              year
+              runtime
+              tagline
+              high_res_poster_url
             }
           }
         }
@@ -76,6 +81,11 @@ export default {
               img_url
               users_rating
               description
+              rating
+              year
+              runtime
+              tagline
+              high_res_poster_url
             }
           }
         }
@@ -91,6 +101,11 @@ export default {
               img_url
               users_rating
               description
+              rating
+              year
+              runtime
+              tagline
+              high_res_poster_url
             }
           }
         }
