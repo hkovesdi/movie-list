@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div>
-      <h1 class="font-weight-black">
+    <div class="mb-8">
+      <h1 class="font-weight-black mb-2">
         Most recent
       </h1>
       <MovieShowcase :movies="returnIfExists(mostRecent)" />
     </div>
-    <div>
-      <h1 class="font-weight-black">
+    <div class="mb-8">
+      <h1 class="font-weight-black mb-2">
         Top rated
       </h1>
       <MovieShowcase :movies="returnIfExists(topRated)" />
     </div>
-    <div>
-      <h1 class="font-weight-black">
+    <div class="mb-8">
+      <h1 class="font-weight-black mb-2">
         Very important
       </h1>
       <MovieShowcase :movies="returnIfExists(veryImportant)" />
