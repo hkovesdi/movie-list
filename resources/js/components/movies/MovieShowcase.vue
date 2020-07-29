@@ -1,5 +1,6 @@
 <template>
-  <div v-dragscroll.x class="outer">
+  <div class="outer" :class="`outer-${listId}`">
+    <div v-if="currentScrollLeft > 0" style="position: absolute; left: 0; z-index: 2; background-color: white;" @click="scroll('left')">go left</div>
     <div v-for="movie in movies" :key="movie.title" class="inner">
       <v-card ripple link class="d-flex flex-column movie-card" outlined>
         <v-card-title class="text-subtitle-2 font-weight-bold text--primary movie-card-title">
@@ -13,9 +14,6 @@
         </v-card-text>
         <v-spacer />
         <v-card-actions class="movie-card-additional">
-          <!--<div class="white--text text-caption font-weight-bold">{{ movie.year }}</div>
-          <div class="white--text text-caption font-weight-bold">{{ movie.runtime }}<span style="font-size: 0.8em;"> min</span></div>
-          <div class="white--text text-caption font-weight-bold">{{ movie.users_rating }}<span style="font-size: 0.7em;">/10</span></div>-->
           <v-chip small :class="calculateChipColor(movie.users_rating)" class="mr-1">
             <v-icon left size="15" style="color: white;">mdi-star-outline</v-icon>
             {{ movie.users_rating }}
@@ -32,28 +30,44 @@
 
       <v-img class="poster rounded" height="310" width="210" contain :src="movie.img_url" />
     </div>
+    <div
+      v-if="currentScrollLeft < fullWidthOuter"
+      style="position: absolute; right: 0; z-index: 2; background-color: white;"
+      @click="scroll('right')"
+    >
+      go right
+    </div>
   </div>
 </template>
 
 <script>
-import { dragscroll } from 'vue-dragscroll'
 import VClamp from 'vue-clamp'
 export default {
   components: {
     'v-clamp': VClamp
   },
-  directives: {
-    dragscroll
-  },
   props: {
     movies: {
       required: true,
       type: Array
+    },
+    listId: {
+      required: true,
+      type: Number
     }
+  },
+  data: () => ({
+    currentScrollLeft: 0,
+    fullWidthOuter: 0
+  }),
+  updated() {
+    this.$nextTick(() => {
+      const el = document.querySelector(`.outer-${this.listId}`)
+      this.fullWidthOuter = el.scrollWidth - el.clientWidth
+    })
   },
   methods: {
     calculateChipColor(rating) {
-      //return rating > 6 ? 'success' : rating > 4 ? 'blue-grey lighten-2 white--text' : 'error'
       const colorClasses = [
         'teal darken-2',
         'red darken-3',
@@ -68,16 +82,35 @@ export default {
         'green darken-3'
       ]
       return colorClasses[Math.floor(rating)] + ' white--text'
+    },
+    scroll(dir) {
+      const scrollDir = dir === 'left' ? -1 : 1
+      const el = document.querySelector(`.outer-${this.listId}`)
+
+      // Hardcoded values
+      const imageWidth = 210
+      const betweenImagesMargin = 18
+
+      const fullImageWidth = imageWidth + betweenImagesMargin
+      const numberOfImagesOnScreen = Math.floor(el.clientWidth / fullImageWidth)
+      const scrollAmount = fullImageWidth * numberOfImagesOnScreen * scrollDir
+
+      let finalScroll = el.scrollLeft + scrollAmount
+      if (finalScroll < 0) finalScroll = 0
+      else if (finalScroll > this.fullWidthOuter) finalScroll = this.fullWidthOuter
+
+      this.currentScrollLeft = finalScroll
+
+      el.scroll({
+        left: finalScroll,
+        behavior: 'smooth'
+      })
     }
   }
 }
 </script>
 
 <style lang="scss">
-.v-card__text,
-.v-card__title {
-  word-break: normal !important;
-}
 .outer {
   overflow-x: hidden;
   overflow-y: hidden;
