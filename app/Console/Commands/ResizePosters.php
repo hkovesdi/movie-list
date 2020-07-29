@@ -11,7 +11,7 @@ class ResizePosters extends Command
      *
      * @var string
      */
-    protected $signature = 'resize-posters {--revert}';
+    protected $signature = 'resize-posters {--revert} {--regular-multiplier=2} {--high-res-multiplier=4}';
 
     /**
      * The console command description.
@@ -72,9 +72,9 @@ class ResizePosters extends Command
     }
 
     private function resize(\App\Movie $movie) 
-    {
-        $img_url_resized = $this->resizePoster(1, $movie->img_url);
-        $high_res_poster_url_resized = $this->resizePoster(2, $movie->img_url);
+    {   
+        $img_url_resized = $this->resizePoster(intval($this->option('regular-multiplier')), $movie->img_url);
+        $high_res_poster_url_resized = $this->resizePoster(intval($this->option('high-res-multiplier')), $movie->img_url);
 
         return array(
             'img_url' => $img_url_resized,
