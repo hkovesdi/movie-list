@@ -16,14 +16,17 @@
           <!--<div class="white--text text-caption font-weight-bold">{{ movie.year }}</div>
           <div class="white--text text-caption font-weight-bold">{{ movie.runtime }}<span style="font-size: 0.8em;"> min</span></div>
           <div class="white--text text-caption font-weight-bold">{{ movie.users_rating }}<span style="font-size: 0.7em;">/10</span></div>-->
-          <v-chip
-            small
-            :class="movie.users_rating > 6 ? 'success' : movie.users_rating > 4 ? 'blue-grey lighten-2 white--text' : 'error'"
-            class="mr-1"
-            >{{ movie.users_rating }}</v-chip
+          <v-chip small :class="calculateChipColor(movie.users_rating)" class="mr-1">
+            <v-icon left size="15" style="color: white;">mdi-star-outline</v-icon>
+            {{ movie.users_rating }}
+          </v-chip>
+          <v-chip small class="primary mr-1">
+            <v-icon left size="15" style="color: white;">mdi-calendar-clock</v-icon>
+            {{ movie.year }}
+          </v-chip>
+          <v-chip small class="primary"
+            ><v-icon left size="15" style="color: white;">mdi-clock-time-eight-outline</v-icon> {{ movie.runtime }} m</v-chip
           >
-          <v-chip small class="primary mr-1">{{ movie.year }}</v-chip>
-          <v-chip small class="primary mr-1">{{ movie.runtime }} min</v-chip>
         </v-card-actions>
       </v-card>
 
@@ -46,6 +49,25 @@ export default {
     movies: {
       required: true,
       type: Array
+    }
+  },
+  methods: {
+    calculateChipColor(rating) {
+      //return rating > 6 ? 'success' : rating > 4 ? 'blue-grey lighten-2 white--text' : 'error'
+      const colorClasses = [
+        'teal darken-2',
+        'red darken-3',
+        'deep-orange darken-3',
+        'deep-orange',
+        'orange darken-2',
+        'amber darken-2',
+        'light-green darken-1',
+        'light-green darken-1',
+        'green',
+        'green darken-1',
+        'green darken-3'
+      ]
+      return colorClasses[Math.floor(rating)] + ' white--text'
     }
   }
 }
