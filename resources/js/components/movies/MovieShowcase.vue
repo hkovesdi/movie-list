@@ -1,41 +1,46 @@
 <template>
-  <div class="outer" :class="`outer-${listId}`">
-    <div v-if="currentScrollLeft > 0" style="position: absolute; left: 0; z-index: 2; background-color: white;" @click="scroll('left')">go left</div>
-    <div v-for="movie in movies" :key="movie.title" class="inner">
-      <v-card ripple link class="d-flex flex-column movie-card" outlined>
-        <v-card-title class="text-subtitle-2 font-weight-bold text--primary movie-card-title">
-          <v-clamp :max-lines="3">{{ movie.title }}</v-clamp>
-        </v-card-title>
-        <v-card-subtitle class="text-caption movie-card-tagline">
-          <v-clamp :max-lines="2">{{ movie.tagline }}</v-clamp>
-        </v-card-subtitle>
-        <v-card-text class="text--primary text-body-2 movie-card-description">
-          <v-clamp :max-lines="8">{{ movie.description }}</v-clamp>
-        </v-card-text>
-        <v-spacer />
-        <v-card-actions class="movie-card-additional">
-          <v-chip small :class="calculateChipColor(movie.users_rating)" class="mr-1">
-            <v-icon left size="15" style="color: white;">mdi-star-outline</v-icon>
-            {{ movie.users_rating }}
-          </v-chip>
-          <v-chip small class="primary mr-1">
-            <v-icon left size="15" style="color: white;">mdi-calendar-clock</v-icon>
-            {{ movie.year }}
-          </v-chip>
-          <v-chip small class="primary"
-            ><v-icon left size="15" style="color: white;">mdi-clock-time-eight-outline</v-icon> {{ movie.runtime }} m</v-chip
-          >
-        </v-card-actions>
-      </v-card>
+  <div>
+    <button v-if="currentScrollLeft > 0" class="d-flex align-center justify-center movie-arrow-button movie-button-left" @click="scroll('left')">
+      <v-icon size="40">mdi-chevron-left</v-icon>
+    </button>
 
-      <v-img class="poster rounded" height="310" width="210" contain :src="movie.img_url" />
-    </div>
-    <div
-      v-if="currentScrollLeft < fullWidthOuter"
-      style="position: absolute; right: 0; z-index: 2; background-color: white;"
-      @click="scroll('right')"
-    >
-      go right
+    <div class="outer" :class="`outer-${listId}`">
+      <div v-for="movie in movies" :key="movie.title" class="inner">
+        <v-card ripple link class="d-flex flex-column movie-card" outlined>
+          <v-card-title class="text-subtitle-2 font-weight-bold text--primary movie-card-title">
+            <v-clamp :max-lines="3">{{ movie.title }}</v-clamp>
+          </v-card-title>
+          <v-card-subtitle class="text-caption movie-card-tagline">
+            <v-clamp :max-lines="2">{{ movie.tagline }}</v-clamp>
+          </v-card-subtitle>
+          <v-card-text class="text--primary text-body-2 movie-card-description">
+            <v-clamp :max-lines="8">{{ movie.description }}</v-clamp>
+          </v-card-text>
+          <v-spacer />
+          <v-card-actions class="movie-card-additional">
+            <v-chip small :class="calculateChipColor(movie.users_rating)" class="mr-1">
+              <v-icon left size="15" style="color: white;">mdi-star-outline</v-icon>
+              {{ movie.users_rating }}
+            </v-chip>
+            <v-chip small class="primary mr-1"
+              ><v-icon left size="15" style="color: white;">mdi-clock-time-eight-outline</v-icon> {{ movie.runtime }} m</v-chip
+            >
+            <v-chip small class="primary">
+              <v-icon left size="15" style="color: white;">mdi-calendar-clock</v-icon>
+              {{ movie.year }}
+            </v-chip>
+          </v-card-actions>
+        </v-card>
+
+        <v-img class="poster rounded" height="310" width="210" contain :src="movie.img_url" />
+      </div>
+      <button
+        v-if="currentScrollLeft < fullWidthOuter"
+        class="d-flex align-center justify-center movie-arrow-button movie-button-right"
+        @click="scroll('right')"
+      >
+        <v-icon size="40">mdi-chevron-right</v-icon>
+      </button>
     </div>
   </div>
 </template>
@@ -111,6 +116,25 @@ export default {
 </script>
 
 <style lang="scss">
+.movie-arrow-button {
+  position: absolute;
+  height: 310px;
+  width: 40px;
+  z-index: 2;
+
+  .v-icon {
+    pointer-events: none;
+    width: 5px;
+  }
+}
+.movie-button-left {
+  left: 0;
+  margin-left: 12px;
+}
+.movie-button-right {
+  right: 0;
+  margin-right: 12px;
+}
 .outer {
   overflow-x: hidden;
   overflow-y: hidden;
@@ -118,6 +142,8 @@ export default {
   display: flex;
   justify-content: flex-start;
   flex-flow: row nowrap;
+  margin-left: 40px;
+  margin-right: 40px;
 
   .inner {
     height: 310px;
