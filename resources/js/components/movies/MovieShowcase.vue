@@ -68,13 +68,13 @@ export default {
   updated() {
     this.$nextTick(() => {
       const el = document.querySelector(`.outer-${this.listId}`)
-      this.fullWidthOuter = el.scrollWidth - el.clientWidth
+      if (el !== null) this.fullWidthOuter = el.scrollWidth - el.clientWidth
     })
   },
   mounted() {
     window.addEventListener('resize', () => {
       const el = document.querySelector(`.outer-${this.listId}`)
-      this.fullWidthOuter = el.scrollWidth - el.clientWidth
+      if (el !== null) this.fullWidthOuter = el.scrollWidth - el.clientWidth
     })
   },
   methods: {
