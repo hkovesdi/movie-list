@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container v-if="windowWidthAboveBreakpoint('xs')" fluid>
     <div class="mb-8">
       <h1 class="font-weight-black mb-2 ml-3">
         Most recent
@@ -18,37 +18,53 @@
       </h1>
       <MovieShowcase :movies="returnIfExists(veryImportant)" :list-id="2" />
     </div>
+  </v-container>
+  <div v-else>
+    <v-expansion-panels class="movie-showcase-mobile-expansion-panel" accordion flat :value="0">
+      <v-expansion-panel @change="scrollToTop">
+        <v-expansion-panel-header>Most recent</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <MovieShowcaseMobile :movies="returnIfExists(mostRecent)" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel @change="scrollToTop">
+        <v-expansion-panel-header>Top rated</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <MovieShowcaseMobile :movies="returnIfExists(topRated)" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel @change="scrollToTop">
+        <v-expansion-panel-header>Very important</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <MovieShowcaseMobile :movies="returnIfExists(veryImportant)" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
 <script>
+import widthBreakpoint from './mixins/widthbreakpoint.js'
 import MovieShowcase from './movies/MovieShowcase'
+import MovieShowcaseMobile from './movies/MovieShowcaseMobile'
 import gql from 'graphql-tag'
+
 export default {
   components: {
-    MovieShowcase
+    MovieShowcase,
+    MovieShowcaseMobile
   },
-  data: () => ({
-    movieId: 2,
-    labels: ['SU', 'MO', 'TU', 'WED', 'TH', 'FR', 'SA'],
-    time: 0,
-    forecast: [
-      {
-        day: 'Tuesday',
-        icon: 'mdi-white-balance-sunny',
-        temp: '24\xB0/12\xB0'
-      },
-      {
-        day: 'Wednesday',
-        icon: 'mdi-white-balance-sunny',
-        temp: '22\xB0/14\xB0'
-      },
-      { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' }
-    ]
-  }),
+  mixins: [widthBreakpoint],
   methods: {
     returnIfExists(request) {
       return request && request.data && request.data.length > 0 ? request.data : []
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
     }
   },
   apollo: {
@@ -115,3 +131,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.movie-showcase-mobile-expansion-panel .v-expansion-panel-content__wrap {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+</style>
