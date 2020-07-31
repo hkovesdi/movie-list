@@ -98,12 +98,12 @@ const actions = {
           }
         `,
         variables: {
-          username: username,
-          password: password,
+          username: username.value,
+          email: email.value,
+          password,
           confirm_password: passwordConfirm,
-          email: email,
-          bio: bio,
-          avatar: avatar
+          bio,
+          avatar
         },
         errorPolicy: 'all',
         context: {
