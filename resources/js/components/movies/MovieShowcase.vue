@@ -1,7 +1,11 @@
 <template>
   <div>
-    <button v-if="currentScrollLeft > 0" class="d-flex align-center justify-center movie-arrow-button movie-button-left" @click="scroll('left')">
-      <v-icon size="40">mdi-chevron-left</v-icon>
+    <button
+      :disabled="currentScrollLeft <= 0"
+      class="d-flex align-center justify-center movie-arrow-button movie-button-left"
+      @click="scroll('left')"
+    >
+      <v-icon size="40" :class="currentScrollLeft > 0 ? 'text--primary' : 'text--disabled'">mdi-chevron-left</v-icon>
     </button>
 
     <div class="outer" :class="`outer-${listId}`">
@@ -35,11 +39,11 @@
         <v-img class="poster rounded" height="310" width="210" contain :src="movie.img_url" />
       </div>
       <button
-        v-if="currentScrollLeft < fullWidthOuter"
+        :disabled="currentScrollLeft >= fullWidthOuter"
         class="d-flex align-center justify-center movie-arrow-button movie-button-right"
         @click="scroll('right')"
       >
-        <v-icon size="40">mdi-chevron-right</v-icon>
+        <v-icon size="40" :class="currentScrollLeft < fullWidthOuter ? 'text--primary' : 'text--disabled'">mdi-chevron-right</v-icon>
       </button>
     </div>
   </div>
@@ -47,6 +51,7 @@
 
 <script>
 import VClamp from 'vue-clamp'
+import calculateChipColor from '../../helpers/calculateRatingColor'
 export default {
   components: {
     'v-clamp': VClamp
@@ -78,22 +83,7 @@ export default {
     })
   },
   methods: {
-    calculateChipColor(rating) {
-      const colorClasses = [
-        'teal darken-2',
-        'red darken-3',
-        'deep-orange darken-3',
-        'deep-orange',
-        'orange darken-2',
-        'amber darken-2',
-        'light-green darken-1',
-        'light-green darken-1',
-        'green',
-        'green darken-1',
-        'green darken-3'
-      ]
-      return colorClasses[Math.floor(rating)] + ' white--text'
-    },
+    calculateChipColor,
     scroll(dir) {
       const scrollDir = dir === 'left' ? -1 : 1
       const el = document.querySelector(`.outer-${this.listId}`)
@@ -130,7 +120,7 @@ export default {
 
   .v-icon {
     pointer-events: none;
-    width: 5px;
+    width: 30px;
   }
 }
 .movie-button-left {
@@ -162,6 +152,10 @@ export default {
       width: 210px;
       height: 309px;
       user-select: none;
+
+      &:focus + .poster {
+        opacity: 0;
+      }
 
       .movie-card-title {
         line-height: 1.15;
