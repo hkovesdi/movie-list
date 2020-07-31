@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <v-container fluid>
     <span>Friends</span>
     <v-btn @click="$store.dispatch('movies/fetchMovies')">Call asd action</v-btn>
-  </div>
+  </v-container>
 </template>
 
 <script>
