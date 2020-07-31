@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import apolloObject from '../../plugins/vue-apollo'
-import { handleGQLErrors } from '../../helpers'
+import { handleGQLErrors } from '../../helpers/handleGQLErrors'
 const graphqlClient = apolloObject.defaultClient
 
 const state = () => ({
