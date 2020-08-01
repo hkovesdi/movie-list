@@ -70,7 +70,7 @@ export default {
   },
   data: () => ({
     currentScrollLeft: 0,
-    fullWidthOuter: 0
+    fullWidthOuter: 10000
   }),
   updated() {
     this.$nextTick(() => {
