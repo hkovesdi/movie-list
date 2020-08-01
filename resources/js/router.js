@@ -31,6 +31,7 @@ export default new VueRouter({
         next('/')
       }
     },
+    { path: '/movie/:id', component: () => import('./components/movies/Movie') },
     { path: '/', component: () => import('./components/Home') },
     { path: '*', component: () => import('./components/NotFoundComponent') }
   ],

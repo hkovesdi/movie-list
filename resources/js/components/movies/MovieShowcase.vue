@@ -11,7 +11,7 @@
 
     <div class="outer" :class="`outer-${listId}`">
       <div v-for="movie in movies" :key="movie.title" class="inner">
-        <v-card ripple link class="d-flex flex-column movie-card" outlined>
+        <v-card ripple link class="d-flex flex-column movie-card" outlined :to="'movie/' + movie.id">
           <v-card-title class="text-subtitle-2 font-weight-bold text--primary movie-card-title">
             <v-clamp :max-lines="3">{{ movie.title }}</v-clamp>
           </v-card-title>

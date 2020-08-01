@@ -73,6 +73,7 @@ export default {
         query mostRecent {
           mostRecent: movies(searchMode: ALL, page: 1) {
             data {
+              id
               title
               img_url
               users_rating
@@ -93,6 +94,7 @@ export default {
         query topRated {
           topRated: movies(searchMode: ALL, page: 2) {
             data {
+              id
               title
               img_url
               users_rating
@@ -113,6 +115,7 @@ export default {
         query veryImportant {
           veryImportant: movies(searchMode: ALL, page: 3) {
             data {
+              id
               title
               img_url
               users_rating
