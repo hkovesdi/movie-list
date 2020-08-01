@@ -2,6 +2,7 @@
   <div>
     <button
       :disabled="currentScrollLeft <= 0"
+      tabindex="-1"
       class="d-flex align-center justify-center movie-arrow-button movie-button-left"
       @click="scroll('left')"
     >
@@ -40,6 +41,7 @@
       </div>
       <button
         :disabled="currentScrollLeft >= fullWidthOuter"
+        tabindex="-1"
         class="d-flex align-center justify-center movie-arrow-button movie-button-right"
         @click="scroll('right')"
       >
