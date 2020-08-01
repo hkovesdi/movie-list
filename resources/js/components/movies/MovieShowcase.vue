@@ -1,14 +1,8 @@
 <template>
   <div>
-    <button
-      :disabled="currentScrollLeft <= 0"
-      tabindex="-1"
-      class="d-flex align-center justify-center movie-arrow-button movie-button-left"
-      @click="scroll('left')"
-    >
+    <div :disabled="currentScrollLeft <= 0" class="d-flex align-center justify-center movie-arrow-button movie-button-left" @click="scroll('left')">
       <v-icon size="40" :class="currentScrollLeft > 0 ? 'text--primary' : 'text--disabled'">mdi-chevron-left</v-icon>
-    </button>
-
+    </div>
     <div class="outer" :class="`outer-${listId}`">
       <div v-for="movie in movies" :key="movie.title" class="inner">
         <v-card ripple link class="d-flex flex-column movie-card" outlined :to="'movie/' + movie.id">
@@ -39,14 +33,13 @@
 
         <v-img class="poster rounded" height="310" width="210" contain :src="movie.img_url" />
       </div>
-      <button
+      <div
         :disabled="currentScrollLeft >= fullWidthOuter"
-        tabindex="-1"
         class="d-flex align-center justify-center movie-arrow-button movie-button-right"
         @click="scroll('right')"
       >
         <v-icon size="40" :class="currentScrollLeft < fullWidthOuter ? 'text--primary' : 'text--disabled'">mdi-chevron-right</v-icon>
-      </button>
+      </div>
     </div>
   </div>
 </template>
@@ -119,6 +112,7 @@ export default {
   height: 310px;
   width: 40px;
   z-index: 2;
+  cursor: pointer;
 
   .v-icon {
     pointer-events: none;
