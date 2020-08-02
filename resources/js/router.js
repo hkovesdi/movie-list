@@ -24,7 +24,7 @@ export default new VueRouter({
     { path: '/user/:name', component: () => import('./components/user/name/Index') },
     {
       path: '/movie/:id',
-      name: 'movie',
+      name: 'Movie',
       component: () => import('./components/movies/Movie'),
       props: true
     },
@@ -39,7 +39,7 @@ export default new VueRouter({
       }
     },
     { path: '/', component: () => import('./components/Home') },
-    { path: '*', component: () => import('./components/NotFoundComponent') }
+    { path: '*', name: 'NotFound', component: () => import('./components/NotFoundComponent') }
   ],
   mode: 'history'
 })
