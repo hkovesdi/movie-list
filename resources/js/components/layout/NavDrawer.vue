@@ -42,7 +42,8 @@ export default {
   data: () => ({
     navItems: [
       { text: 'Home', to: '/', icon: { code: 'mdi-home' } },
-      { text: 'Top Movies', to: '/top', icon: { code: 'mdi-star' } }
+      { text: 'Top Movies', to: '/top', icon: { code: 'mdi-star' } },
+      { text: 'Search', to: '/search', icon: { code: 'mdi-magnify' } }
     ]
   }),
   computed: {

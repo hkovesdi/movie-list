@@ -22,6 +22,13 @@ export default new VueRouter({
   routes: [
     { path: '/user/:name/list', component: () => import('./components/user/name/List') },
     { path: '/user/:name', component: () => import('./components/user/name/Index') },
+    {
+      path: '/movie/:id',
+      name: 'movie',
+      component: () => import('./components/movies/Movie'),
+      props: true
+    },
+    { path: '/search', component: () => import('./components/Search') },
     { path: '/top', component: () => import('./components/TopMovies') },
     { path: '/friends', component: () => import('./components/Friends'), beforeEnter: notAuthRedirectToLogin },
     {
@@ -30,12 +37,6 @@ export default new VueRouter({
         await store.dispatch('user/logout')
         next('/')
       }
-    },
-    {
-      path: '/movie/:id',
-      name: 'movie',
-      component: () => import('./components/movies/Movie'),
-      props: true
     },
     { path: '/', component: () => import('./components/Home') },
     { path: '*', component: () => import('./components/NotFoundComponent') }
