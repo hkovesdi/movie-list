@@ -41,6 +41,11 @@ export default {
       movie: this.movieProp
     }
   },
+  watch: {
+    '$route.params.id': function () {
+      this.movie = this.movieProp
+    }
+  },
   apollo: {
     movie: {
       query: gql`
