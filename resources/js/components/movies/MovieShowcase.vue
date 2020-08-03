@@ -43,9 +43,9 @@
     </div>
   </div>
   <div v-else class="outer">
-    <div v-for="index in 10" :key="index" class="poster-card-skeleton">
+    <div v-for="index in 7" :key="index" class="poster-card-skeleton">
       <div class="inner">
-        <v-skeleton-loader type="image" :loading="true" :width="210" :height="309" />
+        <v-skeleton-loader type="image" tile loading :width="210" :height="309" />
       </div>
     </div>
   </div>
