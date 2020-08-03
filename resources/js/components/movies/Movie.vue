@@ -3,7 +3,7 @@
     <div>
       <v-img width="296" height="435" :src="movie.high_res_poster_url">
         <template v-slot:placeholder>
-          <v-skeleton-loader class="poster-skeleton" :loading="true" width="296" height="435" type="image" />
+          <v-skeleton-loader class="poster-skeleton" tile loading width="296" height="435" type="image" />
         </template>
       </v-img>
     </div>
@@ -15,14 +15,14 @@
   </div>
   <div v-else class="mt-10 ml-6 d-flex">
     <div class="poster-skeleton">
-      <v-skeleton-loader :loading="true" width="296" height="435" type="image" />
+      <v-skeleton-loader tile loading width="296" height="435" type="image" />
     </div>
     <div class="ml-4 mt-1" style="max-width: 55ch;">
-      <v-skeleton-loader :loading="true" type="heading" width="55ch" class="mb-4" />
-      <v-skeleton-loader :loading="true" type="text" class="mb-6" />
-      <v-skeleton-loader :loading="true" type="paragraph" />
-      <v-skeleton-loader :loading="true" type="paragraph" />
-      <v-skeleton-loader :loading="true" type="paragraph" />
+      <v-skeleton-loader loading type="heading" width="55ch" class="mb-4" />
+      <v-skeleton-loader loading type="text" class="mb-6" />
+      <v-skeleton-loader loading type="paragraph" />
+      <v-skeleton-loader loading type="paragraph" />
+      <v-skeleton-loader loading type="paragraph" />
     </div>
   </div>
 </template>
