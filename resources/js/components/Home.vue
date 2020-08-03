@@ -45,6 +45,7 @@
 
 <script>
 import widthBreakpoint from './mixins/widthbreakpoint.js'
+import returnIfExists from '../helpers/returnIfExists.js'
 import MovieShowcase from './movies/MovieShowcase'
 import MovieShowcaseMobile from './movies/MovieShowcaseMobile'
 import gql from 'graphql-tag'
@@ -56,9 +57,7 @@ export default {
   },
   mixins: [widthBreakpoint],
   methods: {
-    returnIfExists(request) {
-      return request && request.data && request.data.length > 0 ? request.data : []
-    },
+    returnIfExists,
     scrollToTop() {
       window.scrollTo({
         top: 0,
