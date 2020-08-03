@@ -6,11 +6,12 @@
     <!-- Modals -->
     <Login />
     <Register />
+    <QuickSearch />
+
+    <!-- Overlay for QuickSearch -->
+    <v-overlay z-index="4" :value="$store.state.search.quickSearch.enabled"></v-overlay>
 
     <v-snackbars :objects.sync="$store.state.snackbar.messages" :timeout="3000" top right></v-snackbars>
-
-    <!-- Overlay for AppBar search field -->
-    <v-overlay z-index="4" :value="$store.state.search.quickSearch.enabled"></v-overlay>
 
     <v-main>
       <router-view></router-view>
@@ -23,6 +24,7 @@ import AppBar from './layout/AppBar.vue'
 import NavDrawer from './layout/NavDrawer.vue'
 import Login from './layout/modals/Login.vue'
 import Register from './layout/modals/Register.vue'
+import QuickSearch from './layout/modals/QuickSearch.vue'
 import VSnackbars from 'v-snackbars'
 export default {
   components: {
@@ -30,6 +32,7 @@ export default {
     NavDrawer,
     Login,
     Register,
+    QuickSearch,
     'v-snackbars': VSnackbars
   },
   data: () => ({

@@ -12,7 +12,16 @@
           <template v-if="fullWidthSearch">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn class="mr-3" icon v-bind="attrs" v-on="on" @click="fullWidthSearch = !fullWidthSearch">
+                <v-btn
+                  class="mr-3"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="
+                    fullWidthSearch = !fullWidthSearch
+                    $store.commit('search/setQuickSearchEnabled', false)
+                  "
+                >
                   <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
               </template>
@@ -29,10 +38,6 @@
             label="Search"
             @focus="$store.commit('search/setQuickSearchEnabled', true)"
           />
-          <v-card v-if="$store.state.search.quickSearch.enabled" class="quick-search-card" light style="position: fixed; top: 80px; z-index: 6;">
-            <v-card-title>Search</v-card-title>
-            <v-card-text>searching...</v-card-text>
-          </v-card>
         </v-col>
         <v-col v-if="!fullWidthSearch && !windowWidthAboveBreakpoint('xs')" :cols="rightCol" class="d-flex justify-end">
           <v-tooltip left>
@@ -112,15 +117,14 @@ export default {
   },
   mounted() {
     // Handle quick search bar click events
-    window.addEventListener('click', (e) => {
+    window.addEventListener('mousedown', (e) => {
       if (this.$store.state.search.quickSearch.enabled === false) return
 
       let quickSearchElement = document.querySelector('.quick-search-card')
       let quickSearchTextFieldElement = document.querySelector('.app-bar-text-field')
 
-      if (quickSearchElement === null) return
-      if (quickSearchElement.contains(e.target)) return
-      if (quickSearchTextFieldElement.contains(e.target)) return
+      if (quickSearchElement === null || quickSearchTextFieldElement === null) return
+      if (quickSearchElement.contains(e.target) || quickSearchTextFieldElement.contains(e.target)) return
 
       this.$store.commit('search/setQuickSearchEnabled', false)
     })
