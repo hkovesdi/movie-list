@@ -21,12 +21,18 @@
           </template>
           <v-text-field
             v-if="windowWidthAboveBreakpoint('xs') || fullWidthSearch"
+            v-model="searchField"
             class="app-bar-text-field"
             flat
             solo-inverted
             hide-details
             label="Search"
+            @focus="$store.commit('search/setQuickSearchEnabled', true)"
           />
+          <v-card v-if="$store.state.search.quickSearch.enabled" class="quick-search-card" light style="position: fixed; top: 80px; z-index: 6;">
+            <v-card-title>Search</v-card-title>
+            <v-card-text>searching...</v-card-text>
+          </v-card>
         </v-col>
         <v-col v-if="!fullWidthSearch && !windowWidthAboveBreakpoint('xs')" :cols="rightCol" class="d-flex justify-end">
           <v-tooltip left>
@@ -80,6 +86,14 @@ export default {
     fullWidthSearch: false
   }),
   computed: {
+    searchField: {
+      get() {
+        return this.$store.state.search.appBar.searchField.value
+      },
+      set(val) {
+        this.$store.commit('search/setAppBarSearchFieldValue', val)
+      }
+    },
     user() {
       return this.$store.state.user
     },
@@ -95,6 +109,21 @@ export default {
     middleCol() {
       return this.calculateCols('6', '0', '12')
     }
+  },
+  mounted() {
+    // Handle quick search bar click events
+    window.addEventListener('click', (e) => {
+      if (this.$store.state.search.quickSearch.enabled === false) return
+
+      let quickSearchElement = document.querySelector('.quick-search-card')
+      let quickSearchTextFieldElement = document.querySelector('.app-bar-text-field')
+
+      if (quickSearchElement === null) return
+      if (quickSearchElement.contains(e.target)) return
+      if (quickSearchTextFieldElement.contains(e.target)) return
+
+      this.$store.commit('search/setQuickSearchEnabled', false)
+    })
   },
   methods: {
     calculateCols(aboveXs, belowXs, withFullSearch) {

@@ -6,6 +6,7 @@ import user from './modules/user'
 import movies from './modules/movies'
 import modals from './modules/modals'
 import snackbar from './modules/snackbar'
+import search from './modules/search'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     user,
     movies,
     modals,
-    snackbar
+    snackbar,
+    search
   }
 })
