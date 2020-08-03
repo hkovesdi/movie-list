@@ -9,6 +9,9 @@
 
     <v-snackbars :objects.sync="$store.state.snackbar.messages" :timeout="3000" top right></v-snackbars>
 
+    <!-- Overlay for AppBar search field -->
+    <v-overlay z-index="4" :value="$store.state.search.quickSearch.enabled"></v-overlay>
+
     <v-main>
       <router-view></router-view>
     </v-main>
