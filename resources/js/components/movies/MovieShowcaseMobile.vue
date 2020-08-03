@@ -1,6 +1,13 @@
 <template>
   <v-list three-line>
-    <v-list-item v-for="movie in movies" :key="movie.title" link ripple :to="{ name: 'Movie', params: { movieProp: movie, id: movie.id } }">
+    <v-list-item
+      v-for="movie in movies"
+      :key="movie.id"
+      link
+      ripple
+      :to="{ name: 'Movie', params: { movieProp: movie, id: movie.id } }"
+      @click="additionalFunction"
+    >
       <v-list-item-avatar size="80" tile>
         <v-avatar size="80" tile>
           <v-img aspect-ratio="1.4725" contain :src="movie.img_url"></v-img>
@@ -29,6 +36,11 @@ export default {
     movies: {
       required: true,
       type: Array
+    },
+    additionalFunction: {
+      required: false,
+      type: Function,
+      default: () => {}
     }
   },
   methods: {
