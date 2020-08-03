@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="movies.length">
     <div :disabled="currentScrollLeft <= 0" class="d-flex align-center justify-center movie-arrow-button movie-button-left" @click="scroll('left')">
       <v-icon size="40" :class="currentScrollLeft > 0 ? 'text--primary' : 'text--disabled'">mdi-chevron-left</v-icon>
     </div>
@@ -39,6 +39,13 @@
         @click="scroll('right')"
       >
         <v-icon size="40" :class="currentScrollLeft < fullWidthOuter ? 'text--primary' : 'text--disabled'">mdi-chevron-right</v-icon>
+      </div>
+    </div>
+  </div>
+  <div v-else class="outer">
+    <div v-for="index in 10" :key="index" class="poster-card-skeleton">
+      <div class="inner">
+        <v-skeleton-loader type="image" :loading="true" :width="210" :height="309" />
       </div>
     </div>
   </div>
@@ -107,6 +114,10 @@ export default {
 </script>
 
 <style lang="scss">
+.poster-card-skeleton .v-skeleton-loader__image {
+  height: 100% !important;
+  width: 100% !important;
+}
 .movie-arrow-button {
   position: absolute;
   height: 310px;
