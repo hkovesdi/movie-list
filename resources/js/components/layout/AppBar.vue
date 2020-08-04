@@ -34,6 +34,7 @@
             class="app-bar-text-field"
             flat
             solo-inverted
+            autocomplete="off"
             hide-details
             label="Search"
             @focus="$store.commit('search/setQuickSearchEnabled', true)"
