@@ -8,7 +8,7 @@
   >
     <v-card-title class="text-overline" v-text="searchText"></v-card-title>
     <v-card-text style="max-height: 500px; overflow-y: auto;">
-      <div v-if="$apollo.queries.searchResults.loading" class="d-flex align-center justify-center">
+      <div v-if="$apollo.queries.searchResults.loading || debounceLoading" class="d-flex align-center justify-center">
         <v-progress-circular indeterminate color="primary"></v-progress-circular>
       </div>
       <div v-else-if="returnIfExists(searchResults).length === 0">No results found</div>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-//$apollo.queries.searchResults.loading
 import widthBreakpoint from '../../mixins/widthbreakpoint.js'
 import returnIfExists from '../../../helpers/returnIfExists.js'
 import MovieShowcaseMobile from '../../movies/MovieShowcaseMobile'
@@ -32,12 +31,27 @@ export default {
     MovieShowcaseMobile
   },
   mixins: [widthBreakpoint],
+  data: () => ({
+    timeoutForDebounce: null,
+    debouncedValue: '',
+    debounceLoading: false
+  }),
   computed: {
     searchString() {
       return this.$store.state.search.appBar.searchField.value
     },
     searchText() {
       return this.searchString.length === 0 ? 'Start typing...' : `Search results for: ${this.searchString}`
+    }
+  },
+  watch: {
+    '$store.state.search.appBar.searchField.value': function (newVal) {
+      this.debounceLoading = true
+      clearTimeout(this.timeoutForDebounce)
+      this.timeoutForDebounce = setTimeout(() => {
+        this.debouncedValue = newVal
+        this.debounceLoading = false
+      }, 500)
     }
   },
   methods: {
@@ -68,7 +82,7 @@ export default {
       `,
       variables() {
         return {
-          searchTerm: this.$store.state.search.appBar.searchField.value,
+          searchTerm: this.debouncedValue,
           searchMode: 'TITLE'
         }
       },
