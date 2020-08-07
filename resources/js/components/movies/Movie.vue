@@ -38,6 +38,11 @@
       </div>
       <p class="text-body-2 text--secondary">{{ movie.tagline }}</p>
       <p class="text--primary">{{ movie.description }}</p>
+      <div>
+        <v-chip v-for="genre in movie.genres" :key="genre.name" class="mr-1" :class="calculateChipColor(Math.random() * 10 + 1)" small>
+          {{ genre.name }}
+        </v-chip>
+      </div>
     </div>
   </div>
   <div v-else class="mt-10 ml-6 d-flex">
@@ -90,6 +95,9 @@ export default {
               name
             }
             directors {
+              name
+            }
+            genres {
               name
             }
           }
