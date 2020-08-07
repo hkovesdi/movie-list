@@ -1,6 +1,28 @@
 <template>
   <v-container fluid>
-    <v-data-table :headers="headers" :items="getItems" :items-per-page="5" class="elevation-1"></v-data-table>
+    <div class="d-flex flex-row flex-wrap">
+      <div v-for="status in statuses" :key="status" class="mr-5">
+        <h2 class="subheader font-weight-bold mb-3">
+          {{ status }}
+        </h2>
+        <v-data-table
+          style="max-width: 600px; border-radius: 4px; border: thin solid rgba(0, 0, 0, 0.12);"
+          class="mb-10"
+          :loading="$apollo.queries.user.loading"
+          :headers="headers"
+          :items="getItems(status)"
+          :items-per-page="1"
+          dense
+          fixed-header
+          disable-pagination
+          hide-default-footer
+        >
+          <template #slot>
+            kek
+          </template>
+        </v-data-table>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -11,30 +33,28 @@ import gql from 'graphql-tag'
 export default {
   data: () => ({
     headers: [
-      { text: 'Title', value: 'title' },
-      { text: 'Rating', value: 'rating' },
-      { text: 'Rating (all users)', value: 'usersRating' },
-      { text: 'Date watched', value: 'date' },
-      { text: 'Times watched', value: 'times' },
-      { text: 'Comment', value: 'comment' }
-    ]
+      { text: 'Title', value: 'title', width: 250 },
+      { text: 'Rating', value: 'rating', width: 85, align: 'right' },
+      { text: 'Avg. rating', value: 'usersRating', width: 110, align: 'right' },
+      { text: 'Comment', value: 'comment', width: 150 }
+    ],
+    statuses: ['Watching', 'Completed', 'Plan to watch', 'On hold', 'Dropped']
   }),
-  computed: {
-    getItems() {
-      return this.user.userMovies.map((userMovie) => {
-        return {
-          title: userMovie.movie.title,
-          rating: userMovie.rating,
-          usersRating: userMovie.movie.users_rating,
-          date: userMovie.date_watched,
-          times: userMovie.times_rewatched,
-          comment: userMovie.comment
-        }
-      })
-    }
-  },
   methods: {
-    returnIfExists
+    returnIfExists,
+    getItems(status) {
+      if (!this.user || !this.user.userMovies) return []
+      return this.user.userMovies
+        .filter((userMovie) => userMovie.status.name === status)
+        .map((userMovie) => {
+          return {
+            title: userMovie.movie.title,
+            rating: userMovie.rating,
+            usersRating: Math.round(userMovie.movie.users_rating),
+            comment: userMovie.comment
+          }
+        })
+    }
   },
   apollo: {
     user: {
