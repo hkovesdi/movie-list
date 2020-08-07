@@ -21,7 +21,7 @@ class Builders
             case "ALL":
                 break;
             case "TITLE":
-                $query = \App\Movie::search($searchTerm, ['title'])->getQuery();
+                $query = \App\Movie::search($searchTerm, ['title'])->orWhere('title', 'like', "%$searchTerm%")->getQuery();
                 break;
             case "DESCRIPTION":
                 $query = \App\Movie::search($searchTerm, ['description', 'tagline'])->getQuery();
