@@ -10,7 +10,7 @@
     </div>
     <div class="ml-4" style="max-width: 55ch;">
       <h1>{{ movie.title }}</h1>
-      <div class="mb-2" style="font-size: 22px">
+      <div class="mb-2" style="font-size: 22px;">
         <span class="mr-6">
           <svg
             width="17"
@@ -58,12 +58,6 @@
 import gql from 'graphql-tag'
 import calculateChipColor from '../../helpers/calculateRatingColor'
 export default {
-  props: {
-    movieProp: {
-      default: null,
-      type: Object
-    }
-  },
   data: function () {
     return {
       movie: null
