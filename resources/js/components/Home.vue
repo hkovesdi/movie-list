@@ -4,19 +4,19 @@
       <h1 class="font-weight-black mb-2 ml-10">
         Most recent
       </h1>
-      <MovieShowcase :movies="returnIfExists(mostRecent)" :list-id="0" />
+      <MovieShowcase :movies="mostRecent || []" :list-id="0" />
     </div>
     <div class="mb-8">
       <h1 class="font-weight-black mb-2 ml-10">
         Top rated
       </h1>
-      <MovieShowcase :movies="returnIfExists(topRated)" :list-id="1" />
+      <MovieShowcase :movies="topRated || []" :list-id="1" />
     </div>
     <div class="mb-8">
       <h1 class="font-weight-black mb-2 ml-10">
         Very important
       </h1>
-      <MovieShowcase :movies="returnIfExists(veryImportant)" :list-id="2" />
+      <MovieShowcase :movies="veryImportant || []" :list-id="2" />
     </div>
   </v-container>
   <div v-else>
@@ -24,19 +24,19 @@
       <v-expansion-panel @change="scrollToTop">
         <v-expansion-panel-header>Most recent</v-expansion-panel-header>
         <v-expansion-panel-content>
-          <MovieShowcaseMobile :movies="returnIfExists(mostRecent)" />
+          <MovieShowcaseMobile :movies="mostRecent || []" />
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel @change="scrollToTop">
         <v-expansion-panel-header>Top rated</v-expansion-panel-header>
         <v-expansion-panel-content>
-          <MovieShowcaseMobile :movies="returnIfExists(topRated)" />
+          <MovieShowcaseMobile :movies="topRated || []" />
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel @change="scrollToTop">
         <v-expansion-panel-header>Very important</v-expansion-panel-header>
         <v-expansion-panel-content>
-          <MovieShowcaseMobile :movies="returnIfExists(veryImportant)" />
+          <MovieShowcaseMobile :movies="veryImportant || []" />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -45,7 +45,6 @@
 
 <script>
 import widthBreakpoint from './mixins/widthbreakpoint.js'
-import returnIfExists from '../helpers/returnIfExists.js'
 import MovieShowcase from './movies/MovieShowcase'
 import MovieShowcaseMobile from './movies/MovieShowcaseMobile'
 import gql from 'graphql-tag'
@@ -57,7 +56,6 @@ export default {
   },
   mixins: [widthBreakpoint],
   methods: {
-    returnIfExists,
     scrollToTop() {
       window.scrollTo({
         top: 0,
@@ -67,68 +65,74 @@ export default {
     }
   },
   apollo: {
-    mostRecent: {
-      query: gql`
-        query mostRecent {
-          mostRecent: movies(searchMode: ALL, page: 1) {
-            data {
-              id
-              title
-              img_url
-              users_rating
-              description
-              rating
-              year
-              runtime
-              tagline
-              high_res_poster_url
+    mostRecent() {
+      return {
+        query: gql`
+          query mostRecent {
+            mostRecent: movies(searchMode: ALL, page: 1) {
+              data {
+                id
+                title
+                img_url
+                users_rating
+                description
+                rating
+                year
+                runtime
+                tagline
+                high_res_poster_url
+              }
             }
           }
-        }
-      `,
-      update: (data) => data.mostRecent
+        `,
+        update: (data) => data.mostRecent.data
+      }
     },
-    topRated: {
-      query: gql`
-        query topRated {
-          topRated: movies(searchMode: ALL, page: 2) {
-            data {
-              id
-              title
-              img_url
-              users_rating
-              description
-              rating
-              year
-              runtime
-              tagline
-              high_res_poster_url
+    topRated() {
+      return {
+        query: gql`
+          query topRated {
+            topRated: movies(searchMode: ALL, page: 2) {
+              data {
+                id
+                title
+                img_url
+                users_rating
+                description
+                rating
+                year
+                runtime
+                tagline
+                high_res_poster_url
+              }
             }
           }
-        }
-      `,
-      update: (data) => data.topRated
+        `,
+        update: (data) => data.topRated.data
+      }
     },
-    veryImportant: {
-      query: gql`
-        query veryImportant {
-          veryImportant: movies(searchMode: ALL, page: 3) {
-            data {
-              id
-              title
-              img_url
-              users_rating
-              description
-              rating
-              year
-              runtime
-              tagline
-              high_res_poster_url
+    veryImportant() {
+      return {
+        query: gql`
+          query veryImportant {
+            veryImportant: movies(searchMode: ALL, page: 3) {
+              data {
+                id
+                title
+                img_url
+                users_rating
+                description
+                rating
+                year
+                runtime
+                tagline
+                high_res_poster_url
+              }
             }
           }
-        }
-      `,
-      update: (data) => data.veryImportant
+        `,
+        update: (data) => data.veryImportant.data
+      }
     }
   }
 }

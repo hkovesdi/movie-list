@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import returnIfExists from '../../../helpers/returnIfExists.js'
 import gql from 'graphql-tag'
 
 export default {
@@ -41,7 +40,6 @@ export default {
     statuses: ['Watching', 'Completed', 'Plan to watch', 'On hold', 'Dropped']
   }),
   methods: {
-    returnIfExists,
     getItems(status) {
       if (!this.user || !this.user.userMovies) return []
       return this.user.userMovies
