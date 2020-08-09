@@ -20,8 +20,14 @@ const notAuthRedirectToLogin = authenticatedIs(false, '/login', true)
 
 export default new VueRouter({
   routes: [
-    { path: '/user/:name/list', component: () => import('./components/user/name/List') },
-    { path: '/user/:name', component: () => import('./components/user/name/Index') },
+    {
+      path: '/user/:name',
+      component: () => import('./components/user/Index'),
+      children: [
+        { path: '', component: () => import('./components/user/name/Index') },
+        { path: 'list', component: () => import('./components/user/name/List') }
+      ]
+    },
     {
       path: '/movie/:id',
       name: 'Movie',
