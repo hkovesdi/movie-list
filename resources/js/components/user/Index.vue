@@ -23,11 +23,6 @@
 <script>
 import gql from 'graphql-tag'
 export default {
-  computed: {
-    uuser() {
-      return !this.$apollo.queries.user ? this.user : {}
-    }
-  },
   apollo: {
     user() {
       return {
@@ -41,6 +36,7 @@ export default {
             }
           }
         `,
+        fetchPolicy: 'network-only',
         variables() {
           return {
             searchString: this.$route.params.name,
