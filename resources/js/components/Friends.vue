@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <span>Friends</span>
-    <v-btn @click="$store.dispatch('movies/fetchMovies')">Call asd action</v-btn>
+    <v-btn link exact to="/user/Renkee">Go to Renkee's profile</v-btn>
   </v-container>
 </template>
 
