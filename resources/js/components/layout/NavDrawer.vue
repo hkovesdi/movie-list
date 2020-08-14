@@ -10,7 +10,7 @@
     <NavDrawerUser />
     <v-list subheader>
       <v-divider />
-      <NavDrawerItemList :items="navItems" />
+      <NavDrawerItemList :items="navItems" :with-tooltips="windowWidthAboveBreakpoint('xs') && !drawerExpanded" />
     </v-list>
     <template v-slot:append>
       <v-list>

@@ -1,29 +1,49 @@
 <template>
-  <div>
-    <v-list-item v-for="item in items" :key="item.text" :to="item.to" :class="matchWithOrWithoutQuery(item.to)" link exact color="primary">
-      <v-list-item-icon>
-        <v-icon>{{ item.icon.code }}</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>
-          {{ item.text }}
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+  <div v-if="withTooltips">
+    <v-tooltip v-for="item in items" :key="item.text" :color="tooltipColor" right>
+      <template v-slot:activator="{ on, attrs }">
+        <div v-bind="attrs" v-on="on">
+          <NavDrawerItemListElement :item="item" :dark="dark" :to="item.to" :color="color" link exact />
+        </div>
+      </template>
+      <span>{{ item.text }}</span>
+    </v-tooltip>
+  </div>
+  <div v-else>
+    <NavDrawerItemListElement v-for="item in items" :key="item.text" :item="item" :dark="dark" :to="item.to" link exact :color="color" />
   </div>
 </template>
 
 <script>
+import NavDrawerItemListElement from './NavDrawerItemListElement.vue'
 export default {
+  components: {
+    NavDrawerItemListElement
+  },
   props: {
     items: {
       type: Array,
       required: true
-    }
-  },
-  methods: {
-    matchWithOrWithoutQuery(path) {
-      return this.$route.path === path ? 'v-list-item--active' : ''
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary'
+    },
+    withTooltips: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    tooltipColor: {
+      type: String,
+      required: false,
+      default: 'grey darken-2'
     }
   }
 }

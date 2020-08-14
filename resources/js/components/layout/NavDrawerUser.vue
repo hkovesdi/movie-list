@@ -15,14 +15,14 @@
         <v-icon class="text--primary">mdi-chevron-down</v-icon>
       </template>
 
-      <NavDrawerItemList :items="$store.state.navigation.userMenuItems" />
+      <NavDrawerItemList :items="$store.state.navigation.userMenuItems" :with-tooltips="windowWidthAboveBreakpoint('xs') && !drawerExpanded" />
     </v-list-group>
     <template v-if="!loggedIn && windowWidthAboveBreakpoint('xs')">
       <LoginLogoutItems />
     </template>
 
     <v-divider v-if="loggedIn" />
-    <NavDrawerItemList v-if="loggedIn" :items="userItems" />
+    <NavDrawerItemList v-if="loggedIn" :items="userItems" :with-tooltips="windowWidthAboveBreakpoint('xs') && !drawerExpanded" />
   </v-list>
 </template>
 
