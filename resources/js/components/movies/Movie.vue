@@ -8,7 +8,7 @@
       </v-img>
       <v-btn tile class="primary mt-2" style="width: 100%;">Add to my list</v-btn>
     </div>
-    <div class="ml-4" style="max-width: 55ch;">
+    <div class="ml-4" style="max-width: 55ch; flex-grow: 2;">
       <h1>{{ movie.title }}</h1>
       <div class="mb-2" style="font-size: 22px;">
         <span class="mr-6">
@@ -42,6 +42,42 @@
         <v-chip v-for="genre in movie.genres" :key="genre.name" class="mr-1" :class="calculateChipColor(Math.random() * 10 + 1)" small>
           {{ genre.name }}
         </v-chip>
+      </div>
+    </div>
+    <div class="ml-6 mr-3" style="max-width: 40%;">
+      <div class="mb-4">
+        <h3 style="margin-top: 4px;">{{ movie.directors.length > 1 ? 'Directors' : 'Director' }}</h3>
+        <v-container class="pa-0">
+          <v-row>
+            <v-col v-for="director in movie.directors" :key="director.id" class="mt-2 d-flex align-center" xs="12" sm="12" md="6" lg="4" xl="3">
+              <div>
+                <v-img width="33" height="44" :src="asd">
+                  <template v-slot:placeholder>
+                    <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
+                  </template>
+                </v-img>
+              </div>
+              <span class="ml-2">{{ director.name }}</span>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <div>
+        <h3>Actors</h3>
+        <v-container class="pa-0">
+          <v-row>
+            <v-col v-for="actor in movie.actors" :key="actor.id" class="mt-2 d-flex align-center pb-0 pr-0" xs="12" sm="12" md="6" lg="4" xl="3">
+              <div>
+                <v-img width="33" height="44" :src="asd">
+                  <template v-slot:placeholder>
+                    <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
+                  </template>
+                </v-img>
+              </div>
+              <span class="ml-2">{{ actor.name }}</span>
+            </v-col>
+          </v-row>
+        </v-container>
       </div>
     </div>
   </div>
@@ -92,12 +128,15 @@ export default {
             tagline
             high_res_poster_url
             actors {
+              id
               name
             }
             directors {
+              id
               name
             }
             genres {
+              id
               name
             }
           }
