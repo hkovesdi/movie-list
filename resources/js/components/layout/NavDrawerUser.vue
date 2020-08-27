@@ -9,8 +9,8 @@
       <template v-if="drawerExpanded" v-slot:activator>
         <v-list-item-content class="pb-2">
           <v-list-item-title class="title text--primary text-h5">{{ user.name }}</v-list-item-title>
-          <v-list-item-subtitle>
-            <v-clamp class="user-bio" :max-lines="2">{{ user.bio }}</v-clamp>
+          <v-list-item-subtitle class="user-bio text-center">
+            <v-clamp :max-lines="2" autoresize>{{ user.bio }}</v-clamp>
           </v-list-item-subtitle>
         </v-list-item-content>
       </template>
