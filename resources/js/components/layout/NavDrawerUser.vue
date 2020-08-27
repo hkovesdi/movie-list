@@ -10,7 +10,7 @@
         <v-list-item-content class="pb-2">
           <v-list-item-title class="title text--primary text-h5">{{ user.name }}</v-list-item-title>
           <v-list-item-subtitle>
-            <v-clamp style="max-width: 200px; line-break: anywhere; white-space: normal;" :max-lines="2">{{ user.bio }}</v-clamp>
+            <v-clamp class="user-bio" :max-lines="2">{{ user.bio }}</v-clamp>
           </v-list-item-subtitle>
         </v-list-item-content>
       </template>
@@ -87,6 +87,11 @@ export default {
         -webkit-border-radius: 500px;
         -moz-border-radius: 500px;
       }
+    }
+    .user-bio {
+      max-width: 200px;
+      line-break: anywhere;
+      white-space: normal;
     }
     .v-list-item__content {
       flex-direction: column;
