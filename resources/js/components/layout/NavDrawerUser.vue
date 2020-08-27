@@ -9,6 +9,9 @@
       <template v-if="drawerExpanded" v-slot:activator>
         <v-list-item-content class="pb-2">
           <v-list-item-title class="title text--primary text-h5">{{ user.name }}</v-list-item-title>
+          <v-list-item-subtitle>
+            <v-clamp style="max-width: 200px; line-break: anywhere; white-space: normal;" :max-lines="2">{{ user.bio }}</v-clamp>
+          </v-list-item-subtitle>
         </v-list-item-content>
       </template>
       <template v-if="drawerExpanded" v-slot:appendIcon>
@@ -30,10 +33,12 @@
 import widthBreakpoint from '../mixins/widthbreakpoint.js'
 import NavDrawerItemList from './NavDrawerItemList.vue'
 import LoginLogoutItems from './LoginLogoutItems.vue'
+import VClamp from 'vue-clamp'
 export default {
   components: {
     NavDrawerItemList,
-    LoginLogoutItems
+    LoginLogoutItems,
+    'v-clamp': VClamp
   },
   mixins: [widthBreakpoint],
   data: () => ({
