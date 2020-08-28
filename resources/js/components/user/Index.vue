@@ -9,11 +9,15 @@
       </v-avatar>
       <v-skeleton-loader v-else dark class="avatar-skeleton" height="135" width="135" style="margin-left: 20px; margin-top: 20px;" type="avatar" />
       <div style="height: 150px; margin-top: 12.5px; margin-left: 20px; margin-right: 12px; width: 2px;" class="grey darken-2"></div>
-      <div v-if="!$apollo.queries.user.loading" class="d-flex flex-column flex-nowrap justify-center">
+      <div v-if="!$apollo.queries.user.loading" style="min-width: 150px;" class="d-flex flex-column flex-nowrap justify-center">
+        <v-spacer />
+        <v-spacer />
         <div class="text-h4 white--text">{{ user && user.username }}</div>
         <div style="max-width: 200px; overflow-wrap: break-word;" class="text-body-2 grey--text text--lighten-1">
           {{ user && user.bio }}
         </div>
+        <v-spacer />
+        <v-btn small class="mb-3" style="max-width: 150px;">Add as friend</v-btn>
       </div>
       <div v-else class="d-flex flex-column flex-nowrap justify-center">
         <v-skeleton-loader dark height="40" width="300" type="heading"></v-skeleton-loader>
