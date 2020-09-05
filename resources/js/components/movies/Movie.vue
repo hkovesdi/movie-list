@@ -1,5 +1,5 @@
 <template>
-  <div v-if="movie !== null" class="mt-10 ml-6 d-flex">
+  <div v-if="movie !== null" class="mt-10 ml-6 mr-6 mr-md-0 d-flex flex-wrap">
     <div>
       <v-img width="296" height="435" :src="movie.high_res_poster_url">
         <template v-slot:placeholder>
@@ -8,9 +8,9 @@
       </v-img>
       <v-btn tile class="primary mt-2" style="width: 100%;">Add to my list</v-btn>
     </div>
-    <div class="ml-4" style="max-width: 55ch; flex-grow: 2;">
+    <div class="ml-md-4 mb-4 mt-4 mt-md-0" style="max-width: 55ch; flex-grow: 2; word-wrap: break-word;">
       <h1>{{ movie.title }}</h1>
-      <div class="mb-2" style="font-size: 22px;">
+      <div class="mb-2" style="font-size: 20px;">
         <span class="mr-6">
           <svg
             width="17"
@@ -44,7 +44,7 @@
         </v-chip>
       </div>
     </div>
-    <div class="ml-6 mr-3" style="max-width: 40%;">
+    <div class="mt-2 mt-md-0 mb-6 ml-md-6" style="max-width: 40%;">
       <div class="mb-4">
         <h3 style="margin-top: 4px;">{{ movie.directors.length > 1 ? 'Directors' : 'Director' }}</h3>
         <v-container class="pa-0">
