@@ -13,7 +13,7 @@ class CreateMovies extends Command
      *
      * @var string
      */
-    protected $signature = 'create:movies';
+    protected $signature = 'create:movies {--light}';
 
     /**
      * The console command description.
@@ -148,8 +148,9 @@ class CreateMovies extends Command
      * @return int
      */
     public function handle()
-    {
-        $movies = array_chunk(json_decode(Storage::get('movies.json'), true), 1000)[0];
+    {   
+        $movieFile = $this->option('light') ? 'movies_light.json' : 'movies.json';
+        $movies = array_chunk(json_decode(Storage::get($movieFile), true), 1000)[0];
         $movieCount = count($movies);
 
         
