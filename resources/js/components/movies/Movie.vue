@@ -1,5 +1,9 @@
 <template>
-  <div v-if="movie !== null" class="mt-10 ml-6 mr-6 mr-md-0 d-flex flex-wrap">
+  <div
+    v-if="movie !== null"
+    class="mt-10 ml-6 mr-6 mr-md-0 d-flex flex-wrap"
+    :style="$vuetify.breakpoint.name == 'xs' ? { justifyContent: 'center' } : null"
+  >
     <div>
       <v-img width="296" height="435" :src="movie.high_res_poster_url">
         <template v-slot:placeholder>
@@ -8,7 +12,10 @@
       </v-img>
       <v-btn tile class="primary mt-2" style="width: 100%;">Add to my list</v-btn>
     </div>
-    <div class="ml-md-4 mb-4 mt-4 mt-md-0" style="max-width: 55ch; flex-grow: 2; word-wrap: break-word;">
+    <div
+      class="ml-md-4 mb-4 mt-4 mt-md-0"
+      :style="$vuetify.breakpoint.name == 'xs' ? { maxWidth: '296px', flexGrow: '2' } : { maxWidth: '55ch', flexGrow: '2' }"
+    >
       <h1>{{ movie.title }}</h1>
       <div class="mb-2" style="font-size: 20px;">
         <span class="mr-6">
@@ -44,40 +51,42 @@
         </v-chip>
       </div>
     </div>
-    <div class="mt-2 mt-md-0 mb-6 ml-md-6" style="max-width: 40%;">
-      <div class="mb-4">
-        <h3 style="margin-top: 4px;">{{ movie.directors.length > 1 ? 'Directors' : 'Director' }}</h3>
-        <v-container class="pa-0">
-          <v-row>
-            <v-col v-for="director in movie.directors" :key="director.id" class="mt-2 d-flex align-center" xs="12" sm="12" md="6" lg="4" xl="3">
-              <div>
-                <v-img width="33" height="44" :src="asd">
-                  <template v-slot:placeholder>
-                    <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
-                  </template>
-                </v-img>
-              </div>
-              <span class="ml-2">{{ director.name }}</span>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
-      <div>
-        <h3>Actors</h3>
-        <v-container class="pa-0">
-          <v-row>
-            <v-col v-for="actor in movie.actors" :key="actor.id" class="mt-2 d-flex align-center pb-0 pr-0" xs="12" sm="12" md="6" lg="4" xl="3">
-              <div>
-                <v-img width="33" height="44" :src="asd">
-                  <template v-slot:placeholder>
-                    <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
-                  </template>
-                </v-img>
-              </div>
-              <span class="ml-2">{{ actor.name }}</span>
-            </v-col>
-          </v-row>
-        </v-container>
+    <div :style="$vuetify.breakpoint.name == 'xs' ? { maxWidth: 296 + 'px' } : { maxWidth: '40%' }">
+      <div class="mt-2 mt-md-0 mb-6 ml-md-6">
+        <div class="mb-4">
+          <h3 style="margin-top: 4px;">{{ movie.directors.length > 1 ? 'Directors' : 'Director' }}</h3>
+          <v-container class="pa-0">
+            <v-row>
+              <v-col v-for="director in movie.directors" :key="director.id" class="mt-2 d-flex align-center" cols="6" sm="6" md="6" lg="4" xl="3">
+                <div>
+                  <v-img width="33" height="44" :src="notYet">
+                    <template v-slot:placeholder>
+                      <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
+                    </template>
+                  </v-img>
+                </div>
+                <span class="ml-2">{{ director.name }}</span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
+        <div>
+          <h3>Actors</h3>
+          <v-container class="pa-0">
+            <v-row>
+              <v-col v-for="actor in movie.actors" :key="actor.id" class="mt-2 d-flex align-center pb-0 pr-0" cols="6" sm="6" md="6" lg="4" xl="3">
+                <div>
+                  <v-img width="33" height="44" :src="asd">
+                    <template v-slot:placeholder>
+                      <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
+                    </template>
+                  </v-img>
+                </div>
+                <span class="ml-2">{{ actor.name }}</span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
       </div>
     </div>
   </div>
