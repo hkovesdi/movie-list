@@ -59,7 +59,7 @@
             <v-row>
               <v-col v-for="director in movie.directors" :key="director.id" class="mt-2 d-flex align-center" cols="6" sm="6" md="6" lg="4" xl="3">
                 <div>
-                  <v-img width="33" height="44" :src="notYet">
+                  <v-img width="33" height="44" :src="loremIpsum">
                     <template v-slot:placeholder>
                       <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
                     </template>
@@ -76,7 +76,7 @@
             <v-row>
               <v-col v-for="actor in movie.actors" :key="actor.id" class="mt-2 d-flex align-center pb-0 pr-0" cols="6" sm="6" md="6" lg="4" xl="3">
                 <div>
-                  <v-img width="33" height="44" :src="asd">
+                  <v-img width="33" height="44" :src="loremIpsum">
                     <template v-slot:placeholder>
                       <v-skeleton-loader class="poster-skeleton" tile loading width="33" height="44" type="image" />
                     </template>

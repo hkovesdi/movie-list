@@ -12,7 +12,7 @@ import apolloProvider from './plugins/vue-apollo'
 
 window.Vue = require('vue')
 
-Vue.config.devtools = true
+Vue.config.devtools = process.env.NODE_ENV !== 'production'
 
 /**
  * The following block of code may be used to automatically register your
