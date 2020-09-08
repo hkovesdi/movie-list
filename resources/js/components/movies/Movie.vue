@@ -10,7 +10,15 @@
           <v-skeleton-loader class="poster-skeleton" tile loading width="296" height="435" type="image" />
         </template>
       </v-img>
-      <v-btn tile class="primary mt-2" style="width: 100%;">Add to my list</v-btn>
+      <div v-if="$store.getters['user/isAuthenticated']">
+        <v-btn v-if="!isInMyMovieList" :disabled="isMovieListRequestInProgress" class="primary mt-2" style="width: 100%;" @click="addToMyList"
+          >Add to my list</v-btn
+        >
+        <v-btn v-else tile :disabled="isMovieListRequestInProgress" class="error mt-2" style="width: 100%;">Remove from my list</v-btn>
+      </div>
+      <div v-else>
+        <v-btn tile disabled class="mt-2" style="width: 100%; font-size: 12px;">Login to add this movie to your list</v-btn>
+      </div>
     </div>
     <div
       class="ml-md-4 mb-4 mt-4 mt-md-0"
@@ -90,7 +98,7 @@
       </div>
     </div>
   </div>
-  <div v-else class="mt-10 ml-6 d-flex">
+  <div v-else class="mt-10 ml-6 d-flex flex-wrap">
     <div class="poster-skeleton">
       <v-skeleton-loader tile loading width="296" height="435" type="image" />
     </div>
@@ -110,7 +118,9 @@ import calculateChipColor from '../../helpers/calculateRatingColor'
 export default {
   data: function () {
     return {
-      movie: null
+      movie: null,
+      isInMyMovieList: false,
+      isMovieListRequestInProgress: false
     }
   },
   watch: {
@@ -119,7 +129,27 @@ export default {
     }
   },
   methods: {
-    calculateChipColor
+    calculateChipColor,
+    async addToMyList() {
+      const input = {
+        movie_id: this.$route.params.id,
+        status_id: 1,
+        rating: 10
+      }
+      this.isMovieListRequestInProgress = true
+      try {
+        await this.$store.dispatch('user/addToMyMovieList', input)
+        this.isInMyMovieList = true
+        this.$store.commit('snackbar/add', {
+          message: `Successfully added ${movie.title} to the list!`,
+          color: 'green'
+        })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.isMovieListRequestInProgress = false
+      }
+    }
   },
   apollo: {
     movie: {
@@ -156,6 +186,19 @@ export default {
       },
       result({ data }) {
         if (data.movie === null) this.$router.replace({ name: 'NotFound', params: { '0': this.$route.path } })
+      }
+    },
+    isInMyMovieList: {
+      query: gql`
+        query isInMyMovieList($movie_id: ID!) {
+          isInMyMovieList(movie_id: $movie_id)
+        }
+      `,
+      variables() {
+        return { movie_id: this.$route.params.id }
+      },
+      skip() {
+        return !this.$store.getters['user/isAuthenticated']
       }
     }
   }
