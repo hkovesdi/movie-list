@@ -54,6 +54,8 @@ type Query {
 
   userMovies: [UserMovie] @paginate(defaultCount: 10)
   userMovie(id: ID @eq): UserMovie @find
+
+  isInMyMovieList(movie_id: ID!): Boolean
 }
 
 input RegisterInput {
