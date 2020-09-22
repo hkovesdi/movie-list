@@ -115,7 +115,7 @@ type UserMovie {
   id: ID!
   rating: Float
   date_watched: Date
-  times_rewatched: Int!
+  times_rewatched: Int
   comment: String
   user: User @belongsTo
   movie: Movie @belongsTo
