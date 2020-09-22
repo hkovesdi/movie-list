@@ -141,8 +141,8 @@ export default {
         await this.$store.dispatch('user/addToMyMovieList', input)
         this.isInMyMovieList = true
         this.$store.commit('snackbar/add', {
-          message: `Successfully added ${movie.title} to the list!`,
-          color: 'green'
+          message: `Successfully added ${this.movie.title} to your list!`,
+          color: 'green',
         })
       } catch (e) {
         console.log(e)
@@ -199,7 +199,8 @@ export default {
       },
       skip() {
         return !this.$store.getters['user/isAuthenticated']
-      }
+      },
+      fetchPolicy: 'no-cache'
     }
   }
 }
