@@ -183,7 +183,7 @@ const actions = {
                 id
                 name
               }
-              dat_watched
+              date_watched
               times_rewatched
               comment
             }
