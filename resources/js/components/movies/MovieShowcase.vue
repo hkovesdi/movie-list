@@ -18,14 +18,14 @@
           <v-spacer />
           <v-card-actions class="movie-card-additional">
             <v-chip small :class="calculateChipColor(movie.users_rating)" class="mr-1">
-              <v-icon left size="15" style="color: white;">mdi-star-outline</v-icon>
+              <v-icon left size="15" style="color: white">mdi-star-outline</v-icon>
               {{ movie.users_rating }}
             </v-chip>
             <v-chip small class="primary mr-1"
-              ><v-icon left size="15" style="color: white;">mdi-clock-time-eight-outline</v-icon> {{ movie.runtime }} m</v-chip
+              ><v-icon left size="15" style="color: white">mdi-clock-time-eight-outline</v-icon> {{ movie.runtime }} m</v-chip
             >
             <v-chip small class="primary">
-              <v-icon left size="15" style="color: white;">mdi-calendar-clock</v-icon>
+              <v-icon left size="15" style="color: white">mdi-calendar-clock</v-icon>
               {{ movie.year }}
             </v-chip>
           </v-card-actions>

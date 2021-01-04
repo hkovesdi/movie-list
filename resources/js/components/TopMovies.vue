@@ -1,10 +1,8 @@
 <template>
-  <v-container style="max-width: 500px;">
+  <v-container style="max-width: 500px">
     <v-text-field v-model="task" label="What are you working on?" solo @keydown.enter="create">
       <v-fade-transition v-slot:append>
-        <v-icon v-if="task" @click="create">
-          add_circle
-        </v-icon>
+        <v-icon v-if="task" @click="create">add_circle</v-icon>
       </v-fade-transition>
     </v-text-field>
 
@@ -50,9 +48,7 @@
             <v-spacer></v-spacer>
 
             <v-scroll-x-transition>
-              <v-icon v-if="task.done" color="success">
-                fas fa-check
-              </v-icon>
+              <v-icon v-if="task.done" color="success">fas fa-check</v-icon>
             </v-scroll-x-transition>
           </v-list-item>
         </template>

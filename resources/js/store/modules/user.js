@@ -164,10 +164,10 @@ const actions = {
     if (response.data.user === null) return true
     else return 'Already exists'
   },
-  async addToMyMovieList({ dispatch }, input) {
-    console.log(input)
+  async addToMyMovieList(context, input) {
+    //console.log(input)
     const pickedInput = _.pick(input, ['movie_id', 'status_id', 'rating', 'date_watched', 'times_rewatched', 'comment'])
-    console.log(pickedInput)
+    //console.log(pickedInput)
     let response = await graphqlClient
       .mutate({
         mutation: gql`
@@ -198,7 +198,7 @@ const actions = {
         throw new Error('Internal server error')
       })
     if (response.errors) {
-      console.log(response.errors)
+      //console.log(response.errors)
       throw handleGQLErrors(response)
     } else {
       //Dispatch action to mutate the users list locally

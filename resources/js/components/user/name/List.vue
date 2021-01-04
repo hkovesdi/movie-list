@@ -6,7 +6,7 @@
           {{ status }}
         </h2>
         <v-data-table
-          style="max-width: 600px; border-radius: 4px; border: thin solid rgba(0, 0, 0, 0.12);"
+          style="max-width: 600px; border-radius: 4px; border: thin solid rgba(0, 0, 0, 0.12)"
           class="mb-10"
           :loading="$apollo.queries.user.loading"
           :headers="headers"
@@ -17,9 +17,7 @@
           disable-pagination
           hide-default-footer
         >
-          <template #slot>
-            kek
-          </template>
+          <template #slot>kek</template>
         </v-data-table>
       </div>
     </div>

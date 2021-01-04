@@ -4,10 +4,10 @@
     class="quick-search-card"
     light
     :style="'top: ' + (windowWidthAboveBreakpoint('xs') ? '64' : '56') + 'px;'"
-    style="position: fixed; width: 100%; left: 50%; transform: translate(-50%); z-index: 6; max-width: 600px;"
+    style="position: fixed; width: 100%; left: 50%; transform: translate(-50%); z-index: 6; max-width: 600px"
   >
     <v-card-title class="text-overline" v-text="searchText"></v-card-title>
-    <v-card-text style="max-height: 500px; overflow-y: auto;">
+    <v-card-text style="max-height: 500px; overflow-y: auto">
       <div
         v-if="($apollo.queries.searchResults.loading || debounceLoading) && $store.state.search.appBar.searchField.value.length > 0"
         class="d-flex align-center justify-center"

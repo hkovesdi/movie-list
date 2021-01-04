@@ -5,7 +5,7 @@
         <v-col v-if="!fullWidthSearch" :cols="leftCol" class="d-flex align-center">
           <v-app-bar-nav-icon v-if="!windowWidthAboveBreakpoint('xs')" class="mr-3" @click.stop="openDrawer()"></v-app-bar-nav-icon>
           <v-toolbar-title class="d-inline">
-            <span>Project Tracc</span>
+            <span>Movie List</span>
           </v-toolbar-title>
         </v-col>
         <v-col :cols="middleCol" class="d-flex justify-center">

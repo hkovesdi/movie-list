@@ -19,9 +19,7 @@
             <v-icon :class="drawerExpanded ? 'collapse--active' : ''" class="collapse">mdi-arrow-expand-right</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>
-              Collapse
-            </v-list-item-title>
+            <v-list-item-title>Collapse</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -42,7 +40,6 @@ export default {
   data: () => ({
     navItems: [
       { text: 'Home', to: '/', icon: { code: 'mdi-home' } },
-      { text: 'Top Movies', to: '/top', icon: { code: 'mdi-star' } },
       { text: 'Search', to: '/search', icon: { code: 'mdi-magnify' } }
     ]
   }),
